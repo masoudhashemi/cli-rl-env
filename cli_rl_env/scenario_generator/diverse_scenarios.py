@@ -59,6 +59,14 @@ class DiverseScenarioGenerator:
             self._file_comparison_scenario,
             self._log_analysis_scenario,
             self._refactoring_scenario,
+            self._archive_compression_scenario,
+            self._batch_processing_scenario,
+            self._complex_redirection_scenario,
+            self._symbolic_links_scenario,
+            self._permissions_scenario,
+            self._data_pipeline_scenario,
+            self._config_editing_scenario,
+            self._directory_tree_scenario,
         ]
         
         generator = random.choice(scenario_types)
@@ -104,15 +112,7 @@ def test_calculate_total():
                 FileContent(path="test_main.py", content=test_code, is_test=True),
             ]
             
-            task = """The code has a bug in one of the helper functions. 
-            
-Use grep to:
-1. Find all function definitions: grep -n "def" main.py
-2. Search for the buggy helper usage: grep -r "helper_one" .
-3. Check the test expectations: grep "assert" test_main.py
-4. Find the bug and fix it with sed
-
-The bug is in helper_one - it adds instead of multiplies."""
+            task = """The code has a bug in one of the helper functions. The tests are failing. You need to explore the codebase, identify which function is buggy, understand what it should do based on the test expectations, and fix it."""
             
         else:  # JavaScript
             main_code = '''// Multi-function utility module
@@ -151,13 +151,7 @@ test_processData();
                 FileContent(path="test_main.js", content=test_code, is_test=True),
             ]
             
-            task = """Use grep to find and fix the bug.
-            
-Required commands:
-1. grep -n "function" main.js
-2. grep "helperOne" main.js
-3. grep "Expected" test_main.js
-4. Fix with sed: sed -i 's/x + 1/x * 2/g' main.js"""
+            task = """The JavaScript code has a bug that's causing test failures. Search through the code to find the issue and fix it."""
         
         return Scenario(
             difficulty=difficulty,
@@ -170,7 +164,18 @@ Required commands:
             ],
             expected_commands=6,
             cli_history=["ls", "cat main." + ("py" if language == "python" else "js")],
-            metadata={"scenario_type": "grep_intensive", "command_focus": "grep"}
+            metadata={
+                "scenario_type": "grep_intensive",
+                "command_focus": "grep",
+                "solution_steps": [
+                    "Find all function definitions: grep -n 'def' main.py (or 'function' for JS)",
+                    "Search for the buggy helper usage: grep -r 'helper_one' .",
+                    "Check the test expectations: grep 'assert' test file",
+                    "Identify that helper_one adds instead of multiplies",
+                    "Fix with sed: sed -i 's/x + 1/x * 2/g' main file",
+                    "Run tests to verify fix"
+                ]
+            }
         )
     
     def _sed_intensive_scenario(self, difficulty: DifficultyLevel, language: str) -> Scenario:
@@ -214,13 +219,7 @@ def test_divide():
                 FileContent(path="test_calculator.py", content=test_code, is_test=True),
             ]
             
-            task = r"""Fix multiple bugs using sed commands.
-
-Required:
-1. sed -i 's/a - b/a + b/g' calculator.py
-2. sed -i 's/x + y/x * y/g' calculator.py
-3. sed -i '/DEBUG/d' calculator.py (remove debug line)
-4. Add zero check: sed -i '/return a \/ b/i\    if b == 0: raise ValueError("Division by zero")' calculator.py"""
+            task = """The calculator module has multiple bugs that are causing test failures. There are also debug statements that should be removed. Find and fix all issues to make the tests pass."""
             
         else:  # JavaScript
             code = '''// Module with bugs
@@ -253,12 +252,7 @@ console.log("✓ All tests passed");
                 FileContent(path="test_calculator.js", content=test_code, is_test=True),
             ]
             
-            task = """Fix bugs with multiple sed commands.
-
-Use:
-1. sed -i 's/a - b/a + b/g' calculator.js
-2. sed -i 's/x + y/x \\* y/g' calculator.js
-3. sed -i '/DEBUG/d' calculator.js"""
+            task = """The calculator module has bugs causing test failures. There are also debug statements that need to be removed. Fix all the issues."""
         
         return Scenario(
             difficulty=difficulty,
@@ -271,7 +265,17 @@ Use:
             ],
             expected_commands=5,
             cli_history=["ls", "cat calculator.*"],
-            metadata={"scenario_type": "sed_intensive", "command_focus": "sed"}
+            metadata={
+                "scenario_type": "sed_intensive",
+                "command_focus": "sed",
+                "solution_steps": [
+                    "Fix subtract to add: sed -i 's/a - b/a + b/g' calculator file",
+                    "Fix add to multiply: sed -i 's/x + y/x * y/g' calculator file",
+                    "Remove debug lines: sed -i '/DEBUG/d' calculator file",
+                    "Add zero check for divide (Python): sed -i '/return a / b/i\\    if b == 0: raise ValueError(...)' calculator.py",
+                    "Run tests to verify all fixes"
+                ]
+            }
         )
     
     def _awk_cut_scenario(self, difficulty: DifficultyLevel, language: str) -> Scenario:
@@ -310,17 +314,7 @@ def test_process():
             FileContent(path="test_processor.py", content=test_code, is_test=True),
         ]
         
-        task = """Fix the CSV processor that fails on the header line.
-
-Explore the data first:
-1. cat data.csv
-2. head -n 1 data.csv (see header)
-3. tail -n +2 data.csv (see data without header)
-4. cut -d',' -f3 data.csv (extract scores)
-5. awk -F',' 'NR>1 {print $3}' data.csv (scores without header)
-
-Fix by skipping header:
-sed -i '/for line in f:/a\\        next(f)  # Skip header' processor.py"""
+        task = """The CSV processor is failing tests. The program processes a CSV file but seems to have an issue with how it reads the data. Investigate the data file structure and fix the processor to handle it correctly."""
         
         return Scenario(
             difficulty=difficulty,
@@ -333,7 +327,20 @@ sed -i '/for line in f:/a\\        next(f)  # Skip header' processor.py"""
             ],
             expected_commands=8,
             cli_history=["ls", "cat data.csv | head -3"],
-            metadata={"scenario_type": "awk_cut", "command_focus": "awk,cut"}
+            metadata={
+                "scenario_type": "awk_cut",
+                "command_focus": "awk,cut",
+                "solution_steps": [
+                    "Examine data file: cat data.csv",
+                    "See header: head -n 1 data.csv",
+                    "See data without header: tail -n +2 data.csv",
+                    "Extract scores column: cut -d',' -f3 data.csv",
+                    "Extract scores without header: awk -F',' 'NR>1 {print $3}' data.csv",
+                    "Identify bug: processor doesn't skip header line",
+                    "Fix by adding skip: sed -i '/for line in f:/a\\        next(f)  # Skip header' processor.py",
+                    "Run test to verify"
+                ]
+            }
         )
     
     def _piping_scenario(self, difficulty: DifficultyLevel, language: str) -> Scenario:
@@ -373,16 +380,7 @@ def test_count():
             FileContent(path="test_analyzer.py", content=test_code, is_test=True),
         ]
         
-        task = """Fix log analyzer using piping commands.
-
-Analyze logs with pipes:
-1. cat server.log | grep ERROR (see errors)
-2. cat server.log | grep ERROR | wc -l (count errors)
-3. cat server.log | cut -d' ' -f4 | sort | uniq (unique levels)
-4. grep ERROR server.log | cut -d' ' -f1-2 (error timestamps)
-
-Fix the code:
-sed -i 's/count += 1/if "ERROR" in line:\\n                count += 1/g' analyzer.py"""
+        task = """The log analyzer is failing tests. It should count error messages in the log file, but it's returning the wrong value. Examine the log file and the code to understand what's wrong and fix it."""
         
         return Scenario(
             difficulty=difficulty,
@@ -395,7 +393,19 @@ sed -i 's/count += 1/if "ERROR" in line:\\n                count += 1/g' analyze
             ],
             expected_commands=7,
             cli_history=["ls", "head server.log"],
-            metadata={"scenario_type": "piping", "command_focus": "pipes"}
+            metadata={
+                "scenario_type": "piping",
+                "command_focus": "pipes",
+                "solution_steps": [
+                    "View log: cat server.log",
+                    "Filter errors: cat server.log | grep ERROR",
+                    "Count errors: cat server.log | grep ERROR | wc -l",
+                    "Check log levels: cat server.log | cut -d' ' -f4 | sort | uniq",
+                    "Identify bug: code counts all lines instead of ERROR lines",
+                    "Fix: sed -i 's/count += 1/if \"ERROR\" in line:\\n                count += 1/g' analyzer.py",
+                    "Run test to verify"
+                ]
+            }
         )
     
     def _multi_file_operations(self, difficulty: DifficultyLevel, language: str) -> Scenario:
@@ -416,17 +426,7 @@ def main():
             FileContent(path="main.py", content=main, is_test=False),
         ]
         
-        task = """Reorganize project structure.
-
-Required operations:
-1. mkdir lib (create directory)
-2. cp utils.py lib/utils.py (copy file)
-3. sed -i 's/from utils/from lib.utils/g' main.py (update import)
-4. touch lib/__init__.py (make it a package)
-
-Then verify:
-5. ls lib/
-6. cat main.py | grep import"""
+        task = """Reorganize the project structure by moving utils.py into a new 'lib' directory and updating imports accordingly. Make sure the code still runs after the reorganization."""
         
         return Scenario(
             difficulty=difficulty,
@@ -439,7 +439,19 @@ Then verify:
             ],
             expected_commands=8,
             cli_history=["ls", "tree ."],
-            metadata={"scenario_type": "file_ops", "command_focus": "cp,mv,mkdir"}
+            metadata={
+                "scenario_type": "file_ops",
+                "command_focus": "cp,mv,mkdir",
+                "solution_steps": [
+                    "Create directory: mkdir lib",
+                    "Copy file: cp utils.py lib/utils.py",
+                    "Update import: sed -i 's/from utils/from lib.utils/g' main.py",
+                    "Make package: touch lib/__init__.py",
+                    "Verify structure: ls lib/",
+                    "Check import: cat main.py | grep import",
+                    "Test execution: python main.py"
+                ]
+            }
         )
     
     def _git_workflow_scenario(self, difficulty: DifficultyLevel, language: str) -> Scenario:
@@ -453,17 +465,7 @@ Then verify:
             FileContent(path="feature.py", content=code, is_test=False),
         ]
         
-        task = """Use git to track changes.
-
-Workflow:
-1. git init (initialize repo)
-2. git add feature.py (stage file)
-3. git commit -m "Initial commit" (commit)
-4. sed -i 's/v1/v2/g' feature.py (make change)
-5. git diff (see changes)
-6. git add feature.py (stage changes)
-7. git commit -m "Update to v2"
-8. git log --oneline (view history)"""
+        task = """Initialize a git repository, commit the initial feature.py file, then update the version string from 'v1' to 'v2' and commit that change. Track your work with git throughout."""
         
         return Scenario(
             difficulty=difficulty,
@@ -476,7 +478,20 @@ Workflow:
             ],
             expected_commands=10,
             cli_history=[],
-            metadata={"scenario_type": "git", "command_focus": "git"}
+            metadata={
+                "scenario_type": "git",
+                "command_focus": "git",
+                "solution_steps": [
+                    "Initialize repo: git init",
+                    "Stage file: git add feature.py",
+                    "Initial commit: git commit -m 'Initial commit'",
+                    "Make change: sed -i 's/v1/v2/g' feature.py",
+                    "View changes: git diff",
+                    "Stage changes: git add feature.py",
+                    "Commit update: git commit -m 'Update to v2'",
+                    "View history: git log --oneline"
+                ]
+            }
         )
     
     def _text_transformation_scenario(self, difficulty: DifficultyLevel, language: str) -> Scenario:
@@ -501,16 +516,7 @@ Apple
             FileContent(path="processor.py", content=processor, is_test=False),
         ]
         
-        task = """Process text file using transformation commands.
-
-Commands to explore:
-1. cat words.txt | tr 'A-Z' 'a-z' (lowercase)
-2. cat words.txt | tr 'A-Z' 'a-z' | sort (sorted)
-3. cat words.txt | tr 'A-Z' 'a-z' | sort | uniq (unique)
-4. cat words.txt | tr 'A-Z' 'a-z' | sort | uniq | wc -l (count)
-
-Fix code to be case-insensitive:
-sed -i 's/f.read().split()/f.read().lower().split()/g' processor.py"""
+        task = """The text processor has a bug - it's treating words with different cases as different words (e.g., 'apple' and 'Apple'). Fix the code to handle case-insensitive processing."""
         
         return Scenario(
             difficulty=difficulty,
@@ -523,7 +529,19 @@ sed -i 's/f.read().split()/f.read().lower().split()/g' processor.py"""
             ],
             expected_commands=7,
             cli_history=["cat words.txt"],
-            metadata={"scenario_type": "text_transform", "command_focus": "tr,sort,uniq"}
+            metadata={
+                "scenario_type": "text_transform",
+                "command_focus": "tr,sort,uniq",
+                "solution_steps": [
+                    "View file: cat words.txt",
+                    "Convert to lowercase: cat words.txt | tr 'A-Z' 'a-z'",
+                    "Sort: cat words.txt | tr 'A-Z' 'a-z' | sort",
+                    "Get unique: cat words.txt | tr 'A-Z' 'a-z' | sort | uniq",
+                    "Count unique: cat words.txt | tr 'A-Z' 'a-z' | sort | uniq | wc -l",
+                    "Identify issue: code doesn't lowercase",
+                    "Fix: sed -i 's/f.read().split()/f.read().lower().split()/g' processor.py"
+                ]
+            }
         )
     
     def _file_comparison_scenario(self, difficulty: DifficultyLevel, language: str) -> Scenario:
@@ -544,14 +562,7 @@ cherry
             FileContent(path="fruits2.txt", content=file2, is_test=False),
         ]
         
-        task = """Compare files and create a merged version.
-
-Commands:
-1. diff fruits1.txt fruits2.txt (see differences)
-2. diff -u fruits1.txt fruits2.txt (unified format)
-3. comm fruits1.txt fruits2.txt (common lines)
-4. cat fruits1.txt fruits2.txt | sort | uniq > merged.txt
-5. cat merged.txt (verify)"""
+        task = """Compare the two fruit files and create a merged.txt file that contains all unique fruits from both files (no duplicates)."""
         
         return Scenario(
             difficulty=difficulty,
@@ -564,7 +575,17 @@ Commands:
             ],
             expected_commands=6,
             cli_history=["ls *.txt"],
-            metadata={"scenario_type": "comparison", "command_focus": "diff,comm"}
+            metadata={
+                "scenario_type": "comparison",
+                "command_focus": "diff,comm",
+                "solution_steps": [
+                    "Compare files: diff fruits1.txt fruits2.txt",
+                    "Unified format: diff -u fruits1.txt fruits2.txt",
+                    "Common lines: comm fruits1.txt fruits2.txt",
+                    "Merge and deduplicate: cat fruits1.txt fruits2.txt | sort | uniq > merged.txt",
+                    "Verify result: cat merged.txt"
+                ]
+            }
         )
     
     def _log_analysis_scenario(self, difficulty: DifficultyLevel, language: str) -> Scenario:
@@ -579,17 +600,7 @@ Commands:
         
         files = [FileContent(path="access.log", content=log, is_test=False)]
         
-        task = """Analyze web server logs using various commands.
-
-Required analysis:
-1. grep "404\\|500" access.log (find errors)
-2. cut -d' ' -f1 access.log | sort | uniq (unique IPs)
-3. awk '{print $9}' access.log | sort | uniq -c (status code counts)
-4. grep "GET" access.log | wc -l (count GET requests)
-5. cat access.log | cut -d'"' -f2 | cut -d' ' -f2 (extract paths)
-
-Create summary:
-echo "Error count: $(grep -c '404\\|500' access.log)" > summary.txt"""
+        task = """Analyze the web server access logs and create a summary.txt file that reports the count of errors (status codes 404 and 500). Explore the log file to understand its format first."""
         
         return Scenario(
             difficulty=difficulty,
@@ -602,7 +613,19 @@ echo "Error count: $(grep -c '404\\|500' access.log)" > summary.txt"""
             ],
             expected_commands=8,
             cli_history=["head -3 access.log"],
-            metadata={"scenario_type": "log_analysis", "command_focus": "awk,cut,grep,pipes"}
+            metadata={
+                "scenario_type": "log_analysis",
+                "command_focus": "awk,cut,grep,pipes",
+                "solution_steps": [
+                    "View log: cat access.log",
+                    "Find errors: grep '404\\|500' access.log",
+                    "Extract IPs: cut -d' ' -f1 access.log | sort | uniq",
+                    "Count status codes: awk '{print $9}' access.log | sort | uniq -c",
+                    "Count GET requests: grep 'GET' access.log | wc -l",
+                    "Extract paths: cat access.log | cut -d'\"' -f2 | cut -d' ' -f2",
+                    "Create summary: echo \"Error count: $(grep -c '404\\|500' access.log)\" > summary.txt"
+                ]
+            }
         )
     
     def _refactoring_scenario(self, difficulty: DifficultyLevel, language: str) -> Scenario:
@@ -623,17 +646,7 @@ def caller():
             FileContent(path="module2.py", content=file2, is_test=False),
         ]
         
-        task = """Refactor: rename old_function to new_function everywhere.
-
-Commands needed:
-1. grep -r "old_function" . (find all occurrences)
-2. find . -name "*.py" (find all Python files)
-3. sed -i 's/old_function/new_function/g' module1.py
-4. sed -i 's/old_function/new_function/g' module2.py
-5. grep -r "new_function" . (verify changes)
-
-Or use find with xargs:
-find . -name "*.py" -exec sed -i 's/old_function/new_function/g' {} \\;"""
+        task = """Refactor the codebase: rename 'old_function' to 'new_function' everywhere it appears. Make sure to update it in all files where it's used."""
         
         return Scenario(
             difficulty=difficulty,
@@ -646,6 +659,401 @@ find . -name "*.py" -exec sed -i 's/old_function/new_function/g' {} \\;"""
             ],
             expected_commands=6,
             cli_history=["ls *.py"],
-            metadata={"scenario_type": "refactoring", "command_focus": "find,xargs,sed"}
+            metadata={
+                "scenario_type": "refactoring",
+                "command_focus": "find,xargs,sed",
+                "solution_steps": [
+                    "Find all occurrences: grep -r 'old_function' .",
+                    "Find all Python files: find . -name '*.py'",
+                    "Rename in module1: sed -i 's/old_function/new_function/g' module1.py",
+                    "Rename in module2: sed -i 's/old_function/new_function/g' module2.py",
+                    "Or use find+xargs: find . -name '*.py' -exec sed -i 's/old_function/new_function/g' {} \\;",
+                    "Verify: grep -r 'new_function' ."
+                ]
+            }
+        )
+    
+    def _archive_compression_scenario(self, difficulty: DifficultyLevel, language: str) -> Scenario:
+        """Scenario using tar, gzip for archiving."""
+        
+        file1 = '''def main():
+    print("File 1")
+'''
+        
+        file2 = '''def helper():
+    return "Helper"
+'''
+        
+        config = '''[settings]
+debug=true
+port=8000
+'''
+        
+        files = [
+            FileContent(path="src/main.py", content=file1, is_test=False),
+            FileContent(path="src/helper.py", content=file2, is_test=False),
+            FileContent(path="config.ini", content=config, is_test=False),
+        ]
+        
+        task = """Create a compressed backup archive named 'backup.tar.gz' containing all Python files in the 'src' directory and the config.ini file. Then verify the archive contents."""
+        
+        return Scenario(
+            difficulty=difficulty,
+            language="python",
+            task_description=task,
+            files=files,
+            verification_rules=[
+                VerificationRule(type="text_match", target=".",
+                               expected="backup.tar.gz", description="Archive created")
+            ],
+            expected_commands=6,
+            cli_history=["ls", "ls src/"],
+            metadata={
+                "scenario_type": "archive",
+                "command_focus": "tar,gzip,find",
+                "solution_steps": [
+                    "List files: ls -R",
+                    "Create archive: tar -czf backup.tar.gz src/ config.ini",
+                    "Or find and archive: find . -name '*.py' -o -name '*.ini' | tar -czf backup.tar.gz -T -",
+                    "List archive contents: tar -tzf backup.tar.gz",
+                    "Verify: ls -lh backup.tar.gz",
+                    "Extract to test (optional): tar -xzf backup.tar.gz -C /tmp/test"
+                ]
+            }
+        )
+    
+    def _batch_processing_scenario(self, difficulty: DifficultyLevel, language: str) -> Scenario:
+        """Scenario using find + xargs for batch operations."""
+        
+        files_content = [
+            ("data/file1.txt", "TODO: Review this\nSome content\nFIXME: Bug here"),
+            ("data/file2.txt", "Clean content\nNo issues"),
+            ("data/file3.txt", "TODO: Update docs\nMore content"),
+            ("other/notes.txt", "TODO: Remember this"),
+        ]
+        
+        files = [FileContent(path=path, content=content, is_test=False) 
+                for path, content in files_content]
+        
+        task = """Find all .txt files in the 'data' directory that contain 'TODO' and create a report.txt file listing the filenames and the count of TODO items in each file."""
+        
+        return Scenario(
+            difficulty=difficulty,
+            language="python",
+            task_description=task,
+            files=files,
+            verification_rules=[
+                VerificationRule(type="text_match", target="report.txt",
+                               expected="file", description="Report created")
+            ],
+            expected_commands=8,
+            cli_history=["ls", "ls data/"],
+            metadata={
+                "scenario_type": "batch_processing",
+                "command_focus": "find,xargs,grep",
+                "solution_steps": [
+                    "Find txt files in data: find data/ -name '*.txt'",
+                    "Search for TODO in each: find data/ -name '*.txt' -exec grep -l 'TODO' {} \\;",
+                    "Count TODOs per file: find data/ -name '*.txt' -exec sh -c 'echo \"{}:\" $(grep -c TODO {})' \\;",
+                    "Or use xargs: find data/ -name '*.txt' | xargs grep -c TODO",
+                    "Create report: find data/ -name '*.txt' -exec grep -c TODO {} + > report.txt",
+                    "Better format: find data/ -name '*.txt' -print0 | xargs -0 grep -l TODO | tee report.txt",
+                    "Verify: cat report.txt"
+                ]
+            }
+        )
+    
+    def _complex_redirection_scenario(self, difficulty: DifficultyLevel, language: str) -> Scenario:
+        """Scenario using complex I/O redirection."""
+        
+        script = '''#!/usr/bin/env python3
+import sys
+
+print("Standard output message")
+print("Error message", file=sys.stderr)
+print("Another output")
+print("Another error", file=sys.stderr)
+'''
+        
+        files = [
+            FileContent(path="script.py", content=script, is_test=False),
+        ]
+        
+        task = """Run the script and separate the output: save standard output to 'output.log', errors to 'errors.log', and create a combined log 'all.log' with both. Verify all three files exist with the correct content."""
+        
+        return Scenario(
+            difficulty=difficulty,
+            language="python",
+            task_description=task,
+            files=files,
+            verification_rules=[
+                VerificationRule(type="text_match", target="output.log",
+                               expected="output", description="Output log created"),
+                VerificationRule(type="text_match", target="errors.log",
+                               expected="Error", description="Error log created"),
+            ],
+            expected_commands=8,
+            cli_history=["cat script.py"],
+            metadata={
+                "scenario_type": "redirection",
+                "command_focus": "redirection,pipes",
+                "solution_steps": [
+                    "Run with stdout redirect: python3 script.py > output.log",
+                    "Run with stderr redirect: python3 script.py 2> errors.log",
+                    "Run with both: python3 script.py > output.log 2> errors.log",
+                    "Run with combined: python3 script.py &> all.log",
+                    "Or: python3 script.py > all.log 2>&1",
+                    "Verify output: cat output.log",
+                    "Verify errors: cat errors.log",
+                    "Verify combined: cat all.log"
+                ]
+            }
+        )
+    
+    def _symbolic_links_scenario(self, difficulty: DifficultyLevel, language: str) -> Scenario:
+        """Scenario using symbolic links."""
+        
+        config_dev = '''[database]
+host=localhost
+port=5432
+name=dev_db
+'''
+        
+        config_prod = '''[database]
+host=prod.server.com
+port=5432
+name=prod_db
+'''
+        
+        app = '''import configparser
+
+config = configparser.ConfigParser()
+config.read('config.ini')  # Reads the symlink
+
+print(f"Database: {config['database']['name']}")
+'''
+        
+        files = [
+            FileContent(path="config.dev.ini", content=config_dev, is_test=False),
+            FileContent(path="config.prod.ini", content=config_prod, is_test=False),
+            FileContent(path="app.py", content=app, is_test=False),
+        ]
+        
+        task = """Create a symbolic link named 'config.ini' that points to 'config.dev.ini'. Then verify the link works by running the app and checking that it uses the dev configuration."""
+        
+        return Scenario(
+            difficulty=difficulty,
+            language="python",
+            task_description=task,
+            files=files,
+            verification_rules=[
+                VerificationRule(type="execution", target="app.py",
+                               description="App runs successfully")
+            ],
+            expected_commands=6,
+            cli_history=["ls *.ini"],
+            metadata={
+                "scenario_type": "symlinks",
+                "command_focus": "ln,readlink,ls",
+                "solution_steps": [
+                    "Create symlink: ln -s config.dev.ini config.ini",
+                    "Verify link: ls -l config.ini",
+                    "Check target: readlink config.ini",
+                    "Test app: python3 app.py",
+                    "Switch to prod: rm config.ini && ln -s config.prod.ini config.ini",
+                    "Verify switch: readlink config.ini"
+                ]
+            }
+        )
+    
+    def _permissions_scenario(self, difficulty: DifficultyLevel, language: str) -> Scenario:
+        """Scenario using chmod for permissions."""
+        
+        script = '''#!/bin/bash
+echo "Running deployment script..."
+'''
+        
+        deploy_py = '''#!/usr/bin/env python3
+print("Deploying application...")
+'''
+        
+        readme = '''# Deployment Scripts
+
+Run deploy.sh to start deployment.
+'''
+        
+        files = [
+            FileContent(path="deploy.sh", content=script, is_test=False),
+            FileContent(path="deploy.py", content=deploy_py, is_test=False),
+            FileContent(path="README.md", content=readme, is_test=False),
+        ]
+        
+        task = """Make the deploy.sh and deploy.py scripts executable. The README should remain read-only. Verify the permissions are set correctly."""
+        
+        return Scenario(
+            difficulty=difficulty,
+            language="python",
+            task_description=task,
+            files=files,
+            verification_rules=[
+                VerificationRule(type="text_match", target=".",
+                               expected="deploy", description="Scripts exist")
+            ],
+            expected_commands=7,
+            cli_history=["ls -l"],
+            metadata={
+                "scenario_type": "permissions",
+                "command_focus": "chmod,ls",
+                "solution_steps": [
+                    "Check current permissions: ls -l",
+                    "Make deploy.sh executable: chmod +x deploy.sh",
+                    "Make deploy.py executable: chmod +x deploy.py",
+                    "Or both at once: chmod +x deploy.*",
+                    "Make README read-only: chmod 444 README.md",
+                    "Verify: ls -l",
+                    "Test execution: ./deploy.sh"
+                ]
+            }
+        )
+    
+    def _data_pipeline_scenario(self, difficulty: DifficultyLevel, language: str) -> Scenario:
+        """Complex multi-step data processing pipeline."""
+        
+        access_log = '''192.168.1.10 - - [30/Oct/2024:10:15:23] "GET /api/users HTTP/1.1" 200 1234
+192.168.1.11 - - [30/Oct/2024:10:15:24] "POST /api/login HTTP/1.1" 200 567
+192.168.1.10 - - [30/Oct/2024:10:15:25] "GET /api/profile HTTP/1.1" 200 890
+192.168.1.12 - - [30/Oct/2024:10:15:26] "GET /api/users HTTP/1.1" 200 1234
+192.168.1.11 - - [30/Oct/2024:10:15:27] "DELETE /api/session HTTP/1.1" 204 0
+192.168.1.10 - - [30/Oct/2024:10:15:28] "GET /api/users HTTP/1.1" 200 1234
+'''
+        
+        files = [
+            FileContent(path="access.log", content=access_log, is_test=False),
+        ]
+        
+        task = """Process the access log to create 'top_ips.txt' containing the top 3 IP addresses by request count, sorted by frequency. Each line should show the count and IP address."""
+        
+        return Scenario(
+            difficulty=difficulty,
+            language="python",
+            task_description=task,
+            files=files,
+            verification_rules=[
+                VerificationRule(type="text_match", target="top_ips.txt",
+                               expected="192.168", description="Top IPs listed")
+            ],
+            expected_commands=10,
+            cli_history=["head access.log"],
+            metadata={
+                "scenario_type": "data_pipeline",
+                "command_focus": "cut,sort,uniq,head,pipes",
+                "solution_steps": [
+                    "View log: cat access.log",
+                    "Extract IPs: cut -d' ' -f1 access.log",
+                    "Sort IPs: cut -d' ' -f1 access.log | sort",
+                    "Count occurrences: cut -d' ' -f1 access.log | sort | uniq -c",
+                    "Sort by count: cut -d' ' -f1 access.log | sort | uniq -c | sort -rn",
+                    "Get top 3: cut -d' ' -f1 access.log | sort | uniq -c | sort -rn | head -3",
+                    "Save to file: cut -d' ' -f1 access.log | sort | uniq -c | sort -rn | head -3 > top_ips.txt",
+                    "Verify: cat top_ips.txt"
+                ]
+            }
+        )
+    
+    def _config_editing_scenario(self, difficulty: DifficultyLevel, language: str) -> Scenario:
+        """Complex configuration file editing with sed."""
+        
+        config = '''# Application Configuration
+DEBUG=false
+LOG_LEVEL=info
+DATABASE_HOST=localhost
+DATABASE_PORT=5432
+# API Configuration
+API_KEY=old_key_12345
+API_TIMEOUT=30
+# Cache Settings
+CACHE_ENABLED=false
+CACHE_TTL=3600
+'''
+        
+        files = [
+            FileContent(path="config.env", content=config, is_test=False),
+        ]
+        
+        task = """Update the configuration file: enable DEBUG mode, change LOG_LEVEL to 'debug', enable CACHE, update API_KEY to 'new_key_67890', and add a comment '# Updated for development' at the top."""
+        
+        return Scenario(
+            difficulty=difficulty,
+            language="python",
+            task_description=task,
+            files=files,
+            verification_rules=[
+                VerificationRule(type="text_match", target="config.env",
+                               expected="DEBUG=true", description="DEBUG enabled"),
+                VerificationRule(type="text_match", target="config.env",
+                               expected="new_key", description="API key updated"),
+            ],
+            expected_commands=8,
+            cli_history=["cat config.env"],
+            metadata={
+                "scenario_type": "config_editing",
+                "command_focus": "sed,grep",
+                "solution_steps": [
+                    "Backup: cp config.env config.env.bak",
+                    "Enable DEBUG: sed -i 's/DEBUG=false/DEBUG=true/g' config.env",
+                    "Change LOG_LEVEL: sed -i 's/LOG_LEVEL=info/LOG_LEVEL=debug/g' config.env",
+                    "Enable CACHE: sed -i 's/CACHE_ENABLED=false/CACHE_ENABLED=true/g' config.env",
+                    "Update API_KEY: sed -i 's/API_KEY=old_key_12345/API_KEY=new_key_67890/g' config.env",
+                    "Add comment at top: sed -i '1i# Updated for development' config.env",
+                    "Verify changes: cat config.env",
+                    "Or check specific: grep -E 'DEBUG|LOG_LEVEL|CACHE_ENABLED|API_KEY' config.env"
+                ]
+            }
+        )
+    
+    def _directory_tree_scenario(self, difficulty: DifficultyLevel, language: str) -> Scenario:
+        """Complex find operations on directory trees."""
+        
+        files_content = [
+            ("src/main.py", "# Main module\nprint('main')"),
+            ("src/utils.py", "# Utils\ndef helper(): pass"),
+            ("tests/test_main.py", "# Tests\nimport main"),
+            ("tests/test_utils.py", "# Tests\nimport utils"),
+            ("docs/README.md", "# Documentation"),
+            ("docs/API.md", "# API Docs"),
+            (".gitignore", "*.pyc\n__pycache__/"),
+            ("setup.py", "from setuptools import setup"),
+        ]
+        
+        files = [FileContent(path=path, content=content, is_test=False) 
+                for path, content in files_content]
+        
+        task = """Find all Python files (*.py) in the project, excluding the 'tests' directory, and create a 'python_files.txt' listing with their full paths. Also create 'file_count.txt' with the total count."""
+        
+        return Scenario(
+            difficulty=difficulty,
+            language="python",
+            task_description=task,
+            files=files,
+            verification_rules=[
+                VerificationRule(type="text_match", target="python_files.txt",
+                               expected="src/", description="Python files listed"),
+            ],
+            expected_commands=8,
+            cli_history=["ls", "tree ."],
+            metadata={
+                "scenario_type": "directory_tree",
+                "command_focus": "find,wc,grep",
+                "solution_steps": [
+                    "List all directories: find . -type d",
+                    "Find all .py files: find . -name '*.py'",
+                    "Exclude tests: find . -name '*.py' -not -path './tests/*'",
+                    "Save to file: find . -name '*.py' -not -path './tests/*' > python_files.txt",
+                    "Count files: find . -name '*.py' -not -path './tests/*' | wc -l",
+                    "Save count: find . -name '*.py' -not -path './tests/*' | wc -l > file_count.txt",
+                    "Verify list: cat python_files.txt",
+                    "Verify count: cat file_count.txt"
+                ]
+            }
         )
 
