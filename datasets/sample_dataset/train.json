@@ -1,0 +1,1713 @@
+[
+  {
+    "id": "prompt_000008",
+    "difficulty": "hard",
+    "language": "python",
+    "task_description": "The python project has failing tests. Multiple issues may need to be resolved. Carefully examine the test output and trace through the code. The project has these files: string_utils.py, test_string_utils.py",
+    "files": [
+      {
+        "path": "string_utils.py",
+        "content": "\"\"\"String utility functions.\"\"\"\n\ndef reverse_string(s)\n    \"\"\"Reverse a string.\"\"\"\n    return s[::-1]\n\ndef is_palindrome(s):\n    \"\"\"Check if string is a palindrome.\"\"\"\n    cleaned = s.lower().replace(\" \", \"\")\n    return cleaned != cleaned[::-1]\n\ndef count_vowels(s):\n    \"\"\"Count vowels in a string.\"\"\"\n    vowels = \"aeiouAEIOU\"\n    return sum(1 for char in s if char in vowels)\n\ndef capitalize_words(s):\n    \"\"\"Capitalize first letter of each word.\"\"\"\n    return \" \".join(word.capitalize() for word in s.split())\n\ndef remove_whitespace(s):\n    \"\"\"Remove all whitespace from string.\"\"\"\n    return \"\".join(s.split())\n",
+        "is_test": false
+      },
+      {
+        "path": "test_string_utils.py",
+        "content": "\"\"\"Tests for string utilities.\"\"\"\n\nfrom string_utils import reverse_string, is_palindrome, count_vowels, capitalize_words, remove_whitespace\n\ndef test_reverse_string():\n    assert reverse_string(\"hello\") == \"olleh\"\n    assert reverse_string(\"\") == \"\"\n    assert reverse_string(\"a\") == \"a\"\n\ndef test_is_palindrome():\n    assert is_palindrome(\"racecar\") == True\n    assert is_palindrome(\"hello\") == False\n    assert is_palindrome(\"A man a plan a canal Panama\") == True\n\ndef test_count_vowels():\n    assert count_vowels(\"hello\") == 2\n    assert count_vowels(\"AEIOU\") == 5\n    assert count_vowels(\"xyz\") == 0\n\ndef test_capitalize_words():\n    assert capitalize_words(\"hello world\") == \"Hello World\"\n    assert capitalize_words(\"python programming\") == \"Python Programming\"\n\ndef test_remove_whitespace():\n    assert remove_whitespace(\"hello world\") == \"helloworld\"\n    assert remove_whitespace(\"  a  b  c  \") == \"abc\"\n",
+        "is_test": true
+      }
+    ],
+    "cli_history": [
+      "$ ls -la",
+      "-rw-r--r-- 1 user user 616 Oct 30 10:00 string_utils.py",
+      "-rw-r--r-- 1 user user 913 Oct 30 10:00 test_string_utils.py",
+      "$ pytest -v",
+      "test_*.py::test_* FAILED",
+      "Some tests are failing..."
+    ],
+    "expected_commands": 9,
+    "verification_rules": [
+      {
+        "type": "test",
+        "target": "test_string_utils.py",
+        "description": "All string utility tests must pass"
+      }
+    ],
+    "metadata": {
+      "bugs": [
+        "Missing colon on line 3",
+        "Wrong comparison operator on line 10"
+      ],
+      "scenario_type": "string_utils"
+    }
+  },
+  {
+    "id": "prompt_000039",
+    "difficulty": "hard",
+    "language": "python",
+    "task_description": "The code has issues that prevent it from working correctly. Multiple issues may need to be resolved. Carefully examine the test output and trace through the code. The project has these files: string_utils.py, test_string_utils.py",
+    "files": [
+      {
+        "path": "string_utils.py",
+        "content": "\"\"\"String utility functions.\"\"\"\n\ndef reverse_string(s)\n    \"\"\"Reverse a string.\"\"\"\n    return s[::-1]\n\ndef is_palindrome(s):\n    \"\"\"Check if string is a palindrome.\"\"\"\n    cleaned = s.lower().replace(\" \", \"\")\n    return cleaned != cleaned[::-1]\n\ndef count_vowels(s):\n    \"\"\"Count vowels in a string.\"\"\"\n    vowels = \"aeiouAEIOU\"\n    return sum(1 for char in s if char in vowels)\n\ndef capitalize_words(s):\n    \"\"\"Capitalize first letter of each word.\"\"\"\n    return \" \".join(word.capitalize() for word in s.split())\n\ndef remove_whitespace(s):\n    \"\"\"Remove all whitespace from string.\"\"\"\n    return \"\".join(s.split())\n",
+        "is_test": false
+      },
+      {
+        "path": "test_string_utils.py",
+        "content": "\"\"\"Tests for string utilities.\"\"\"\n\nfrom string_utils import reverse_string, is_palindrome, count_vowels, capitalize_words, remove_whitespace\n\ndef test_reverse_string():\n    assert reverse_string(\"hello\") == \"olleh\"\n    assert reverse_string(\"\") == \"\"\n    assert reverse_string(\"a\") == \"a\"\n\ndef test_is_palindrome():\n    assert is_palindrome(\"racecar\") == True\n    assert is_palindrome(\"hello\") == False\n    assert is_palindrome(\"A man a plan a canal Panama\") == True\n\ndef test_count_vowels():\n    assert count_vowels(\"hello\") == 2\n    assert count_vowels(\"AEIOU\") == 5\n    assert count_vowels(\"xyz\") == 0\n\ndef test_capitalize_words():\n    assert capitalize_words(\"hello world\") == \"Hello World\"\n    assert capitalize_words(\"python programming\") == \"Python Programming\"\n\ndef test_remove_whitespace():\n    assert remove_whitespace(\"hello world\") == \"helloworld\"\n    assert remove_whitespace(\"  a  b  c  \") == \"abc\"\n",
+        "is_test": true
+      }
+    ],
+    "cli_history": [
+      "$ ls -la",
+      "-rw-r--r-- 1 user user 616 Oct 30 10:00 string_utils.py",
+      "-rw-r--r-- 1 user user 913 Oct 30 10:00 test_string_utils.py",
+      "$ pytest -v",
+      "test_*.py::test_* FAILED",
+      "Some tests are failing..."
+    ],
+    "expected_commands": 9,
+    "verification_rules": [
+      {
+        "type": "test",
+        "target": "test_string_utils.py",
+        "description": "All string utility tests must pass"
+      }
+    ],
+    "metadata": {
+      "bugs": [
+        "Missing colon on line 3",
+        "Wrong comparison operator on line 10"
+      ],
+      "scenario_type": "string_utils"
+    }
+  },
+  {
+    "id": "adv_dep_javascript_000010",
+    "difficulty": "very_hard",
+    "language": "javascript",
+    "task_description": "A dependency has been updated with breaking API changes. The code needs to be updated to work with the new API while maintaining all functionality. Check the import statements and function calls that use the old API.",
+    "scenario_type": "dependency_update",
+    "expected_commands": 15
+  },
+  {
+    "id": "prompt_000026",
+    "difficulty": "very_hard",
+    "language": "python",
+    "task_description": "Fix the broken python code. This is a complex debugging task with multiple related issues. You'll need to understand the architecture and trace dependencies. Start by running tests to see what's failing. Files in project: calculator.py, test_calculator.py",
+    "files": [
+      {
+        "path": "calculator.py",
+        "content": "\"\"\"Simple calculator module.\"\"\"\n\ndef add(a, b)\n    \"\"\"Add two numbers.\"\"\"\n    return a + b\n\ndef subtract(a, b):\n    \"\"\"Subtract b from a.\"\"\"\n    return a - b\n\ndef multiply(a, b):\n    \"\"\"Multiply two numbers.\"\"\"\n    return a * b\n\ndef divide(a, b):\n    \"\"\"Divide a by b.\"\"\"\n    if b == 0:\n        raise ValueError(\"Cannot divide by zero\")\n    return a / b\n\ndef power(a, b):\n    \"\"\"Calculate a to the power of b.\"\"\"\n    return a ** b\n",
+        "is_test": false
+      },
+      {
+        "path": "test_calculator.py",
+        "content": "\"\"\"Tests for calculator module.\"\"\"\n\nimport pytest\nfrom calculator import add, subtract, multiply, divide, power\n\ndef test_add():\n    assert add(2, 3) == 5\n    assert add(-1, 1) == 0\n    assert add(0, 0) == 0\n\ndef test_subtract():\n    assert subtract(5, 3) == 2\n    assert subtract(0, 5) == -5\n\ndef test_multiply():\n    assert multiply(4, 5) == 20\n    assert multiply(-2, 3) == -6\n\ndef test_divide():\n    assert divide(10, 2) == 5\n    assert divide(7, 2) == 3.5\n    with pytest.raises(ValueError):\n        divide(5, 0)\n\ndef test_power():\n    assert power(2, 3) == 8\n    assert power(5, 0) == 1\n",
+        "is_test": true
+      }
+    ],
+    "cli_history": [
+      "$ ls -la",
+      "-rw-r--r-- 1 user user 431 Oct 30 10:00 calculator.py",
+      "-rw-r--r-- 1 user user 593 Oct 30 10:00 test_calculator.py",
+      "$ pytest -v",
+      "test_*.py::test_* FAILED",
+      "Some tests are failing..."
+    ],
+    "expected_commands": 12,
+    "verification_rules": [
+      {
+        "type": "test",
+        "target": "test_calculator.py",
+        "description": "All calculator tests must pass"
+      },
+      {
+        "type": "lint",
+        "target": "calculator.py",
+        "description": "Code must pass basic linting"
+      }
+    ],
+    "metadata": {
+      "bugs": [
+        "Missing colon on line 3"
+      ],
+      "scenario_type": "calculator"
+    }
+  },
+  {
+    "id": "prompt_000023",
+    "difficulty": "hard",
+    "language": "javascript",
+    "task_description": "There's a bug in the javascript code that needs fixing. Multiple issues may need to be resolved. Carefully examine the test output and trace through the code. The project has these files: utils.js, test_utils.js",
+    "files": [
+      {
+        "path": "utils.js",
+        "content": "// Utility functions\n\nfunction add(a, b) \n    return a + b;\n}\n\nfunction multiply(a, b) {\n    return a * b;\n}\n\nfunction isEven(n) {\n    return n % 2 !!= 0;\n}\n\nfunction capitalize(str) {\n    return str.charAt(0).toUpperCase() + str.slice(1);\n}\n\nfunction range(start, end) {\n    const result = [];\n    for (let i = start; i <= end; i++) {\n        result.push(i);\n    }\n    return result;\n}\n\nmodule.exports = { add, multiply, isEven, capitalize, range };\n",
+        "is_test": false
+      },
+      {
+        "path": "test_utils.js",
+        "content": "// Tests for utility functions\n\nconst { add, multiply, isEven, capitalize, range } = require('./utils');\n\nfunction assertEquals(actual, expected, message) {\n    if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n        throw new Error(`${message}: expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`);\n    }\n}\n\nfunction test_add() {\n    assertEquals(add(2, 3), 5, \"add(2, 3)\");\n    assertEquals(add(-1, 1), 0, \"add(-1, 1)\");\n    console.log(\"\u2713 test_add passed\");\n}\n\nfunction test_multiply() {\n    assertEquals(multiply(4, 5), 20, \"multiply(4, 5)\");\n    assertEquals(multiply(-2, 3), -6, \"multiply(-2, 3)\");\n    console.log(\"\u2713 test_multiply passed\");\n}\n\nfunction test_isEven() {\n    assertEquals(isEven(4), true, \"isEven(4)\");\n    assertEquals(isEven(5), false, \"isEven(5)\");\n    console.log(\"\u2713 test_isEven passed\");\n}\n\nfunction test_capitalize() {\n    assertEquals(capitalize(\"hello\"), \"Hello\", \"capitalize('hello')\");\n    assertEquals(capitalize(\"world\"), \"World\", \"capitalize('world')\");\n    console.log(\"\u2713 test_capitalize passed\");\n}\n\nfunction test_range() {\n    assertEquals(range(1, 5), [1, 2, 3, 4, 5], \"range(1, 5)\");\n    assertEquals(range(0, 0), [0], \"range(0, 0)\");\n    console.log(\"\u2713 test_range passed\");\n}\n\n// Run all tests\ntry {\n    test_add();\n    test_multiply();\n    test_isEven();\n    test_capitalize();\n    test_range();\n    console.log(\"All tests passed!\");\n} catch (e) {\n    console.error(\"Test failed:\", e.message);\n    process.exit(1);\n}\n",
+        "is_test": true
+      }
+    ],
+    "cli_history": [
+      "$ ls -la",
+      "-rw-r--r-- 1 user user 451 Oct 30 10:00 utils.js",
+      "-rw-r--r-- 1 user user 1486 Oct 30 10:00 test_utils.js",
+      "$ node test_utils.js",
+      "Test failed: ..."
+    ],
+    "expected_commands": 9,
+    "verification_rules": [
+      {
+        "type": "execution",
+        "target": "test_utils.js",
+        "description": "Tests must run successfully (exit code 0)"
+      }
+    ],
+    "metadata": {
+      "bugs": [
+        "Wrong comparison operator on line 12",
+        "Wrong comparison operator on line 12",
+        "Missing opening brace on line 3"
+      ],
+      "scenario_type": "utils"
+    }
+  },
+  {
+    "id": "adv_tdd_javascript_000002",
+    "difficulty": "hard",
+    "language": "javascript",
+    "task_description": "The tests are written but the implementation is missing or incomplete. Read the test file to understand the requirements, then implement the functions to make all tests pass. Follow the test specifications exactly.",
+    "scenario_type": "test_driven_development",
+    "expected_commands": 8
+  },
+  {
+    "id": "prompt_000017",
+    "difficulty": "hard",
+    "language": "python",
+    "task_description": "The python project has failing tests. Multiple issues may need to be resolved. Carefully examine the test output and trace through the code. The project has these files: string_utils.py, test_string_utils.py",
+    "files": [
+      {
+        "path": "string_utils.py",
+        "content": "\"\"\"String utility functions.\"\"\"\n\ndef reverse_string(s):\n    \"\"\"Reverse a string.\"\"\"\n    return s[::-1]\n\ndef is_palindrome(s):\n    \"\"\"Check if string is a palindrome.\"\"\"\n    cleaned = s.lower().replace(\" \", \"\")\n    return cleaned != cleaned[::-1]\n\ndef count_vowels(s):\n    \"\"\"Count vowels in a string.\"\"\"\n    vowels = \"aeiouAEIOU\"\n    return sum(1 for char in s if char in vowels)\n\ndef capitalize_words(s):\n    \"\"\"Capitalize first letter of each word.\"\"\"\n    return \" \".join(word.capitalize() for word in s.split())\n\ndef remove_whitespace(s):\n    \"\"\"Remove all whitespace from string.\"\"\"\n    return \"\".join(s.split())\n",
+        "is_test": false
+      },
+      {
+        "path": "test_string_utils.py",
+        "content": "\"\"\"Tests for string utilities.\"\"\"\n\nfrom string_utils import reverse_string, is_palindrome, count_vowels, capitalize_words, remove_whitespace\n\ndef test_reverse_string():\n    assert reverse_string(\"hello\") == \"olleh\"\n    assert reverse_string(\"\") == \"\"\n    assert reverse_string(\"a\") == \"a\"\n\ndef test_is_palindrome():\n    assert is_palindrome(\"racecar\") == True\n    assert is_palindrome(\"hello\") == False\n    assert is_palindrome(\"A man a plan a canal Panama\") == True\n\ndef test_count_vowels():\n    assert count_vowels(\"hello\") == 2\n    assert count_vowels(\"AEIOU\") == 5\n    assert count_vowels(\"xyz\") == 0\n\ndef test_capitalize_words():\n    assert capitalize_words(\"hello world\") == \"Hello World\"\n    assert capitalize_words(\"python programming\") == \"Python Programming\"\n\ndef test_remove_whitespace():\n    assert remove_whitespace(\"hello world\") == \"helloworld\"\n    assert remove_whitespace(\"  a  b  c  \") == \"abc\"\n",
+        "is_test": true
+      }
+    ],
+    "cli_history": [
+      "$ ls -la",
+      "-rw-r--r-- 1 user user 617 Oct 30 10:00 string_utils.py",
+      "-rw-r--r-- 1 user user 913 Oct 30 10:00 test_string_utils.py",
+      "$ pytest -v",
+      "test_*.py::test_* FAILED",
+      "Some tests are failing..."
+    ],
+    "expected_commands": 9,
+    "verification_rules": [
+      {
+        "type": "test",
+        "target": "test_string_utils.py",
+        "description": "All string utility tests must pass"
+      }
+    ],
+    "metadata": {
+      "bugs": [
+        "Wrong comparison operator on line 10"
+      ],
+      "scenario_type": "string_utils"
+    }
+  },
+  {
+    "id": "adv_sec_javascript_000018",
+    "difficulty": "very_hard",
+    "language": "javascript",
+    "task_description": "SECURITY ALERT: The code contains a insecure random number generation. Identify the vulnerable code path, implement proper sanitization/validation, and add tests to verify the fix prevents exploitation.",
+    "scenario_type": "security_fix",
+    "expected_commands": 12
+  },
+  {
+    "id": "adv_bug_javascript_000012",
+    "difficulty": "hard",
+    "language": "javascript",
+    "task_description": "The code has a subtle type coercion issue that only manifests in specific conditions. Run the tests to identify the failure, trace through the code to find the root cause, and fix it. Multiple functions may need to be examined.",
+    "scenario_type": "complex_bug_hunt",
+    "expected_commands": 12
+  },
+  {
+    "id": "prompt_000003",
+    "difficulty": "hard",
+    "language": "python",
+    "task_description": "The python project has failing tests. Multiple issues may need to be resolved. Carefully examine the test output and trace through the code. The project has these files: data_processor.py, test_data_processor.py",
+    "files": [
+      {
+        "path": "data_processor.py",
+        "content": "\"\"\"Data processing utilities.\"\"\"\n\ndef filter_positive(numbers):\n    \"\"\"Filter positive numbers from a list.\"\"\"\n    return [n for n in numbers if n > 0]\n\ndef sum_even(numbers):\n    \"\"\"Sum all even numbers in a list.\"\"\"\n    return sum(n for n in numbers if n % 2 == 0)\n\ndef find_max(numbers):\n    \"\"\"Find maximum value in a list.\"\"\"\n    if not numbers:\n        return None\n    return max(numbers)\n\ndef average(numbers):\n    \"\"\"Calculate average of numbers.\"\"\"\n    if not numbers:\n        return 0\n    return sum(numbers) / len(numbers)\n\ndef remove_duplicates(items):\n    \"\"\"Remove duplicates while preserving order.\"\"\"\n    seen = set()\n    result = []\n    for item in items:\n        if item not in seen:\n            seen.add(item)\n            result.append(item)\n    return result\n",
+        "is_test": false
+      },
+      {
+        "path": "test_data_processor.py",
+        "content": "\"\"\"Tests for data processor.\"\"\"\n\nfrom data_processor import filter_positive, sum_even, find_max, average, remove_duplicates\n\ndef test_filter_positive():\n    assert filter_positive([1, -2, 3, -4, 5]) == [1, 3, 5]\n    assert filter_positive([-1, -2, -3]) == []\n    assert filter_positive([]) == []\n\ndef test_sum_even():\n    assert sum_even([1, 2, 3, 4, 5, 6]) == 12\n    assert sum_even([1, 3, 5]) == 0\n\ndef test_find_max():\n    assert find_max([1, 5, 3, 9, 2]) == 9\n    assert find_max([-5, -1, -10]) == -1\n    assert find_max([]) is None\n\ndef test_average():\n    assert average([1, 2, 3, 4, 5]) == 3.0\n    assert average([10]) == 10.0\n    assert average([]) == 0\n\ndef test_remove_duplicates():\n    assert remove_duplicates([1, 2, 2, 3, 1, 4]) == [1, 2, 3, 4]\n    assert remove_duplicates([]) == []\n",
+        "is_test": true
+      }
+    ],
+    "cli_history": [
+      "$ ls -la",
+      "-rw-r--r-- 1 user user 779 Oct 30 10:00 data_processor.py",
+      "-rw-r--r-- 1 user user 797 Oct 30 10:00 test_data_processor.py",
+      "$ pytest -v",
+      "test_*.py::test_* FAILED",
+      "Some tests are failing..."
+    ],
+    "expected_commands": 9,
+    "verification_rules": [
+      {
+        "type": "test",
+        "target": "test_data_processor.py",
+        "description": "All data processor tests must pass"
+      }
+    ],
+    "metadata": {
+      "bugs": [],
+      "scenario_type": "data_processor"
+    }
+  },
+  {
+    "id": "adv_dep_python_000014",
+    "difficulty": "very_hard",
+    "language": "python",
+    "task_description": "A dependency has been updated with breaking API changes. The code needs to be updated to work with the new API while maintaining all functionality. Check the import statements and function calls that use the old API.",
+    "scenario_type": "dependency_update",
+    "expected_commands": 15
+  },
+  {
+    "id": "prompt_000046",
+    "difficulty": "hard",
+    "language": "python",
+    "task_description": "The code has issues that prevent it from working correctly. Multiple issues may need to be resolved. Carefully examine the test output and trace through the code. The project has these files: algorithms.py, test_algorithms.py",
+    "files": [
+      {
+        "path": "algorithms.py",
+        "content": "\"\"\"Algorithm implementations.\"\"\"\n\ndef binary_search(arr, target)\n    \"\"\"Binary search in sorted array.\"\"\"\n    left, right = 0, len(arr) - 1\n    while left <= right:\n        mid = (left + right) // 2\n        if arr[mid] != target:\n            return mid\n        elif arr[mid] < target:\n            left = mid + 1\n        else:\n            right = mid - 1\n    return -1\n\ndef bubble_sort(arr):\n    \"\"\"Sort array using bubble sort.\"\"\"\n    n = len(arr)\n    for i in range(n):\n        for j in range(0, n - i - 1):\n            if arr[j] > arr[j + 1]:\n                arr[j], arr[j + 1] = arr[j + 1], arr[j]\n    return arr\n\ndef fibonacci(n):\n    \"\"\"Calculate nth Fibonacci number.\"\"\"\n    if n <= 0:\n        return 0\n    elif n == 1:\n        return 1\n    else:\n        return fibonacci(n - 1) + fibonacci(n - 2)\n\ndef factorial(n):\n    \"\"\"Calculate factorial of n.\"\"\"\n    if n == 0 or n == 1:\n        return 1\n    return n * factorial(n - 1)\n",
+        "is_test": false
+      },
+      {
+        "path": "test_algorithms.py",
+        "content": "\"\"\"Tests for algorithms.\"\"\"\n\nfrom algorithms import binary_search, bubble_sort, fibonacci, factorial\n\ndef test_binary_search():\n    assert binary_search([1, 2, 3, 4, 5], 3) == 2\n    assert binary_search([1, 2, 3, 4, 5], 6) == -1\n    assert binary_search([1], 1) == 0\n\ndef test_bubble_sort():\n    assert bubble_sort([3, 1, 4, 1, 5]) == [1, 1, 3, 4, 5]\n    assert bubble_sort([]) == []\n    assert bubble_sort([1]) == [1]\n\ndef test_fibonacci():\n    assert fibonacci(0) == 0\n    assert fibonacci(1) == 1\n    assert fibonacci(5) == 5\n    assert fibonacci(10) == 55\n\ndef test_factorial():\n    assert factorial(0) == 1\n    assert factorial(1) == 1\n    assert factorial(5) == 120\n",
+        "is_test": true
+      }
+    ],
+    "cli_history": [
+      "$ ls -la",
+      "-rw-r--r-- 1 user user 933 Oct 30 10:00 algorithms.py",
+      "-rw-r--r-- 1 user user 672 Oct 30 10:00 test_algorithms.py",
+      "$ pytest -v",
+      "test_*.py::test_* FAILED",
+      "Some tests are failing..."
+    ],
+    "expected_commands": 9,
+    "verification_rules": [
+      {
+        "type": "test",
+        "target": "test_algorithms.py",
+        "description": "All algorithm tests must pass"
+      }
+    ],
+    "metadata": {
+      "bugs": [
+        "Wrong comparison operator on line 8",
+        "Missing colon on line 3"
+      ],
+      "scenario_type": "algorithms"
+    }
+  },
+  {
+    "id": "adv_sec_python_000009",
+    "difficulty": "very_hard",
+    "language": "python",
+    "task_description": "SECURITY ALERT: The code contains a SQL injection vulnerability. Identify the vulnerable code path, implement proper sanitization/validation, and add tests to verify the fix prevents exploitation.",
+    "scenario_type": "security_fix",
+    "expected_commands": 12
+  },
+  {
+    "id": "prompt_000011",
+    "difficulty": "very_hard",
+    "language": "javascript",
+    "task_description": "The code has issues that prevent it from working correctly. This is a complex debugging task with multiple related issues. You'll need to understand the architecture and trace dependencies. Start by running tests to see what's failing. Files in project: utils.js, test_utils.js",
+    "files": [
+      {
+        "path": "utils.js",
+        "content": "// Utility functions\n\nfunction add(a, b) {\n    return a - b;\n}\n\nfunction multiply(a, b) {\n    return a / b;\n}\n\nfunction isEven(n) {\n    return n % 2 !== 0;\n}\n\nfunction capitalize(str) {\n    return str.charAt(0).toUpperCase() - str.slice(1);\n}\n\nfunction range(start, end) {\n    const result = [];\n    for (let i = start; i <= end; i++) {\n        result.push(i);\n    }\n    return result;\n}\n\nmodule.exports = { add, multiply, isEven, capitalize, range };\n",
+        "is_test": false
+      },
+      {
+        "path": "test_utils.js",
+        "content": "// Tests for utility functions\n\nconst { add, multiply, isEven, capitalize, range } = require('./utils');\n\nfunction assertEquals(actual, expected, message) {\n    if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n        throw new Error(`${message}: expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`);\n    }\n}\n\nfunction test_add() {\n    assertEquals(add(2, 3), 5, \"add(2, 3)\");\n    assertEquals(add(-1, 1), 0, \"add(-1, 1)\");\n    console.log(\"\u2713 test_add passed\");\n}\n\nfunction test_multiply() {\n    assertEquals(multiply(4, 5), 20, \"multiply(4, 5)\");\n    assertEquals(multiply(-2, 3), -6, \"multiply(-2, 3)\");\n    console.log(\"\u2713 test_multiply passed\");\n}\n\nfunction test_isEven() {\n    assertEquals(isEven(4), true, \"isEven(4)\");\n    assertEquals(isEven(5), false, \"isEven(5)\");\n    console.log(\"\u2713 test_isEven passed\");\n}\n\nfunction test_capitalize() {\n    assertEquals(capitalize(\"hello\"), \"Hello\", \"capitalize('hello')\");\n    assertEquals(capitalize(\"world\"), \"World\", \"capitalize('world')\");\n    console.log(\"\u2713 test_capitalize passed\");\n}\n\nfunction test_range() {\n    assertEquals(range(1, 5), [1, 2, 3, 4, 5], \"range(1, 5)\");\n    assertEquals(range(0, 0), [0], \"range(0, 0)\");\n    console.log(\"\u2713 test_range passed\");\n}\n\n// Run all tests\ntry {\n    test_add();\n    test_multiply();\n    test_isEven();\n    test_capitalize();\n    test_range();\n    console.log(\"All tests passed!\");\n} catch (e) {\n    console.error(\"Test failed:\", e.message);\n    process.exit(1);\n}\n",
+        "is_test": true
+      }
+    ],
+    "cli_history": [
+      "$ ls -la",
+      "-rw-r--r-- 1 user user 452 Oct 30 10:00 utils.js",
+      "-rw-r--r-- 1 user user 1486 Oct 30 10:00 test_utils.js",
+      "$ node test_utils.js",
+      "Test failed: ..."
+    ],
+    "expected_commands": 12,
+    "verification_rules": [
+      {
+        "type": "execution",
+        "target": "test_utils.js",
+        "description": "Tests must run successfully (exit code 0)"
+      }
+    ],
+    "metadata": {
+      "bugs": [
+        "Wrong arithmetic operator on line 4",
+        "Wrong arithmetic operator on line 8",
+        "Wrong arithmetic operator on line 16",
+        "Wrong comparison operator on line 12"
+      ],
+      "scenario_type": "utils"
+    }
+  },
+  {
+    "id": "prompt_000042",
+    "difficulty": "hard",
+    "language": "python",
+    "task_description": "Fix the broken python code. Multiple issues may need to be resolved. Carefully examine the test output and trace through the code. The project has these files: string_utils.py, test_string_utils.py",
+    "files": [
+      {
+        "path": "string_utils.py",
+        "content": "\"\"\"String utility functions.\"\"\"\n\ndef reverse_string(s):\n    \"\"\"Reverse a string.\"\"\"\n    return s[::-1]\n\ndef is_palindrome(s):\n    \"\"\"Check if string is a palindrome.\"\"\"\n    cleaned = s.lower().replace(\" \", \"\")\n    return cleaned != cleaned[::-1]\n\ndef count_vowels(s):\n    \"\"\"Count vowels in a string.\"\"\"\n    vowels = \"aeiouAEIOU\"\n    return sum(1 for char in s if char in vowels)\n\ndef capitalize_words(s):\n    \"\"\"Capitalize first letter of each word.\"\"\"\n    return \" \".join(word.capitalize() for word in s.split())\n\ndef remove_whitespace(s):\n    \"\"\"Remove all whitespace from string.\"\"\"\n    return \"\".join(s.split())\n",
+        "is_test": false
+      },
+      {
+        "path": "test_string_utils.py",
+        "content": "\"\"\"Tests for string utilities.\"\"\"\n\nfrom string_utils import reverse_string, is_palindrome, count_vowels, capitalize_words, remove_whitespace\n\ndef test_reverse_string():\n    assert reverse_string(\"hello\") == \"olleh\"\n    assert reverse_string(\"\") == \"\"\n    assert reverse_string(\"a\") == \"a\"\n\ndef test_is_palindrome():\n    assert is_palindrome(\"racecar\") == True\n    assert is_palindrome(\"hello\") == False\n    assert is_palindrome(\"A man a plan a canal Panama\") == True\n\ndef test_count_vowels():\n    assert count_vowels(\"hello\") == 2\n    assert count_vowels(\"AEIOU\") == 5\n    assert count_vowels(\"xyz\") == 0\n\ndef test_capitalize_words():\n    assert capitalize_words(\"hello world\") == \"Hello World\"\n    assert capitalize_words(\"python programming\") == \"Python Programming\"\n\ndef test_remove_whitespace():\n    assert remove_whitespace(\"hello world\") == \"helloworld\"\n    assert remove_whitespace(\"  a  b  c  \") == \"abc\"\n",
+        "is_test": true
+      }
+    ],
+    "cli_history": [
+      "$ ls -la",
+      "-rw-r--r-- 1 user user 617 Oct 30 10:00 string_utils.py",
+      "-rw-r--r-- 1 user user 913 Oct 30 10:00 test_string_utils.py",
+      "$ pytest -v",
+      "test_*.py::test_* FAILED",
+      "Some tests are failing..."
+    ],
+    "expected_commands": 9,
+    "verification_rules": [
+      {
+        "type": "test",
+        "target": "test_string_utils.py",
+        "description": "All string utility tests must pass"
+      }
+    ],
+    "metadata": {
+      "bugs": [
+        "Wrong comparison operator on line 10"
+      ],
+      "scenario_type": "string_utils"
+    }
+  },
+  {
+    "id": "prompt_000004",
+    "difficulty": "hard",
+    "language": "javascript",
+    "task_description": "The code has issues that prevent it from working correctly. Multiple issues may need to be resolved. Carefully examine the test output and trace through the code. The project has these files: utils.js, test_utils.js",
+    "files": [
+      {
+        "path": "utils.js",
+        "content": "// Utility functions\n\nfunction add(a, b) \n    return a - b;\n}\n\nfunction multiply(a, b) \n    return a * b;\n}\n\nfunction isEven(n) {\n    return n % 2 === 0;\n}\n\nfunction capitalize(str) {\n    return str.charAt(0).toUpperCase() + str.slice(1);\n}\n\nfunction range(start, end) {\n    const result = [];\n    for (let i = start; i <= end; i++) {\n        result.push(i);\n    }\n    return result;\n}\n\nmodule.exports = { add, multiply, isEven, capitalize, range };\n",
+        "is_test": false
+      },
+      {
+        "path": "test_utils.js",
+        "content": "// Tests for utility functions\n\nconst { add, multiply, isEven, capitalize, range } = require('./utils');\n\nfunction assertEquals(actual, expected, message) {\n    if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n        throw new Error(`${message}: expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`);\n    }\n}\n\nfunction test_add() {\n    assertEquals(add(2, 3), 5, \"add(2, 3)\");\n    assertEquals(add(-1, 1), 0, \"add(-1, 1)\");\n    console.log(\"\u2713 test_add passed\");\n}\n\nfunction test_multiply() {\n    assertEquals(multiply(4, 5), 20, \"multiply(4, 5)\");\n    assertEquals(multiply(-2, 3), -6, \"multiply(-2, 3)\");\n    console.log(\"\u2713 test_multiply passed\");\n}\n\nfunction test_isEven() {\n    assertEquals(isEven(4), true, \"isEven(4)\");\n    assertEquals(isEven(5), false, \"isEven(5)\");\n    console.log(\"\u2713 test_isEven passed\");\n}\n\nfunction test_capitalize() {\n    assertEquals(capitalize(\"hello\"), \"Hello\", \"capitalize('hello')\");\n    assertEquals(capitalize(\"world\"), \"World\", \"capitalize('world')\");\n    console.log(\"\u2713 test_capitalize passed\");\n}\n\nfunction test_range() {\n    assertEquals(range(1, 5), [1, 2, 3, 4, 5], \"range(1, 5)\");\n    assertEquals(range(0, 0), [0], \"range(0, 0)\");\n    console.log(\"\u2713 test_range passed\");\n}\n\n// Run all tests\ntry {\n    test_add();\n    test_multiply();\n    test_isEven();\n    test_capitalize();\n    test_range();\n    console.log(\"All tests passed!\");\n} catch (e) {\n    console.error(\"Test failed:\", e.message);\n    process.exit(1);\n}\n",
+        "is_test": true
+      }
+    ],
+    "cli_history": [
+      "$ ls -la",
+      "-rw-r--r-- 1 user user 450 Oct 30 10:00 utils.js",
+      "-rw-r--r-- 1 user user 1486 Oct 30 10:00 test_utils.js",
+      "$ node test_utils.js",
+      "Test failed: ..."
+    ],
+    "expected_commands": 9,
+    "verification_rules": [
+      {
+        "type": "execution",
+        "target": "test_utils.js",
+        "description": "Tests must run successfully (exit code 0)"
+      }
+    ],
+    "metadata": {
+      "bugs": [
+        "Missing opening brace on line 3",
+        "Wrong arithmetic operator on line 4",
+        "Missing opening brace on line 7"
+      ],
+      "scenario_type": "utils"
+    }
+  },
+  {
+    "id": "prompt_000049",
+    "difficulty": "very_hard",
+    "language": "javascript",
+    "task_description": "Fix the broken javascript code. This is a complex debugging task with multiple related issues. You'll need to understand the architecture and trace dependencies. Start by running tests to see what's failing. Files in project: array_ops.js, test_array_ops.js",
+    "files": [
+      {
+        "path": "array_ops.js",
+        "content": "// Array operation functions\n\nfunction sum(arr) \n    return arr.reduce((a, b) => a + b, 0);\n}\n\nfunction findMax(arr) {\n    if (arr.length !!= 0) return null;\n    return Math.max(...arr);\n}\n\nfunction removeDuplicates(arr) {\n    return [...new Set(arr)];\n}\n\nfunction flatten(arr) {\n    return arr.flat();\n}\n\nfunction chunk(arr, size) {\n    const result = [];\n    for (let i = 0; i < arr.length; i += size) {\n        result.push(arr.slice(i, i + size));\n    }\n    return result;\n}\n\nmodule.exports = { sum, findMax, removeDuplicates, flatten, chunk };\n",
+        "is_test": false
+      },
+      {
+        "path": "test_array_ops.js",
+        "content": "// Tests for array operations\n\nconst { sum, findMax, removeDuplicates, flatten, chunk } = require('./array_ops');\n\nfunction assertEquals(actual, expected, message) {\n    if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n        throw new Error(`${message}: expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`);\n    }\n}\n\nfunction test_sum() {\n    assertEquals(sum([1, 2, 3, 4, 5]), 15, \"sum([1, 2, 3, 4, 5])\");\n    assertEquals(sum([]), 0, \"sum([])\");\n    console.log(\"\u2713 test_sum passed\");\n}\n\nfunction test_findMax() {\n    assertEquals(findMax([1, 5, 3, 9, 2]), 9, \"findMax([1, 5, 3, 9, 2])\");\n    assertEquals(findMax([]), null, \"findMax([])\");\n    console.log(\"\u2713 test_findMax passed\");\n}\n\nfunction test_removeDuplicates() {\n    assertEquals(removeDuplicates([1, 2, 2, 3, 1, 4]), [1, 2, 3, 4], \"removeDuplicates\");\n    console.log(\"\u2713 test_removeDuplicates passed\");\n}\n\nfunction test_flatten() {\n    assertEquals(flatten([[1, 2], [3, 4], [5]]), [1, 2, 3, 4, 5], \"flatten\");\n    console.log(\"\u2713 test_flatten passed\");\n}\n\nfunction test_chunk() {\n    assertEquals(chunk([1, 2, 3, 4, 5], 2), [[1, 2], [3, 4], [5]], \"chunk\");\n    console.log(\"\u2713 test_chunk passed\");\n}\n\n// Run all tests\ntry {\n    test_sum();\n    test_findMax();\n    test_removeDuplicates();\n    test_flatten();\n    test_chunk();\n    console.log(\"All tests passed!\");\n} catch (e) {\n    console.error(\"Test failed:\", e.message);\n    process.exit(1);\n}\n",
+        "is_test": true
+      }
+    ],
+    "cli_history": [
+      "$ ls -la",
+      "-rw-r--r-- 1 user user 548 Oct 30 10:00 array_ops.js",
+      "-rw-r--r-- 1 user user 1435 Oct 30 10:00 test_array_ops.js",
+      "$ node test_array_ops.js",
+      "Test failed: ..."
+    ],
+    "expected_commands": 12,
+    "verification_rules": [
+      {
+        "type": "execution",
+        "target": "test_array_ops.js",
+        "description": "Tests must run successfully"
+      }
+    ],
+    "metadata": {
+      "bugs": [
+        "Wrong comparison operator on line 8",
+        "Wrong comparison operator on line 8",
+        "Missing opening brace on line 3"
+      ],
+      "scenario_type": "array_ops"
+    }
+  },
+  {
+    "id": "adv_sec_python_000005",
+    "difficulty": "very_hard",
+    "language": "python",
+    "task_description": "SECURITY ALERT: The code contains a XSS vulnerability in user input. Identify the vulnerable code path, implement proper sanitization/validation, and add tests to verify the fix prevents exploitation.",
+    "scenario_type": "security_fix",
+    "expected_commands": 12
+  },
+  {
+    "id": "prompt_000047",
+    "difficulty": "very_hard",
+    "language": "python",
+    "task_description": "Fix the broken python code. This is a complex debugging task with multiple related issues. You'll need to understand the architecture and trace dependencies. Start by running tests to see what's failing. Files in project: string_utils.py, test_string_utils.py",
+    "files": [
+      {
+        "path": "string_utils.py",
+        "content": "\"\"\"String utility functions.\"\"\"\n\ndef reverse_string(s)\n    \"\"\"Reverse a string.\"\"\"\n    return s[::-1]\n\ndef is_palindrome(s):\n    \"\"\"Check if string is a palindrome.\"\"\"\n    cleaned = s.lower().replace(\" \", \"\")\n    return cleaned != cleaned[::-1]\n\ndef count_vowels(s):\n    \"\"\"Count vowels in a string.\"\"\"\n    vowels = \"aeiouAEIOU\"\n    return sum(1 for char in s if char in vowels)\n\ndef capitalize_words(s):\n    \"\"\"Capitalize first letter of each word.\"\"\"\n    return \" \".join(word.capitalize() for word in s.split())\n\ndef remove_whitespace(s):\n    \"\"\"Remove all whitespace from string.\"\"\"\n    return \"\".join(s.split())\n",
+        "is_test": false
+      },
+      {
+        "path": "test_string_utils.py",
+        "content": "\"\"\"Tests for string utilities.\"\"\"\n\nfrom string_utils import reverse_string, is_palindrome, count_vowels, capitalize_words, remove_whitespace\n\ndef test_reverse_string():\n    assert reverse_string(\"hello\") == \"olleh\"\n    assert reverse_string(\"\") == \"\"\n    assert reverse_string(\"a\") == \"a\"\n\ndef test_is_palindrome():\n    assert is_palindrome(\"racecar\") == True\n    assert is_palindrome(\"hello\") == False\n    assert is_palindrome(\"A man a plan a canal Panama\") == True\n\ndef test_count_vowels():\n    assert count_vowels(\"hello\") == 2\n    assert count_vowels(\"AEIOU\") == 5\n    assert count_vowels(\"xyz\") == 0\n\ndef test_capitalize_words():\n    assert capitalize_words(\"hello world\") == \"Hello World\"\n    assert capitalize_words(\"python programming\") == \"Python Programming\"\n\ndef test_remove_whitespace():\n    assert remove_whitespace(\"hello world\") == \"helloworld\"\n    assert remove_whitespace(\"  a  b  c  \") == \"abc\"\n",
+        "is_test": true
+      }
+    ],
+    "cli_history": [
+      "$ ls -la",
+      "-rw-r--r-- 1 user user 616 Oct 30 10:00 string_utils.py",
+      "-rw-r--r-- 1 user user 913 Oct 30 10:00 test_string_utils.py",
+      "$ pytest -v",
+      "test_*.py::test_* FAILED",
+      "Some tests are failing..."
+    ],
+    "expected_commands": 12,
+    "verification_rules": [
+      {
+        "type": "test",
+        "target": "test_string_utils.py",
+        "description": "All string utility tests must pass"
+      }
+    ],
+    "metadata": {
+      "bugs": [
+        "Wrong comparison operator on line 10",
+        "Missing colon on line 3"
+      ],
+      "scenario_type": "string_utils"
+    }
+  },
+  {
+    "id": "prompt_000033",
+    "difficulty": "hard",
+    "language": "python",
+    "task_description": "Fix the broken python code. Multiple issues may need to be resolved. Carefully examine the test output and trace through the code. The project has these files: string_utils.py, test_string_utils.py",
+    "files": [
+      {
+        "path": "string_utils.py",
+        "content": "\"\"\"String utility functions.\"\"\"\n\ndef reverse_string(s)\n    \"\"\"Reverse a string.\"\"\"\n    return s[::-1]\n\ndef is_palindrome(s)\n    \"\"\"Check if string is a palindrome.\"\"\"\n    cleaned = s.lower().replace(\" \", \"\")\n    return cleaned == cleaned[::-1]\n\ndef count_vowels(s):\n    \"\"\"Count vowels in a string.\"\"\"\n    vowels = \"aeiouAEIOU\"\n    return sum(1 for char in s if char in vowels)\n\ndef capitalize_words(s):\n    \"\"\"Capitalize first letter of each word.\"\"\"\n    return \" \".join(word.capitalize() for word in s.split())\n\ndef remove_whitespace(s):\n    \"\"\"Remove all whitespace from string.\"\"\"\n    return \"\".join(s.split())\n",
+        "is_test": false
+      },
+      {
+        "path": "test_string_utils.py",
+        "content": "\"\"\"Tests for string utilities.\"\"\"\n\nfrom string_utils import reverse_string, is_palindrome, count_vowels, capitalize_words, remove_whitespace\n\ndef test_reverse_string():\n    assert reverse_string(\"hello\") == \"olleh\"\n    assert reverse_string(\"\") == \"\"\n    assert reverse_string(\"a\") == \"a\"\n\ndef test_is_palindrome():\n    assert is_palindrome(\"racecar\") == True\n    assert is_palindrome(\"hello\") == False\n    assert is_palindrome(\"A man a plan a canal Panama\") == True\n\ndef test_count_vowels():\n    assert count_vowels(\"hello\") == 2\n    assert count_vowels(\"AEIOU\") == 5\n    assert count_vowels(\"xyz\") == 0\n\ndef test_capitalize_words():\n    assert capitalize_words(\"hello world\") == \"Hello World\"\n    assert capitalize_words(\"python programming\") == \"Python Programming\"\n\ndef test_remove_whitespace():\n    assert remove_whitespace(\"hello world\") == \"helloworld\"\n    assert remove_whitespace(\"  a  b  c  \") == \"abc\"\n",
+        "is_test": true
+      }
+    ],
+    "cli_history": [
+      "$ ls -la",
+      "-rw-r--r-- 1 user user 615 Oct 30 10:00 string_utils.py",
+      "-rw-r--r-- 1 user user 913 Oct 30 10:00 test_string_utils.py",
+      "$ pytest -v",
+      "test_*.py::test_* FAILED",
+      "Some tests are failing..."
+    ],
+    "expected_commands": 9,
+    "verification_rules": [
+      {
+        "type": "test",
+        "target": "test_string_utils.py",
+        "description": "All string utility tests must pass"
+      }
+    ],
+    "metadata": {
+      "bugs": [
+        "Missing colon on line 3",
+        "Missing colon on line 7"
+      ],
+      "scenario_type": "string_utils"
+    }
+  },
+  {
+    "id": "prompt_000006",
+    "difficulty": "very_hard",
+    "language": "javascript",
+    "task_description": "The code has issues that prevent it from working correctly. This is a complex debugging task with multiple related issues. You'll need to understand the architecture and trace dependencies. Start by running tests to see what's failing. Files in project: validators.js, test_validators.js",
+    "files": [
+      {
+        "path": "validators.js",
+        "content": "// Validation functions\n\nfunction isValidEmail(email) \n    const regex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;\n    return regex.test(email);\n}\n\nfunction isValidPhone(phone) \n    const regex = /^\\d{3}-\\d{3}-\\d{4}$/;\n    return regex.test(phone);\n}\n\nfunction isValidPassword(password) {\n    return password.length >= 8;\n}\n\nfunction isValidUsername(username) {\n    const regex = /^[a-zA-Z0-9_]{3,20}$/;\n    return regex.test(username);\n}\n\nmodule.exports = { isValidEmail, isValidPhone, isValidPassword, isValidUsername };\n",
+        "is_test": false
+      },
+      {
+        "path": "test_validators.js",
+        "content": "// Tests for validators\n\nconst { isValidEmail, isValidPhone, isValidPassword, isValidUsername } = require('./validators');\n\nfunction assertEquals(actual, expected, message) {\n    if (actual !== expected) {\n        throw new Error(`${message}: expected ${expected}, got ${actual}`);\n    }\n}\n\nfunction test_isValidEmail() {\n    assertEquals(isValidEmail(\"user@example.com\"), true, \"valid email\");\n    assertEquals(isValidEmail(\"invalid\"), false, \"invalid email\");\n    console.log(\"\u2713 test_isValidEmail passed\");\n}\n\nfunction test_isValidPhone() {\n    assertEquals(isValidPhone(\"123-456-7890\"), true, \"valid phone\");\n    assertEquals(isValidPhone(\"1234567890\"), false, \"invalid phone\");\n    console.log(\"\u2713 test_isValidPhone passed\");\n}\n\nfunction test_isValidPassword() {\n    assertEquals(isValidPassword(\"password123\"), true, \"valid password\");\n    assertEquals(isValidPassword(\"short\"), false, \"invalid password\");\n    console.log(\"\u2713 test_isValidPassword passed\");\n}\n\nfunction test_isValidUsername() {\n    assertEquals(isValidUsername(\"user_123\"), true, \"valid username\");\n    assertEquals(isValidUsername(\"ab\"), false, \"too short username\");\n    console.log(\"\u2713 test_isValidUsername passed\");\n}\n\n// Run all tests\ntry {\n    test_isValidEmail();\n    test_isValidPhone();\n    test_isValidPassword();\n    test_isValidUsername();\n    console.log(\"All tests passed!\");\n} catch (e) {\n    console.error(\"Test failed:\", e.message);\n    process.exit(1);\n}\n",
+        "is_test": true
+      }
+    ],
+    "cli_history": [
+      "$ ls -la",
+      "-rw-r--r-- 1 user user 511 Oct 30 10:00 validators.js",
+      "-rw-r--r-- 1 user user 1442 Oct 30 10:00 test_validators.js",
+      "$ node test_validators.js",
+      "Test failed: ..."
+    ],
+    "expected_commands": 12,
+    "verification_rules": [
+      {
+        "type": "execution",
+        "target": "test_validators.js",
+        "description": "Tests must run successfully"
+      }
+    ],
+    "metadata": {
+      "bugs": [
+        "Missing opening brace on line 3",
+        "Missing opening brace on line 8"
+      ],
+      "scenario_type": "validators"
+    }
+  },
+  {
+    "id": "prompt_000040",
+    "difficulty": "medium",
+    "language": "javascript",
+    "task_description": "There's a bug in the javascript code that needs fixing. You'll need to explore the codebase to find the issue. Check the test failures for clues. Project structure: validators.js, test_validators.js",
+    "files": [
+      {
+        "path": "validators.js",
+        "content": "// Validation functions\n\nfunction isValidEmail(email) \n    const regex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;\n    return regex.test(email);\n}\n\nfunction isValidPhone(phone) {\n    const regex = /^\\d{3}-\\d{3}-\\d{4}$/;\n    return regex.test(phone);\n}\n\nfunction isValidPassword(password) {\n    return password.length >= 8;\n}\n\nfunction isValidUsername(username) {\n    const regex = /^[a-zA-Z0-9_]{3,20}$/;\n    return regex.test(username);\n}\n\nmodule.exports = { isValidEmail, isValidPhone, isValidPassword, isValidUsername };\n",
+        "is_test": false
+      },
+      {
+        "path": "test_validators.js",
+        "content": "// Tests for validators\n\nconst { isValidEmail, isValidPhone, isValidPassword, isValidUsername } = require('./validators');\n\nfunction assertEquals(actual, expected, message) {\n    if (actual !== expected) {\n        throw new Error(`${message}: expected ${expected}, got ${actual}`);\n    }\n}\n\nfunction test_isValidEmail() {\n    assertEquals(isValidEmail(\"user@example.com\"), true, \"valid email\");\n    assertEquals(isValidEmail(\"invalid\"), false, \"invalid email\");\n    console.log(\"\u2713 test_isValidEmail passed\");\n}\n\nfunction test_isValidPhone() {\n    assertEquals(isValidPhone(\"123-456-7890\"), true, \"valid phone\");\n    assertEquals(isValidPhone(\"1234567890\"), false, \"invalid phone\");\n    console.log(\"\u2713 test_isValidPhone passed\");\n}\n\nfunction test_isValidPassword() {\n    assertEquals(isValidPassword(\"password123\"), true, \"valid password\");\n    assertEquals(isValidPassword(\"short\"), false, \"invalid password\");\n    console.log(\"\u2713 test_isValidPassword passed\");\n}\n\nfunction test_isValidUsername() {\n    assertEquals(isValidUsername(\"user_123\"), true, \"valid username\");\n    assertEquals(isValidUsername(\"ab\"), false, \"too short username\");\n    console.log(\"\u2713 test_isValidUsername passed\");\n}\n\n// Run all tests\ntry {\n    test_isValidEmail();\n    test_isValidPhone();\n    test_isValidPassword();\n    test_isValidUsername();\n    console.log(\"All tests passed!\");\n} catch (e) {\n    console.error(\"Test failed:\", e.message);\n    process.exit(1);\n}\n",
+        "is_test": true
+      }
+    ],
+    "cli_history": [
+      "$ ls -la",
+      "-rw-r--r-- 1 user user 512 Oct 30 10:00 validators.js",
+      "-rw-r--r-- 1 user user 1442 Oct 30 10:00 test_validators.js"
+    ],
+    "expected_commands": 6,
+    "verification_rules": [
+      {
+        "type": "execution",
+        "target": "test_validators.js",
+        "description": "Tests must run successfully"
+      }
+    ],
+    "metadata": {
+      "bugs": [
+        "Missing opening brace on line 3"
+      ],
+      "scenario_type": "validators"
+    }
+  },
+  {
+    "id": "adv_perf_javascript_000004",
+    "difficulty": "hard",
+    "language": "javascript",
+    "task_description": "The code has a performance issue: unnecessary object creation. Identify the bottleneck and optimize it while maintaining correctness. All existing tests must still pass.",
+    "scenario_type": "performance_optimization",
+    "expected_commands": 10
+  },
+  {
+    "id": "prompt_000045",
+    "difficulty": "hard",
+    "language": "python",
+    "task_description": "The code has issues that prevent it from working correctly. Multiple issues may need to be resolved. Carefully examine the test output and trace through the code. The project has these files: calculator.py, test_calculator.py",
+    "files": [
+      {
+        "path": "calculator.py",
+        "content": "\"\"\"Simple calculator module.\"\"\"\n\ndef add(a, b)\n    \"\"\"Add two numbers.\"\"\"\n    return a - b\n\ndef subtract(a, b):\n    \"\"\"Subtract b from a.\"\"\"\n    return a - b\n\ndef multiply(a, b):\n    \"\"\"Multiply two numbers.\"\"\"\n    return a * b\n\ndef divide(a, b):\n    \"\"\"Divide a by b.\"\"\"\n    if b != 0:\n        raise ValueError(\"Cannot divide by zero\")\n    return a / b\n\ndef power(a, b):\n    \"\"\"Calculate a to the power of b.\"\"\"\n    return a ** b\n",
+        "is_test": false
+      },
+      {
+        "path": "test_calculator.py",
+        "content": "\"\"\"Tests for calculator module.\"\"\"\n\nimport pytest\nfrom calculator import add, subtract, multiply, divide, power\n\ndef test_add():\n    assert add(2, 3) == 5\n    assert add(-1, 1) == 0\n    assert add(0, 0) == 0\n\ndef test_subtract():\n    assert subtract(5, 3) == 2\n    assert subtract(0, 5) == -5\n\ndef test_multiply():\n    assert multiply(4, 5) == 20\n    assert multiply(-2, 3) == -6\n\ndef test_divide():\n    assert divide(10, 2) == 5\n    assert divide(7, 2) == 3.5\n    with pytest.raises(ValueError):\n        divide(5, 0)\n\ndef test_power():\n    assert power(2, 3) == 8\n    assert power(5, 0) == 1\n",
+        "is_test": true
+      }
+    ],
+    "cli_history": [
+      "$ ls -la",
+      "-rw-r--r-- 1 user user 431 Oct 30 10:00 calculator.py",
+      "-rw-r--r-- 1 user user 593 Oct 30 10:00 test_calculator.py",
+      "$ pytest -v",
+      "test_*.py::test_* FAILED",
+      "Some tests are failing..."
+    ],
+    "expected_commands": 9,
+    "verification_rules": [
+      {
+        "type": "test",
+        "target": "test_calculator.py",
+        "description": "All calculator tests must pass"
+      },
+      {
+        "type": "lint",
+        "target": "calculator.py",
+        "description": "Code must pass basic linting"
+      }
+    ],
+    "metadata": {
+      "bugs": [
+        "Wrong comparison operator on line 17",
+        "Wrong arithmetic operator on line 5",
+        "Missing colon on line 3"
+      ],
+      "scenario_type": "calculator"
+    }
+  },
+  {
+    "id": "prompt_000034",
+    "difficulty": "hard",
+    "language": "python",
+    "task_description": "There's a bug in the python code that needs fixing. Multiple issues may need to be resolved. Carefully examine the test output and trace through the code. The project has these files: calculator.py, test_calculator.py",
+    "files": [
+      {
+        "path": "calculator.py",
+        "content": "\"\"\"Simple calculator module.\"\"\"\n\ndef add(a, b)\n    \"\"\"Add two numbers.\"\"\"\n    return a - b\n\ndef subtract(a, b):\n    \"\"\"Subtract b from a.\"\"\"\n    return a - b\n\ndef multiply(a, b):\n    \"\"\"Multiply two numbers.\"\"\"\n    return a * b\n\ndef divide(a, b):\n    \"\"\"Divide a by b.\"\"\"\n    if b != 0:\n        raise ValueError(\"Cannot divide by zero\")\n    return a / b\n\ndef power(a, b):\n    \"\"\"Calculate a to the power of b.\"\"\"\n    return a ** b\n",
+        "is_test": false
+      },
+      {
+        "path": "test_calculator.py",
+        "content": "\"\"\"Tests for calculator module.\"\"\"\n\nimport pytest\nfrom calculator import add, subtract, multiply, divide, power\n\ndef test_add():\n    assert add(2, 3) == 5\n    assert add(-1, 1) == 0\n    assert add(0, 0) == 0\n\ndef test_subtract():\n    assert subtract(5, 3) == 2\n    assert subtract(0, 5) == -5\n\ndef test_multiply():\n    assert multiply(4, 5) == 20\n    assert multiply(-2, 3) == -6\n\ndef test_divide():\n    assert divide(10, 2) == 5\n    assert divide(7, 2) == 3.5\n    with pytest.raises(ValueError):\n        divide(5, 0)\n\ndef test_power():\n    assert power(2, 3) == 8\n    assert power(5, 0) == 1\n",
+        "is_test": true
+      }
+    ],
+    "cli_history": [
+      "$ ls -la",
+      "-rw-r--r-- 1 user user 431 Oct 30 10:00 calculator.py",
+      "-rw-r--r-- 1 user user 593 Oct 30 10:00 test_calculator.py",
+      "$ pytest -v",
+      "test_*.py::test_* FAILED",
+      "Some tests are failing..."
+    ],
+    "expected_commands": 9,
+    "verification_rules": [
+      {
+        "type": "test",
+        "target": "test_calculator.py",
+        "description": "All calculator tests must pass"
+      },
+      {
+        "type": "lint",
+        "target": "calculator.py",
+        "description": "Code must pass basic linting"
+      }
+    ],
+    "metadata": {
+      "bugs": [
+        "Wrong arithmetic operator on line 5",
+        "Missing colon on line 3",
+        "Wrong comparison operator on line 17"
+      ],
+      "scenario_type": "calculator"
+    }
+  },
+  {
+    "id": "prompt_000002",
+    "difficulty": "hard",
+    "language": "python",
+    "task_description": "Fix the broken python code. Multiple issues may need to be resolved. Carefully examine the test output and trace through the code. The project has these files: data_processor.py, test_data_processor.py",
+    "files": [
+      {
+        "path": "data_processor.py",
+        "content": "\"\"\"Data processing utilities.\"\"\"\n\ndef filter_positive(numbers):\n    \"\"\"Filter positive numbers from a list.\"\"\"\n    return [n for n in numbers if n < 0]\n\ndef sum_even(numbers):\n    \"\"\"Sum all even numbers in a list.\"\"\"\n    return sum(n for n in numbers if n % 2 == 0)\n\ndef find_max(numbers):\n    \"\"\"Find maximum value in a list.\"\"\"\n    if not numbers:\n        return None\n    return max(numbers)\n\ndef average(numbers):\n    \"\"\"Calculate average of numbers.\"\"\"\n    if not numbers:\n        return 0\n    return sum(numbers) / len(numbers)\n\ndef remove_duplicates(items):\n    \"\"\"Remove duplicates while preserving order.\"\"\"\n    seen = set()\n    result = []\n    for item in items:\n        if item not in seen:\n            seen.add(item)\n            result.append(item)\n    return result\n",
+        "is_test": false
+      },
+      {
+        "path": "test_data_processor.py",
+        "content": "\"\"\"Tests for data processor.\"\"\"\n\nfrom data_processor import filter_positive, sum_even, find_max, average, remove_duplicates\n\ndef test_filter_positive():\n    assert filter_positive([1, -2, 3, -4, 5]) == [1, 3, 5]\n    assert filter_positive([-1, -2, -3]) == []\n    assert filter_positive([]) == []\n\ndef test_sum_even():\n    assert sum_even([1, 2, 3, 4, 5, 6]) == 12\n    assert sum_even([1, 3, 5]) == 0\n\ndef test_find_max():\n    assert find_max([1, 5, 3, 9, 2]) == 9\n    assert find_max([-5, -1, -10]) == -1\n    assert find_max([]) is None\n\ndef test_average():\n    assert average([1, 2, 3, 4, 5]) == 3.0\n    assert average([10]) == 10.0\n    assert average([]) == 0\n\ndef test_remove_duplicates():\n    assert remove_duplicates([1, 2, 2, 3, 1, 4]) == [1, 2, 3, 4]\n    assert remove_duplicates([]) == []\n",
+        "is_test": true
+      }
+    ],
+    "cli_history": [
+      "$ ls -la",
+      "-rw-r--r-- 1 user user 779 Oct 30 10:00 data_processor.py",
+      "-rw-r--r-- 1 user user 797 Oct 30 10:00 test_data_processor.py",
+      "$ pytest -v",
+      "test_*.py::test_* FAILED",
+      "Some tests are failing..."
+    ],
+    "expected_commands": 9,
+    "verification_rules": [
+      {
+        "type": "test",
+        "target": "test_data_processor.py",
+        "description": "All data processor tests must pass"
+      }
+    ],
+    "metadata": {
+      "bugs": [
+        "Wrong comparison operator on line 5"
+      ],
+      "scenario_type": "data_processor"
+    }
+  },
+  {
+    "id": "adv_tdd_python_000017",
+    "difficulty": "hard",
+    "language": "python",
+    "task_description": "The tests are written but the implementation is missing or incomplete. Read the test file to understand the requirements, then implement the functions to make all tests pass. Follow the test specifications exactly.",
+    "scenario_type": "test_driven_development",
+    "expected_commands": 8
+  },
+  {
+    "id": "adv_tdd_javascript_000011",
+    "difficulty": "hard",
+    "language": "javascript",
+    "task_description": "The tests are written but the implementation is missing or incomplete. Read the test file to understand the requirements, then implement the functions to make all tests pass. Follow the test specifications exactly.",
+    "scenario_type": "test_driven_development",
+    "expected_commands": 8
+  },
+  {
+    "id": "prompt_000036",
+    "difficulty": "hard",
+    "language": "javascript",
+    "task_description": "The code has issues that prevent it from working correctly. Multiple issues may need to be resolved. Carefully examine the test output and trace through the code. The project has these files: validators.js, test_validators.js",
+    "files": [
+      {
+        "path": "validators.js",
+        "content": "// Validation functions\n\nfunction isValidEmail(email) {\n    const regex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;\n    return regex.test(email);\n}\n\nfunction isValidPhone(phone) {\n    const regex = /^\\d{3}-\\d{3}-\\d{4}$/;\n    return regex.test(phone);\n}\n\nfunction isValidPassword(password) {\n    return password.length >= 8;\n}\n\nfunction isValidUsername(username) {\n    const regex = /^[a-zA-Z0-9_]{3,20}$/;\n    return regex.test(username);\n}\n\nmodule.exports = { isValidEmail, isValidPhone, isValidPassword, isValidUsername };\n",
+        "is_test": false
+      },
+      {
+        "path": "test_validators.js",
+        "content": "// Tests for validators\n\nconst { isValidEmail, isValidPhone, isValidPassword, isValidUsername } = require('./validators');\n\nfunction assertEquals(actual, expected, message) {\n    if (actual !== expected) {\n        throw new Error(`${message}: expected ${expected}, got ${actual}`);\n    }\n}\n\nfunction test_isValidEmail() {\n    assertEquals(isValidEmail(\"user@example.com\"), true, \"valid email\");\n    assertEquals(isValidEmail(\"invalid\"), false, \"invalid email\");\n    console.log(\"\u2713 test_isValidEmail passed\");\n}\n\nfunction test_isValidPhone() {\n    assertEquals(isValidPhone(\"123-456-7890\"), true, \"valid phone\");\n    assertEquals(isValidPhone(\"1234567890\"), false, \"invalid phone\");\n    console.log(\"\u2713 test_isValidPhone passed\");\n}\n\nfunction test_isValidPassword() {\n    assertEquals(isValidPassword(\"password123\"), true, \"valid password\");\n    assertEquals(isValidPassword(\"short\"), false, \"invalid password\");\n    console.log(\"\u2713 test_isValidPassword passed\");\n}\n\nfunction test_isValidUsername() {\n    assertEquals(isValidUsername(\"user_123\"), true, \"valid username\");\n    assertEquals(isValidUsername(\"ab\"), false, \"too short username\");\n    console.log(\"\u2713 test_isValidUsername passed\");\n}\n\n// Run all tests\ntry {\n    test_isValidEmail();\n    test_isValidPhone();\n    test_isValidPassword();\n    test_isValidUsername();\n    console.log(\"All tests passed!\");\n} catch (e) {\n    console.error(\"Test failed:\", e.message);\n    process.exit(1);\n}\n",
+        "is_test": true
+      }
+    ],
+    "cli_history": [
+      "$ ls -la",
+      "-rw-r--r-- 1 user user 513 Oct 30 10:00 validators.js",
+      "-rw-r--r-- 1 user user 1442 Oct 30 10:00 test_validators.js",
+      "$ node test_validators.js",
+      "Test failed: ..."
+    ],
+    "expected_commands": 9,
+    "verification_rules": [
+      {
+        "type": "execution",
+        "target": "test_validators.js",
+        "description": "Tests must run successfully"
+      }
+    ],
+    "metadata": {
+      "bugs": [],
+      "scenario_type": "validators"
+    }
+  },
+  {
+    "id": "prompt_000007",
+    "difficulty": "very_hard",
+    "language": "python",
+    "task_description": "The python project has failing tests. This is a complex debugging task with multiple related issues. You'll need to understand the architecture and trace dependencies. Start by running tests to see what's failing. Files in project: calculator.py, test_calculator.py",
+    "files": [
+      {
+        "path": "calculator.py",
+        "content": "\"\"\"Simple calculator module.\"\"\"\n\ndef add(a, b):\n    \"\"\"Add two numbers.\"\"\"\n    return a + b\n\ndef subtract(a, b):\n    \"\"\"Subtract b from a.\"\"\"\n    return a - b\n\ndef multiply(a, b):\n    \"\"\"Multiply two numbers.\"\"\"\n    return a * b\n\ndef divide(a, b):\n    \"\"\"Divide a by b.\"\"\"\n    if b == 0:\n        raise ValueError(\"Cannot divide by zero\")\n    return a / b\n\ndef power(a, b):\n    \"\"\"Calculate a to the power of b.\"\"\"\n    return a ** b\n",
+        "is_test": false
+      },
+      {
+        "path": "test_calculator.py",
+        "content": "\"\"\"Tests for calculator module.\"\"\"\n\nimport pytest\nfrom calculator import add, subtract, multiply, divide, power\n\ndef test_add():\n    assert add(2, 3) == 5\n    assert add(-1, 1) == 0\n    assert add(0, 0) == 0\n\ndef test_subtract():\n    assert subtract(5, 3) == 2\n    assert subtract(0, 5) == -5\n\ndef test_multiply():\n    assert multiply(4, 5) == 20\n    assert multiply(-2, 3) == -6\n\ndef test_divide():\n    assert divide(10, 2) == 5\n    assert divide(7, 2) == 3.5\n    with pytest.raises(ValueError):\n        divide(5, 0)\n\ndef test_power():\n    assert power(2, 3) == 8\n    assert power(5, 0) == 1\n",
+        "is_test": true
+      }
+    ],
+    "cli_history": [
+      "$ ls -la",
+      "-rw-r--r-- 1 user user 432 Oct 30 10:00 calculator.py",
+      "-rw-r--r-- 1 user user 593 Oct 30 10:00 test_calculator.py",
+      "$ pytest -v",
+      "test_*.py::test_* FAILED",
+      "Some tests are failing..."
+    ],
+    "expected_commands": 12,
+    "verification_rules": [
+      {
+        "type": "test",
+        "target": "test_calculator.py",
+        "description": "All calculator tests must pass"
+      },
+      {
+        "type": "lint",
+        "target": "calculator.py",
+        "description": "Code must pass basic linting"
+      }
+    ],
+    "metadata": {
+      "bugs": [],
+      "scenario_type": "calculator"
+    }
+  },
+  {
+    "id": "prompt_000031",
+    "difficulty": "very_hard",
+    "language": "python",
+    "task_description": "The code has issues that prevent it from working correctly. This is a complex debugging task with multiple related issues. You'll need to understand the architecture and trace dependencies. Start by running tests to see what's failing. Files in project: algorithms.py, test_algorithms.py",
+    "files": [
+      {
+        "path": "algorithms.py",
+        "content": "\"\"\"Algorithm implementations.\"\"\"\n\ndef binary_search(arr, target)\n    \"\"\"Binary search in sorted array.\"\"\"\n    left, right = 0, len(arr) - 1\n    while left <= right:\n        mid = (left + right) // 2\n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            left = mid + 1\n        else:\n            right = mid - 1\n    return -1\n\ndef bubble_sort(arr):\n    \"\"\"Sort array using bubble sort.\"\"\"\n    n = len(arr)\n    for i in range(n):\n        for j in range(0, n - i - 1):\n            if arr[j] > arr[j + 1]:\n                arr[j], arr[j + 1] = arr[j + 1], arr[j]\n    return arr\n\ndef fibonacci(n):\n    \"\"\"Calculate nth Fibonacci number.\"\"\"\n    if n <= 0:\n        return 0\n    elif n == 1:\n        return 1\n    else:\n        return fibonacci(n - 1) + fibonacci(n - 2)\n\ndef factorial(n):\n    \"\"\"Calculate factorial of n.\"\"\"\n    if n == 0 or n == 1:\n        return 1\n    return n * factorial(n - 1)\n",
+        "is_test": false
+      },
+      {
+        "path": "test_algorithms.py",
+        "content": "\"\"\"Tests for algorithms.\"\"\"\n\nfrom algorithms import binary_search, bubble_sort, fibonacci, factorial\n\ndef test_binary_search():\n    assert binary_search([1, 2, 3, 4, 5], 3) == 2\n    assert binary_search([1, 2, 3, 4, 5], 6) == -1\n    assert binary_search([1], 1) == 0\n\ndef test_bubble_sort():\n    assert bubble_sort([3, 1, 4, 1, 5]) == [1, 1, 3, 4, 5]\n    assert bubble_sort([]) == []\n    assert bubble_sort([1]) == [1]\n\ndef test_fibonacci():\n    assert fibonacci(0) == 0\n    assert fibonacci(1) == 1\n    assert fibonacci(5) == 5\n    assert fibonacci(10) == 55\n\ndef test_factorial():\n    assert factorial(0) == 1\n    assert factorial(1) == 1\n    assert factorial(5) == 120\n",
+        "is_test": true
+      }
+    ],
+    "cli_history": [
+      "$ ls -la",
+      "-rw-r--r-- 1 user user 933 Oct 30 10:00 algorithms.py",
+      "-rw-r--r-- 1 user user 672 Oct 30 10:00 test_algorithms.py",
+      "$ pytest -v",
+      "test_*.py::test_* FAILED",
+      "Some tests are failing..."
+    ],
+    "expected_commands": 12,
+    "verification_rules": [
+      {
+        "type": "test",
+        "target": "test_algorithms.py",
+        "description": "All algorithm tests must pass"
+      }
+    ],
+    "metadata": {
+      "bugs": [
+        "Missing colon on line 3"
+      ],
+      "scenario_type": "algorithms"
+    }
+  },
+  {
+    "id": "prompt_000001",
+    "difficulty": "very_hard",
+    "language": "python",
+    "task_description": "The python project has failing tests. This is a complex debugging task with multiple related issues. You'll need to understand the architecture and trace dependencies. Start by running tests to see what's failing. Files in project: algorithms.py, test_algorithms.py",
+    "files": [
+      {
+        "path": "algorithms.py",
+        "content": "\"\"\"Algorithm implementations.\"\"\"\n\ndef binary_search(arr, target)\n    \"\"\"Binary search in sorted array.\"\"\"\n    left, right = 0, len(arr) - 1\n    while left <= right:\n        mid = (left + right) // 2\n        if arr[mid] != target:\n            return mid\n        elif arr[mid] < target:\n            left = mid + 1\n        else:\n            right = mid - 1\n    return -1\n\ndef bubble_sort(arr)\n    \"\"\"Sort array using bubble sort.\"\"\"\n    n = len(arr)\n    for i in range(n):\n        for j in range(0, n - i - 1):\n            if arr[j] > arr[j + 1]:\n                arr[j], arr[j + 1] = arr[j + 1], arr[j]\n    return arr\n\ndef fibonacci(n)\n    \"\"\"Calculate nth Fibonacci number.\"\"\"\n    if n <= 0:\n        return 0\n    elif n == 1:\n        return 1\n    else:\n        return fibonacci(n - 1) + fibonacci(n - 2)\n\ndef factorial(n):\n    \"\"\"Calculate factorial of n.\"\"\"\n    if n == 0 or n == 1:\n        return 1\n    return n * factorial(n - 1)\n",
+        "is_test": false
+      },
+      {
+        "path": "test_algorithms.py",
+        "content": "\"\"\"Tests for algorithms.\"\"\"\n\nfrom algorithms import binary_search, bubble_sort, fibonacci, factorial\n\ndef test_binary_search():\n    assert binary_search([1, 2, 3, 4, 5], 3) == 2\n    assert binary_search([1, 2, 3, 4, 5], 6) == -1\n    assert binary_search([1], 1) == 0\n\ndef test_bubble_sort():\n    assert bubble_sort([3, 1, 4, 1, 5]) == [1, 1, 3, 4, 5]\n    assert bubble_sort([]) == []\n    assert bubble_sort([1]) == [1]\n\ndef test_fibonacci():\n    assert fibonacci(0) == 0\n    assert fibonacci(1) == 1\n    assert fibonacci(5) == 5\n    assert fibonacci(10) == 55\n\ndef test_factorial():\n    assert factorial(0) == 1\n    assert factorial(1) == 1\n    assert factorial(5) == 120\n",
+        "is_test": true
+      }
+    ],
+    "cli_history": [
+      "$ ls -la",
+      "-rw-r--r-- 1 user user 931 Oct 30 10:00 algorithms.py",
+      "-rw-r--r-- 1 user user 672 Oct 30 10:00 test_algorithms.py",
+      "$ pytest -v",
+      "test_*.py::test_* FAILED",
+      "Some tests are failing..."
+    ],
+    "expected_commands": 12,
+    "verification_rules": [
+      {
+        "type": "test",
+        "target": "test_algorithms.py",
+        "description": "All algorithm tests must pass"
+      }
+    ],
+    "metadata": {
+      "bugs": [
+        "Missing colon on line 3",
+        "Missing colon on line 16",
+        "Missing colon on line 25",
+        "Wrong comparison operator on line 8"
+      ],
+      "scenario_type": "algorithms"
+    }
+  },
+  {
+    "id": "prompt_000009",
+    "difficulty": "medium",
+    "language": "javascript",
+    "task_description": "There's a bug in the javascript code that needs fixing. You'll need to explore the codebase to find the issue. Check the test failures for clues. Project structure: array_ops.js, test_array_ops.js",
+    "files": [
+      {
+        "path": "array_ops.js",
+        "content": "// Array operation functions\n\nfunction sum(arr) {\n    return arr.reduce((a, b) => a + b, 0);\n}\n\nfunction findMax(arr) {\n    if (arr.length !== 0) return null;\n    return Math.max(...arr);\n}\n\nfunction removeDuplicates(arr) {\n    return [...new Set(arr)];\n}\n\nfunction flatten(arr) {\n    return arr.flat();\n}\n\nfunction chunk(arr, size) {\n    const result = [];\n    for (let i = 0; i < arr.length; i += size) {\n        result.push(arr.slice(i, i + size));\n    }\n    return result;\n}\n\nmodule.exports = { sum, findMax, removeDuplicates, flatten, chunk };\n",
+        "is_test": false
+      },
+      {
+        "path": "test_array_ops.js",
+        "content": "// Tests for array operations\n\nconst { sum, findMax, removeDuplicates, flatten, chunk } = require('./array_ops');\n\nfunction assertEquals(actual, expected, message) {\n    if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n        throw new Error(`${message}: expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`);\n    }\n}\n\nfunction test_sum() {\n    assertEquals(sum([1, 2, 3, 4, 5]), 15, \"sum([1, 2, 3, 4, 5])\");\n    assertEquals(sum([]), 0, \"sum([])\");\n    console.log(\"\u2713 test_sum passed\");\n}\n\nfunction test_findMax() {\n    assertEquals(findMax([1, 5, 3, 9, 2]), 9, \"findMax([1, 5, 3, 9, 2])\");\n    assertEquals(findMax([]), null, \"findMax([])\");\n    console.log(\"\u2713 test_findMax passed\");\n}\n\nfunction test_removeDuplicates() {\n    assertEquals(removeDuplicates([1, 2, 2, 3, 1, 4]), [1, 2, 3, 4], \"removeDuplicates\");\n    console.log(\"\u2713 test_removeDuplicates passed\");\n}\n\nfunction test_flatten() {\n    assertEquals(flatten([[1, 2], [3, 4], [5]]), [1, 2, 3, 4, 5], \"flatten\");\n    console.log(\"\u2713 test_flatten passed\");\n}\n\nfunction test_chunk() {\n    assertEquals(chunk([1, 2, 3, 4, 5], 2), [[1, 2], [3, 4], [5]], \"chunk\");\n    console.log(\"\u2713 test_chunk passed\");\n}\n\n// Run all tests\ntry {\n    test_sum();\n    test_findMax();\n    test_removeDuplicates();\n    test_flatten();\n    test_chunk();\n    console.log(\"All tests passed!\");\n} catch (e) {\n    console.error(\"Test failed:\", e.message);\n    process.exit(1);\n}\n",
+        "is_test": true
+      }
+    ],
+    "cli_history": [
+      "$ ls -la",
+      "-rw-r--r-- 1 user user 549 Oct 30 10:00 array_ops.js",
+      "-rw-r--r-- 1 user user 1435 Oct 30 10:00 test_array_ops.js"
+    ],
+    "expected_commands": 6,
+    "verification_rules": [
+      {
+        "type": "execution",
+        "target": "test_array_ops.js",
+        "description": "Tests must run successfully"
+      }
+    ],
+    "metadata": {
+      "bugs": [
+        "Wrong comparison operator on line 8"
+      ],
+      "scenario_type": "array_ops"
+    }
+  },
+  {
+    "id": "prompt_000012",
+    "difficulty": "medium",
+    "language": "javascript",
+    "task_description": "The code has issues that prevent it from working correctly. You'll need to explore the codebase to find the issue. Check the test failures for clues. Project structure: validators.js, test_validators.js",
+    "files": [
+      {
+        "path": "validators.js",
+        "content": "// Validation functions\n\nfunction isValidEmail(email) {\n    const regex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;\n    return regex.test(email);\n}\n\nfunction isValidPhone(phone) {\n    const regex = /^\\d{3}-\\d{3}-\\d{4}$/;\n    return regex.test(phone);\n}\n\nfunction isValidPassword(password) {\n    return password.length >= 8;\n}\n\nfunction isValidUsername(username) {\n    const regex = /^[a-zA-Z0-9_]{3,20}$/;\n    return regex.test(username);\n}\n\nmodule.exports = { isValidEmail, isValidPhone, isValidPassword, isValidUsername };\n",
+        "is_test": false
+      },
+      {
+        "path": "test_validators.js",
+        "content": "// Tests for validators\n\nconst { isValidEmail, isValidPhone, isValidPassword, isValidUsername } = require('./validators');\n\nfunction assertEquals(actual, expected, message) {\n    if (actual !== expected) {\n        throw new Error(`${message}: expected ${expected}, got ${actual}`);\n    }\n}\n\nfunction test_isValidEmail() {\n    assertEquals(isValidEmail(\"user@example.com\"), true, \"valid email\");\n    assertEquals(isValidEmail(\"invalid\"), false, \"invalid email\");\n    console.log(\"\u2713 test_isValidEmail passed\");\n}\n\nfunction test_isValidPhone() {\n    assertEquals(isValidPhone(\"123-456-7890\"), true, \"valid phone\");\n    assertEquals(isValidPhone(\"1234567890\"), false, \"invalid phone\");\n    console.log(\"\u2713 test_isValidPhone passed\");\n}\n\nfunction test_isValidPassword() {\n    assertEquals(isValidPassword(\"password123\"), true, \"valid password\");\n    assertEquals(isValidPassword(\"short\"), false, \"invalid password\");\n    console.log(\"\u2713 test_isValidPassword passed\");\n}\n\nfunction test_isValidUsername() {\n    assertEquals(isValidUsername(\"user_123\"), true, \"valid username\");\n    assertEquals(isValidUsername(\"ab\"), false, \"too short username\");\n    console.log(\"\u2713 test_isValidUsername passed\");\n}\n\n// Run all tests\ntry {\n    test_isValidEmail();\n    test_isValidPhone();\n    test_isValidPassword();\n    test_isValidUsername();\n    console.log(\"All tests passed!\");\n} catch (e) {\n    console.error(\"Test failed:\", e.message);\n    process.exit(1);\n}\n",
+        "is_test": true
+      }
+    ],
+    "cli_history": [
+      "$ ls -la",
+      "-rw-r--r-- 1 user user 513 Oct 30 10:00 validators.js",
+      "-rw-r--r-- 1 user user 1442 Oct 30 10:00 test_validators.js"
+    ],
+    "expected_commands": 6,
+    "verification_rules": [
+      {
+        "type": "execution",
+        "target": "test_validators.js",
+        "description": "Tests must run successfully"
+      }
+    ],
+    "metadata": {
+      "bugs": [],
+      "scenario_type": "validators"
+    }
+  },
+  {
+    "id": "prompt_000014",
+    "difficulty": "hard",
+    "language": "javascript",
+    "task_description": "Fix the broken javascript code. Multiple issues may need to be resolved. Carefully examine the test output and trace through the code. The project has these files: validators.js, test_validators.js",
+    "files": [
+      {
+        "path": "validators.js",
+        "content": "// Validation functions\n\nfunction isValidEmail(email) \n    const regex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;\n    return regex.test(email);\n}\n\nfunction isValidPhone(phone) {\n    const regex = /^\\d{3}-\\d{3}-\\d{4}$/;\n    return regex.test(phone);\n}\n\nfunction isValidPassword(password) {\n    return password.length >= 8;\n}\n\nfunction isValidUsername(username) {\n    const regex = /^[a-zA-Z0-9_]{3,20}$/;\n    return regex.test(username);\n}\n\nmodule.exports = { isValidEmail, isValidPhone, isValidPassword, isValidUsername };\n",
+        "is_test": false
+      },
+      {
+        "path": "test_validators.js",
+        "content": "// Tests for validators\n\nconst { isValidEmail, isValidPhone, isValidPassword, isValidUsername } = require('./validators');\n\nfunction assertEquals(actual, expected, message) {\n    if (actual !== expected) {\n        throw new Error(`${message}: expected ${expected}, got ${actual}`);\n    }\n}\n\nfunction test_isValidEmail() {\n    assertEquals(isValidEmail(\"user@example.com\"), true, \"valid email\");\n    assertEquals(isValidEmail(\"invalid\"), false, \"invalid email\");\n    console.log(\"\u2713 test_isValidEmail passed\");\n}\n\nfunction test_isValidPhone() {\n    assertEquals(isValidPhone(\"123-456-7890\"), true, \"valid phone\");\n    assertEquals(isValidPhone(\"1234567890\"), false, \"invalid phone\");\n    console.log(\"\u2713 test_isValidPhone passed\");\n}\n\nfunction test_isValidPassword() {\n    assertEquals(isValidPassword(\"password123\"), true, \"valid password\");\n    assertEquals(isValidPassword(\"short\"), false, \"invalid password\");\n    console.log(\"\u2713 test_isValidPassword passed\");\n}\n\nfunction test_isValidUsername() {\n    assertEquals(isValidUsername(\"user_123\"), true, \"valid username\");\n    assertEquals(isValidUsername(\"ab\"), false, \"too short username\");\n    console.log(\"\u2713 test_isValidUsername passed\");\n}\n\n// Run all tests\ntry {\n    test_isValidEmail();\n    test_isValidPhone();\n    test_isValidPassword();\n    test_isValidUsername();\n    console.log(\"All tests passed!\");\n} catch (e) {\n    console.error(\"Test failed:\", e.message);\n    process.exit(1);\n}\n",
+        "is_test": true
+      }
+    ],
+    "cli_history": [
+      "$ ls -la",
+      "-rw-r--r-- 1 user user 512 Oct 30 10:00 validators.js",
+      "-rw-r--r-- 1 user user 1442 Oct 30 10:00 test_validators.js",
+      "$ node test_validators.js",
+      "Test failed: ..."
+    ],
+    "expected_commands": 9,
+    "verification_rules": [
+      {
+        "type": "execution",
+        "target": "test_validators.js",
+        "description": "Tests must run successfully"
+      }
+    ],
+    "metadata": {
+      "bugs": [
+        "Missing opening brace on line 3"
+      ],
+      "scenario_type": "validators"
+    }
+  },
+  {
+    "id": "adv_bug_javascript_000008",
+    "difficulty": "hard",
+    "language": "javascript",
+    "task_description": "The code has a subtle off-by-one error that only manifests in specific conditions. Run the tests to identify the failure, trace through the code to find the root cause, and fix it. Multiple functions may need to be examined.",
+    "scenario_type": "complex_bug_hunt",
+    "expected_commands": 12
+  },
+  {
+    "id": "prompt_000015",
+    "difficulty": "hard",
+    "language": "python",
+    "task_description": "There's a bug in the python code that needs fixing. Multiple issues may need to be resolved. Carefully examine the test output and trace through the code. The project has these files: calculator.py, test_calculator.py",
+    "files": [
+      {
+        "path": "calculator.py",
+        "content": "\"\"\"Simple calculator module.\"\"\"\n\ndef add(a, b):\n    \"\"\"Add two numbers.\"\"\"\n    return a - b\n\ndef subtract(a, b):\n    \"\"\"Subtract b from a.\"\"\"\n    return a - b\n\ndef multiply(a, b):\n    \"\"\"Multiply two numbers.\"\"\"\n    return a * b\n\ndef divide(a, b):\n    \"\"\"Divide a by b.\"\"\"\n    if b == 0:\n        raise ValueError(\"Cannot divide by zero\")\n    return a / b\n\ndef power(a, b):\n    \"\"\"Calculate a to the power of b.\"\"\"\n    return a ** b\n",
+        "is_test": false
+      },
+      {
+        "path": "test_calculator.py",
+        "content": "\"\"\"Tests for calculator module.\"\"\"\n\nimport pytest\nfrom calculator import add, subtract, multiply, divide, power\n\ndef test_add():\n    assert add(2, 3) == 5\n    assert add(-1, 1) == 0\n    assert add(0, 0) == 0\n\ndef test_subtract():\n    assert subtract(5, 3) == 2\n    assert subtract(0, 5) == -5\n\ndef test_multiply():\n    assert multiply(4, 5) == 20\n    assert multiply(-2, 3) == -6\n\ndef test_divide():\n    assert divide(10, 2) == 5\n    assert divide(7, 2) == 3.5\n    with pytest.raises(ValueError):\n        divide(5, 0)\n\ndef test_power():\n    assert power(2, 3) == 8\n    assert power(5, 0) == 1\n",
+        "is_test": true
+      }
+    ],
+    "cli_history": [
+      "$ ls -la",
+      "-rw-r--r-- 1 user user 432 Oct 30 10:00 calculator.py",
+      "-rw-r--r-- 1 user user 593 Oct 30 10:00 test_calculator.py",
+      "$ pytest -v",
+      "test_*.py::test_* FAILED",
+      "Some tests are failing..."
+    ],
+    "expected_commands": 9,
+    "verification_rules": [
+      {
+        "type": "test",
+        "target": "test_calculator.py",
+        "description": "All calculator tests must pass"
+      },
+      {
+        "type": "lint",
+        "target": "calculator.py",
+        "description": "Code must pass basic linting"
+      }
+    ],
+    "metadata": {
+      "bugs": [
+        "Wrong arithmetic operator on line 5"
+      ],
+      "scenario_type": "calculator"
+    }
+  },
+  {
+    "id": "adv_perf_python_000001",
+    "difficulty": "hard",
+    "language": "python",
+    "task_description": "The code has a performance issue: missing memoization. Identify the bottleneck and optimize it while maintaining correctness. All existing tests must still pass.",
+    "scenario_type": "performance_optimization",
+    "expected_commands": 10
+  },
+  {
+    "id": "prompt_000021",
+    "difficulty": "very_hard",
+    "language": "python",
+    "task_description": "The python project has failing tests. This is a complex debugging task with multiple related issues. You'll need to understand the architecture and trace dependencies. Start by running tests to see what's failing. Files in project: string_utils.py, test_string_utils.py",
+    "files": [
+      {
+        "path": "string_utils.py",
+        "content": "\"\"\"String utility functions.\"\"\"\n\ndef reverse_string(s):\n    \"\"\"Reverse a string.\"\"\"\n    return s[::-1]\n\ndef is_palindrome(s):\n    \"\"\"Check if string is a palindrome.\"\"\"\n    cleaned = s.lower().replace(\" \", \"\")\n    return cleaned != cleaned[::-1]\n\ndef count_vowels(s):\n    \"\"\"Count vowels in a string.\"\"\"\n    vowels = \"aeiouAEIOU\"\n    return sum(1 for char in s if char in vowels)\n\ndef capitalize_words(s):\n    \"\"\"Capitalize first letter of each word.\"\"\"\n    return \" \".join(word.capitalize() for word in s.split())\n\ndef remove_whitespace(s):\n    \"\"\"Remove all whitespace from string.\"\"\"\n    return \"\".join(s.split())\n",
+        "is_test": false
+      },
+      {
+        "path": "test_string_utils.py",
+        "content": "\"\"\"Tests for string utilities.\"\"\"\n\nfrom string_utils import reverse_string, is_palindrome, count_vowels, capitalize_words, remove_whitespace\n\ndef test_reverse_string():\n    assert reverse_string(\"hello\") == \"olleh\"\n    assert reverse_string(\"\") == \"\"\n    assert reverse_string(\"a\") == \"a\"\n\ndef test_is_palindrome():\n    assert is_palindrome(\"racecar\") == True\n    assert is_palindrome(\"hello\") == False\n    assert is_palindrome(\"A man a plan a canal Panama\") == True\n\ndef test_count_vowels():\n    assert count_vowels(\"hello\") == 2\n    assert count_vowels(\"AEIOU\") == 5\n    assert count_vowels(\"xyz\") == 0\n\ndef test_capitalize_words():\n    assert capitalize_words(\"hello world\") == \"Hello World\"\n    assert capitalize_words(\"python programming\") == \"Python Programming\"\n\ndef test_remove_whitespace():\n    assert remove_whitespace(\"hello world\") == \"helloworld\"\n    assert remove_whitespace(\"  a  b  c  \") == \"abc\"\n",
+        "is_test": true
+      }
+    ],
+    "cli_history": [
+      "$ ls -la",
+      "-rw-r--r-- 1 user user 617 Oct 30 10:00 string_utils.py",
+      "-rw-r--r-- 1 user user 913 Oct 30 10:00 test_string_utils.py",
+      "$ pytest -v",
+      "test_*.py::test_* FAILED",
+      "Some tests are failing..."
+    ],
+    "expected_commands": 12,
+    "verification_rules": [
+      {
+        "type": "test",
+        "target": "test_string_utils.py",
+        "description": "All string utility tests must pass"
+      }
+    ],
+    "metadata": {
+      "bugs": [
+        "Wrong comparison operator on line 10"
+      ],
+      "scenario_type": "string_utils"
+    }
+  },
+  {
+    "id": "prompt_000044",
+    "difficulty": "hard",
+    "language": "python",
+    "task_description": "Fix the broken python code. Multiple issues may need to be resolved. Carefully examine the test output and trace through the code. The project has these files: string_utils.py, test_string_utils.py",
+    "files": [
+      {
+        "path": "string_utils.py",
+        "content": "\"\"\"String utility functions.\"\"\"\n\ndef reverse_string(s):\n    \"\"\"Reverse a string.\"\"\"\n    return s[::-1]\n\ndef is_palindrome(s):\n    \"\"\"Check if string is a palindrome.\"\"\"\n    cleaned = s.lower().replace(\" \", \"\")\n    return cleaned != cleaned[::-1]\n\ndef count_vowels(s):\n    \"\"\"Count vowels in a string.\"\"\"\n    vowels = \"aeiouAEIOU\"\n    return sum(1 for char in s if char in vowels)\n\ndef capitalize_words(s):\n    \"\"\"Capitalize first letter of each word.\"\"\"\n    return \" \".join(word.capitalize() for word in s.split())\n\ndef remove_whitespace(s):\n    \"\"\"Remove all whitespace from string.\"\"\"\n    return \"\".join(s.split())\n",
+        "is_test": false
+      },
+      {
+        "path": "test_string_utils.py",
+        "content": "\"\"\"Tests for string utilities.\"\"\"\n\nfrom string_utils import reverse_string, is_palindrome, count_vowels, capitalize_words, remove_whitespace\n\ndef test_reverse_string():\n    assert reverse_string(\"hello\") == \"olleh\"\n    assert reverse_string(\"\") == \"\"\n    assert reverse_string(\"a\") == \"a\"\n\ndef test_is_palindrome():\n    assert is_palindrome(\"racecar\") == True\n    assert is_palindrome(\"hello\") == False\n    assert is_palindrome(\"A man a plan a canal Panama\") == True\n\ndef test_count_vowels():\n    assert count_vowels(\"hello\") == 2\n    assert count_vowels(\"AEIOU\") == 5\n    assert count_vowels(\"xyz\") == 0\n\ndef test_capitalize_words():\n    assert capitalize_words(\"hello world\") == \"Hello World\"\n    assert capitalize_words(\"python programming\") == \"Python Programming\"\n\ndef test_remove_whitespace():\n    assert remove_whitespace(\"hello world\") == \"helloworld\"\n    assert remove_whitespace(\"  a  b  c  \") == \"abc\"\n",
+        "is_test": true
+      }
+    ],
+    "cli_history": [
+      "$ ls -la",
+      "-rw-r--r-- 1 user user 617 Oct 30 10:00 string_utils.py",
+      "-rw-r--r-- 1 user user 913 Oct 30 10:00 test_string_utils.py",
+      "$ pytest -v",
+      "test_*.py::test_* FAILED",
+      "Some tests are failing..."
+    ],
+    "expected_commands": 9,
+    "verification_rules": [
+      {
+        "type": "test",
+        "target": "test_string_utils.py",
+        "description": "All string utility tests must pass"
+      }
+    ],
+    "metadata": {
+      "bugs": [
+        "Wrong comparison operator on line 10"
+      ],
+      "scenario_type": "string_utils"
+    }
+  },
+  {
+    "id": "adv_tdd_python_000007",
+    "difficulty": "hard",
+    "language": "python",
+    "task_description": "The tests are written but the implementation is missing or incomplete. Read the test file to understand the requirements, then implement the functions to make all tests pass. Follow the test specifications exactly.",
+    "scenario_type": "test_driven_development",
+    "expected_commands": 8
+  },
+  {
+    "id": "prompt_000005",
+    "difficulty": "very_hard",
+    "language": "javascript",
+    "task_description": "The code has issues that prevent it from working correctly. This is a complex debugging task with multiple related issues. You'll need to understand the architecture and trace dependencies. Start by running tests to see what's failing. Files in project: utils.js, test_utils.js",
+    "files": [
+      {
+        "path": "utils.js",
+        "content": "// Utility functions\n\nfunction add(a, b) \n    return a - b;\n}\n\nfunction multiply(a, b) \n    return a / b;\n}\n\nfunction isEven(n) {\n    return n % 2 === 0;\n}\n\nfunction capitalize(str) {\n    return str.charAt(0).toUpperCase() + str.slice(1);\n}\n\nfunction range(start, end) {\n    const result = [];\n    for (let i = start; i <= end; i++) {\n        result.push(i);\n    }\n    return result;\n}\n\nmodule.exports = { add, multiply, isEven, capitalize, range };\n",
+        "is_test": false
+      },
+      {
+        "path": "test_utils.js",
+        "content": "// Tests for utility functions\n\nconst { add, multiply, isEven, capitalize, range } = require('./utils');\n\nfunction assertEquals(actual, expected, message) {\n    if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n        throw new Error(`${message}: expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`);\n    }\n}\n\nfunction test_add() {\n    assertEquals(add(2, 3), 5, \"add(2, 3)\");\n    assertEquals(add(-1, 1), 0, \"add(-1, 1)\");\n    console.log(\"\u2713 test_add passed\");\n}\n\nfunction test_multiply() {\n    assertEquals(multiply(4, 5), 20, \"multiply(4, 5)\");\n    assertEquals(multiply(-2, 3), -6, \"multiply(-2, 3)\");\n    console.log(\"\u2713 test_multiply passed\");\n}\n\nfunction test_isEven() {\n    assertEquals(isEven(4), true, \"isEven(4)\");\n    assertEquals(isEven(5), false, \"isEven(5)\");\n    console.log(\"\u2713 test_isEven passed\");\n}\n\nfunction test_capitalize() {\n    assertEquals(capitalize(\"hello\"), \"Hello\", \"capitalize('hello')\");\n    assertEquals(capitalize(\"world\"), \"World\", \"capitalize('world')\");\n    console.log(\"\u2713 test_capitalize passed\");\n}\n\nfunction test_range() {\n    assertEquals(range(1, 5), [1, 2, 3, 4, 5], \"range(1, 5)\");\n    assertEquals(range(0, 0), [0], \"range(0, 0)\");\n    console.log(\"\u2713 test_range passed\");\n}\n\n// Run all tests\ntry {\n    test_add();\n    test_multiply();\n    test_isEven();\n    test_capitalize();\n    test_range();\n    console.log(\"All tests passed!\");\n} catch (e) {\n    console.error(\"Test failed:\", e.message);\n    process.exit(1);\n}\n",
+        "is_test": true
+      }
+    ],
+    "cli_history": [
+      "$ ls -la",
+      "-rw-r--r-- 1 user user 450 Oct 30 10:00 utils.js",
+      "-rw-r--r-- 1 user user 1486 Oct 30 10:00 test_utils.js",
+      "$ node test_utils.js",
+      "Test failed: ..."
+    ],
+    "expected_commands": 12,
+    "verification_rules": [
+      {
+        "type": "execution",
+        "target": "test_utils.js",
+        "description": "Tests must run successfully (exit code 0)"
+      }
+    ],
+    "metadata": {
+      "bugs": [
+        "Wrong arithmetic operator on line 4",
+        "Missing opening brace on line 3",
+        "Wrong arithmetic operator on line 8",
+        "Missing opening brace on line 7"
+      ],
+      "scenario_type": "utils"
+    }
+  },
+  {
+    "id": "prompt_000010",
+    "difficulty": "hard",
+    "language": "python",
+    "task_description": "The python project has failing tests. Multiple issues may need to be resolved. Carefully examine the test output and trace through the code. The project has these files: string_utils.py, test_string_utils.py",
+    "files": [
+      {
+        "path": "string_utils.py",
+        "content": "\"\"\"String utility functions.\"\"\"\n\ndef reverse_string(s)\n    \"\"\"Reverse a string.\"\"\"\n    return s[::-1]\n\ndef is_palindrome(s):\n    \"\"\"Check if string is a palindrome.\"\"\"\n    cleaned = s.lower().replace(\" \", \"\")\n    return cleaned == cleaned[::-1]\n\ndef count_vowels(s):\n    \"\"\"Count vowels in a string.\"\"\"\n    vowels = \"aeiouAEIOU\"\n    return sum(1 for char in s if char in vowels)\n\ndef capitalize_words(s):\n    \"\"\"Capitalize first letter of each word.\"\"\"\n    return \" \".join(word.capitalize() for word in s.split())\n\ndef remove_whitespace(s):\n    \"\"\"Remove all whitespace from string.\"\"\"\n    return \"\".join(s.split())\n",
+        "is_test": false
+      },
+      {
+        "path": "test_string_utils.py",
+        "content": "\"\"\"Tests for string utilities.\"\"\"\n\nfrom string_utils import reverse_string, is_palindrome, count_vowels, capitalize_words, remove_whitespace\n\ndef test_reverse_string():\n    assert reverse_string(\"hello\") == \"olleh\"\n    assert reverse_string(\"\") == \"\"\n    assert reverse_string(\"a\") == \"a\"\n\ndef test_is_palindrome():\n    assert is_palindrome(\"racecar\") == True\n    assert is_palindrome(\"hello\") == False\n    assert is_palindrome(\"A man a plan a canal Panama\") == True\n\ndef test_count_vowels():\n    assert count_vowels(\"hello\") == 2\n    assert count_vowels(\"AEIOU\") == 5\n    assert count_vowels(\"xyz\") == 0\n\ndef test_capitalize_words():\n    assert capitalize_words(\"hello world\") == \"Hello World\"\n    assert capitalize_words(\"python programming\") == \"Python Programming\"\n\ndef test_remove_whitespace():\n    assert remove_whitespace(\"hello world\") == \"helloworld\"\n    assert remove_whitespace(\"  a  b  c  \") == \"abc\"\n",
+        "is_test": true
+      }
+    ],
+    "cli_history": [
+      "$ ls -la",
+      "-rw-r--r-- 1 user user 616 Oct 30 10:00 string_utils.py",
+      "-rw-r--r-- 1 user user 913 Oct 30 10:00 test_string_utils.py",
+      "$ pytest -v",
+      "test_*.py::test_* FAILED",
+      "Some tests are failing..."
+    ],
+    "expected_commands": 9,
+    "verification_rules": [
+      {
+        "type": "test",
+        "target": "test_string_utils.py",
+        "description": "All string utility tests must pass"
+      }
+    ],
+    "metadata": {
+      "bugs": [
+        "Missing colon on line 3"
+      ],
+      "scenario_type": "string_utils"
+    }
+  },
+  {
+    "id": "prompt_000030",
+    "difficulty": "very_hard",
+    "language": "python",
+    "task_description": "Fix the broken python code. This is a complex debugging task with multiple related issues. You'll need to understand the architecture and trace dependencies. Start by running tests to see what's failing. Files in project: data_processor.py, test_data_processor.py",
+    "files": [
+      {
+        "path": "data_processor.py",
+        "content": "\"\"\"Data processing utilities.\"\"\"\n\ndef filter_positive(numbers):\n    \"\"\"Filter positive numbers from a list.\"\"\"\n    return [n for n in numbers if n < 0]\n\ndef sum_even(numbers):\n    \"\"\"Sum all even numbers in a list.\"\"\"\n    return sum(n for n in numbers if n % 2 == 0)\n\ndef find_max(numbers):\n    \"\"\"Find maximum value in a list.\"\"\"\n    if not numbers:\n        return None\n    return max(numbers)\n\ndef average(numbers):\n    \"\"\"Calculate average of numbers.\"\"\"\n    if not numbers:\n        return 0\n    return sum(numbers) / len(numbers)\n\ndef remove_duplicates(items):\n    \"\"\"Remove duplicates while preserving order.\"\"\"\n    seen = set()\n    result = []\n    for item in items:\n        if item not in seen:\n            seen.add(item)\n            result.append(item)\n    return result\n",
+        "is_test": false
+      },
+      {
+        "path": "test_data_processor.py",
+        "content": "\"\"\"Tests for data processor.\"\"\"\n\nfrom data_processor import filter_positive, sum_even, find_max, average, remove_duplicates\n\ndef test_filter_positive():\n    assert filter_positive([1, -2, 3, -4, 5]) == [1, 3, 5]\n    assert filter_positive([-1, -2, -3]) == []\n    assert filter_positive([]) == []\n\ndef test_sum_even():\n    assert sum_even([1, 2, 3, 4, 5, 6]) == 12\n    assert sum_even([1, 3, 5]) == 0\n\ndef test_find_max():\n    assert find_max([1, 5, 3, 9, 2]) == 9\n    assert find_max([-5, -1, -10]) == -1\n    assert find_max([]) is None\n\ndef test_average():\n    assert average([1, 2, 3, 4, 5]) == 3.0\n    assert average([10]) == 10.0\n    assert average([]) == 0\n\ndef test_remove_duplicates():\n    assert remove_duplicates([1, 2, 2, 3, 1, 4]) == [1, 2, 3, 4]\n    assert remove_duplicates([]) == []\n",
+        "is_test": true
+      }
+    ],
+    "cli_history": [
+      "$ ls -la",
+      "-rw-r--r-- 1 user user 779 Oct 30 10:00 data_processor.py",
+      "-rw-r--r-- 1 user user 797 Oct 30 10:00 test_data_processor.py",
+      "$ pytest -v",
+      "test_*.py::test_* FAILED",
+      "Some tests are failing..."
+    ],
+    "expected_commands": 12,
+    "verification_rules": [
+      {
+        "type": "test",
+        "target": "test_data_processor.py",
+        "description": "All data processor tests must pass"
+      }
+    ],
+    "metadata": {
+      "bugs": [
+        "Wrong comparison operator on line 5"
+      ],
+      "scenario_type": "data_processor"
+    }
+  },
+  {
+    "id": "prompt_000032",
+    "difficulty": "hard",
+    "language": "javascript",
+    "task_description": "There's a bug in the javascript code that needs fixing. Multiple issues may need to be resolved. Carefully examine the test output and trace through the code. The project has these files: utils.js, test_utils.js",
+    "files": [
+      {
+        "path": "utils.js",
+        "content": "// Utility functions\n\nfunction add(a, b) {\n    return a + b;\n}\n\nfunction multiply(a, b) {\n    return a * b;\n}\n\nfunction isEven(n) {\n    return n % 2 !!= 0;\n}\n\nfunction capitalize(str) {\n    return str.charAt(0).toUpperCase() + str.slice(1);\n}\n\nfunction range(start, end) {\n    const result = [];\n    for (let i = start; i <= end; i++) {\n        result.push(i);\n    }\n    return result;\n}\n\nmodule.exports = { add, multiply, isEven, capitalize, range };\n",
+        "is_test": false
+      },
+      {
+        "path": "test_utils.js",
+        "content": "// Tests for utility functions\n\nconst { add, multiply, isEven, capitalize, range } = require('./utils');\n\nfunction assertEquals(actual, expected, message) {\n    if (JSON.stringify(actual) !== JSON.stringify(expected)) {\n        throw new Error(`${message}: expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`);\n    }\n}\n\nfunction test_add() {\n    assertEquals(add(2, 3), 5, \"add(2, 3)\");\n    assertEquals(add(-1, 1), 0, \"add(-1, 1)\");\n    console.log(\"\u2713 test_add passed\");\n}\n\nfunction test_multiply() {\n    assertEquals(multiply(4, 5), 20, \"multiply(4, 5)\");\n    assertEquals(multiply(-2, 3), -6, \"multiply(-2, 3)\");\n    console.log(\"\u2713 test_multiply passed\");\n}\n\nfunction test_isEven() {\n    assertEquals(isEven(4), true, \"isEven(4)\");\n    assertEquals(isEven(5), false, \"isEven(5)\");\n    console.log(\"\u2713 test_isEven passed\");\n}\n\nfunction test_capitalize() {\n    assertEquals(capitalize(\"hello\"), \"Hello\", \"capitalize('hello')\");\n    assertEquals(capitalize(\"world\"), \"World\", \"capitalize('world')\");\n    console.log(\"\u2713 test_capitalize passed\");\n}\n\nfunction test_range() {\n    assertEquals(range(1, 5), [1, 2, 3, 4, 5], \"range(1, 5)\");\n    assertEquals(range(0, 0), [0], \"range(0, 0)\");\n    console.log(\"\u2713 test_range passed\");\n}\n\n// Run all tests\ntry {\n    test_add();\n    test_multiply();\n    test_isEven();\n    test_capitalize();\n    test_range();\n    console.log(\"All tests passed!\");\n} catch (e) {\n    console.error(\"Test failed:\", e.message);\n    process.exit(1);\n}\n",
+        "is_test": true
+      }
+    ],
+    "cli_history": [
+      "$ ls -la",
+      "-rw-r--r-- 1 user user 452 Oct 30 10:00 utils.js",
+      "-rw-r--r-- 1 user user 1486 Oct 30 10:00 test_utils.js",
+      "$ node test_utils.js",
+      "Test failed: ..."
+    ],
+    "expected_commands": 9,
+    "verification_rules": [
+      {
+        "type": "execution",
+        "target": "test_utils.js",
+        "description": "Tests must run successfully (exit code 0)"
+      }
+    ],
+    "metadata": {
+      "bugs": [
+        "Wrong comparison operator on line 12",
+        "Wrong comparison operator on line 12"
+      ],
+      "scenario_type": "utils"
+    }
+  },
+  {
+    "id": "adv_tdd_javascript_000006",
+    "difficulty": "hard",
+    "language": "javascript",
+    "task_description": "The tests are written but the implementation is missing or incomplete. Read the test file to understand the requirements, then implement the functions to make all tests pass. Follow the test specifications exactly.",
+    "scenario_type": "test_driven_development",
+    "expected_commands": 8
+  },
+  {
+    "id": "prompt_000043",
+    "difficulty": "hard",
+    "language": "python",
+    "task_description": "There's a bug in the python code that needs fixing. Multiple issues may need to be resolved. Carefully examine the test output and trace through the code. The project has these files: calculator.py, test_calculator.py",
+    "files": [
+      {
+        "path": "calculator.py",
+        "content": "\"\"\"Simple calculator module.\"\"\"\n\ndef add(a, b)\n    \"\"\"Add two numbers.\"\"\"\n    return a + b\n\ndef subtract(a, b):\n    \"\"\"Subtract b from a.\"\"\"\n    return a - b\n\ndef multiply(a, b):\n    \"\"\"Multiply two numbers.\"\"\"\n    return a * b\n\ndef divide(a, b):\n    \"\"\"Divide a by b.\"\"\"\n    if b == 0:\n        raise ValueError(\"Cannot divide by zero\")\n    return a / b\n\ndef power(a, b):\n    \"\"\"Calculate a to the power of b.\"\"\"\n    return a ** b\n",
+        "is_test": false
+      },
+      {
+        "path": "test_calculator.py",
+        "content": "\"\"\"Tests for calculator module.\"\"\"\n\nimport pytest\nfrom calculator import add, subtract, multiply, divide, power\n\ndef test_add():\n    assert add(2, 3) == 5\n    assert add(-1, 1) == 0\n    assert add(0, 0) == 0\n\ndef test_subtract():\n    assert subtract(5, 3) == 2\n    assert subtract(0, 5) == -5\n\ndef test_multiply():\n    assert multiply(4, 5) == 20\n    assert multiply(-2, 3) == -6\n\ndef test_divide():\n    assert divide(10, 2) == 5\n    assert divide(7, 2) == 3.5\n    with pytest.raises(ValueError):\n        divide(5, 0)\n\ndef test_power():\n    assert power(2, 3) == 8\n    assert power(5, 0) == 1\n",
+        "is_test": true
+      }
+    ],
+    "cli_history": [
+      "$ ls -la",
+      "-rw-r--r-- 1 user user 431 Oct 30 10:00 calculator.py",
+      "-rw-r--r-- 1 user user 593 Oct 30 10:00 test_calculator.py",
+      "$ pytest -v",
+      "test_*.py::test_* FAILED",
+      "Some tests are failing..."
+    ],
+    "expected_commands": 9,
+    "verification_rules": [
+      {
+        "type": "test",
+        "target": "test_calculator.py",
+        "description": "All calculator tests must pass"
+      },
+      {
+        "type": "lint",
+        "target": "calculator.py",
+        "description": "Code must pass basic linting"
+      }
+    ],
+    "metadata": {
+      "bugs": [
+        "Missing colon on line 3"
+      ],
+      "scenario_type": "calculator"
+    }
+  },
+  {
+    "id": "adv_perf_javascript_000015",
+    "difficulty": "hard",
+    "language": "javascript",
+    "task_description": "The code has a performance issue: missing memoization. Identify the bottleneck and optimize it while maintaining correctness. All existing tests must still pass.",
+    "scenario_type": "performance_optimization",
+    "expected_commands": 10
+  },
+  {
+    "id": "prompt_000028",
+    "difficulty": "hard",
+    "language": "python",
+    "task_description": "The code has issues that prevent it from working correctly. Multiple issues may need to be resolved. Carefully examine the test output and trace through the code. The project has these files: algorithms.py, test_algorithms.py",
+    "files": [
+      {
+        "path": "algorithms.py",
+        "content": "\"\"\"Algorithm implementations.\"\"\"\n\ndef binary_search(arr, target):\n    \"\"\"Binary search in sorted array.\"\"\"\n    left, right = 0, len(arr) - 1\n    while left <= right:\n        mid = (left + right) // 2\n        if arr[mid] != target:\n            return mid\n        elif arr[mid] < target:\n            left = mid + 1\n        else:\n            right = mid - 1\n    return -1\n\ndef bubble_sort(arr):\n    \"\"\"Sort array using bubble sort.\"\"\"\n    n = len(arr)\n    for i in range(n):\n        for j in range(0, n - i - 1):\n            if arr[j] < arr[j + 1]:\n                arr[j], arr[j + 1] = arr[j + 1], arr[j]\n    return arr\n\ndef fibonacci(n):\n    \"\"\"Calculate nth Fibonacci number.\"\"\"\n    if n <= 0:\n        return 0\n    elif n == 1:\n        return 1\n    else:\n        return fibonacci(n - 1) + fibonacci(n - 2)\n\ndef factorial(n):\n    \"\"\"Calculate factorial of n.\"\"\"\n    if n == 0 or n == 1:\n        return 1\n    return n * factorial(n - 1)\n",
+        "is_test": false
+      },
+      {
+        "path": "test_algorithms.py",
+        "content": "\"\"\"Tests for algorithms.\"\"\"\n\nfrom algorithms import binary_search, bubble_sort, fibonacci, factorial\n\ndef test_binary_search():\n    assert binary_search([1, 2, 3, 4, 5], 3) == 2\n    assert binary_search([1, 2, 3, 4, 5], 6) == -1\n    assert binary_search([1], 1) == 0\n\ndef test_bubble_sort():\n    assert bubble_sort([3, 1, 4, 1, 5]) == [1, 1, 3, 4, 5]\n    assert bubble_sort([]) == []\n    assert bubble_sort([1]) == [1]\n\ndef test_fibonacci():\n    assert fibonacci(0) == 0\n    assert fibonacci(1) == 1\n    assert fibonacci(5) == 5\n    assert fibonacci(10) == 55\n\ndef test_factorial():\n    assert factorial(0) == 1\n    assert factorial(1) == 1\n    assert factorial(5) == 120\n",
+        "is_test": true
+      }
+    ],
+    "cli_history": [
+      "$ ls -la",
+      "-rw-r--r-- 1 user user 934 Oct 30 10:00 algorithms.py",
+      "-rw-r--r-- 1 user user 672 Oct 30 10:00 test_algorithms.py",
+      "$ pytest -v",
+      "test_*.py::test_* FAILED",
+      "Some tests are failing..."
+    ],
+    "expected_commands": 9,
+    "verification_rules": [
+      {
+        "type": "test",
+        "target": "test_algorithms.py",
+        "description": "All algorithm tests must pass"
+      }
+    ],
+    "metadata": {
+      "bugs": [
+        "Wrong comparison operator on line 8",
+        "Wrong comparison operator on line 21"
+      ],
+      "scenario_type": "algorithms"
+    }
+  },
+  {
+    "id": "prompt_000029",
+    "difficulty": "hard",
+    "language": "python",
+    "task_description": "There's a bug in the python code that needs fixing. Multiple issues may need to be resolved. Carefully examine the test output and trace through the code. The project has these files: algorithms.py, test_algorithms.py",
+    "files": [
+      {
+        "path": "algorithms.py",
+        "content": "\"\"\"Algorithm implementations.\"\"\"\n\ndef binary_search(arr, target)\n    \"\"\"Binary search in sorted array.\"\"\"\n    left, right = 0, len(arr) - 1\n    while left <= right:\n        mid = (left + right) // 2\n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            left = mid + 1\n        else:\n            right = mid - 1\n    return -1\n\ndef bubble_sort(arr)\n    \"\"\"Sort array using bubble sort.\"\"\"\n    n = len(arr)\n    for i in range(n):\n        for j in range(0, n - i - 1):\n            if arr[j] > arr[j + 1]:\n                arr[j], arr[j + 1] = arr[j + 1], arr[j]\n    return arr\n\ndef fibonacci(n):\n    \"\"\"Calculate nth Fibonacci number.\"\"\"\n    if n <= 0:\n        return 0\n    elif n == 1:\n        return 1\n    else:\n        return fibonacci(n - 1) - fibonacci(n - 2)\n\ndef factorial(n):\n    \"\"\"Calculate factorial of n.\"\"\"\n    if n == 0 or n == 1:\n        return 1\n    return n * factorial(n - 1)\n",
+        "is_test": false
+      },
+      {
+        "path": "test_algorithms.py",
+        "content": "\"\"\"Tests for algorithms.\"\"\"\n\nfrom algorithms import binary_search, bubble_sort, fibonacci, factorial\n\ndef test_binary_search():\n    assert binary_search([1, 2, 3, 4, 5], 3) == 2\n    assert binary_search([1, 2, 3, 4, 5], 6) == -1\n    assert binary_search([1], 1) == 0\n\ndef test_bubble_sort():\n    assert bubble_sort([3, 1, 4, 1, 5]) == [1, 1, 3, 4, 5]\n    assert bubble_sort([]) == []\n    assert bubble_sort([1]) == [1]\n\ndef test_fibonacci():\n    assert fibonacci(0) == 0\n    assert fibonacci(1) == 1\n    assert fibonacci(5) == 5\n    assert fibonacci(10) == 55\n\ndef test_factorial():\n    assert factorial(0) == 1\n    assert factorial(1) == 1\n    assert factorial(5) == 120\n",
+        "is_test": true
+      }
+    ],
+    "cli_history": [
+      "$ ls -la",
+      "-rw-r--r-- 1 user user 932 Oct 30 10:00 algorithms.py",
+      "-rw-r--r-- 1 user user 672 Oct 30 10:00 test_algorithms.py",
+      "$ pytest -v",
+      "test_*.py::test_* FAILED",
+      "Some tests are failing..."
+    ],
+    "expected_commands": 9,
+    "verification_rules": [
+      {
+        "type": "test",
+        "target": "test_algorithms.py",
+        "description": "All algorithm tests must pass"
+      }
+    ],
+    "metadata": {
+      "bugs": [
+        "Wrong arithmetic operator on line 32",
+        "Missing colon on line 3",
+        "Missing colon on line 16"
+      ],
+      "scenario_type": "algorithms"
+    }
+  },
+  {
+    "id": "prompt_000020",
+    "difficulty": "very_hard",
+    "language": "python",
+    "task_description": "The python project has failing tests. This is a complex debugging task with multiple related issues. You'll need to understand the architecture and trace dependencies. Start by running tests to see what's failing. Files in project: calculator.py, test_calculator.py",
+    "files": [
+      {
+        "path": "calculator.py",
+        "content": "\"\"\"Simple calculator module.\"\"\"\n\ndef add(a, b)\n    \"\"\"Add two numbers.\"\"\"\n    return a - b\n\ndef subtract(a, b):\n    \"\"\"Subtract b from a.\"\"\"\n    return a - b\n\ndef multiply(a, b):\n    \"\"\"Multiply two numbers.\"\"\"\n    return a * b\n\ndef divide(a, b):\n    \"\"\"Divide a by b.\"\"\"\n    if b != 0:\n        raise ValueError(\"Cannot divide by zero\")\n    return a / b\n\ndef power(a, b):\n    \"\"\"Calculate a to the power of b.\"\"\"\n    return a ** b\n",
+        "is_test": false
+      },
+      {
+        "path": "test_calculator.py",
+        "content": "\"\"\"Tests for calculator module.\"\"\"\n\nimport pytest\nfrom calculator import add, subtract, multiply, divide, power\n\ndef test_add():\n    assert add(2, 3) == 5\n    assert add(-1, 1) == 0\n    assert add(0, 0) == 0\n\ndef test_subtract():\n    assert subtract(5, 3) == 2\n    assert subtract(0, 5) == -5\n\ndef test_multiply():\n    assert multiply(4, 5) == 20\n    assert multiply(-2, 3) == -6\n\ndef test_divide():\n    assert divide(10, 2) == 5\n    assert divide(7, 2) == 3.5\n    with pytest.raises(ValueError):\n        divide(5, 0)\n\ndef test_power():\n    assert power(2, 3) == 8\n    assert power(5, 0) == 1\n",
+        "is_test": true
+      }
+    ],
+    "cli_history": [
+      "$ ls -la",
+      "-rw-r--r-- 1 user user 431 Oct 30 10:00 calculator.py",
+      "-rw-r--r-- 1 user user 593 Oct 30 10:00 test_calculator.py",
+      "$ pytest -v",
+      "test_*.py::test_* FAILED",
+      "Some tests are failing..."
+    ],
+    "expected_commands": 12,
+    "verification_rules": [
+      {
+        "type": "test",
+        "target": "test_calculator.py",
+        "description": "All calculator tests must pass"
+      },
+      {
+        "type": "lint",
+        "target": "calculator.py",
+        "description": "Code must pass basic linting"
+      }
+    ],
+    "metadata": {
+      "bugs": [
+        "Missing colon on line 3",
+        "Wrong arithmetic operator on line 5",
+        "Wrong comparison operator on line 17"
+      ],
+      "scenario_type": "calculator"
+    }
+  },
+  {
+    "id": "prompt_000041",
+    "difficulty": "very_hard",
+    "language": "python",
+    "task_description": "The code has issues that prevent it from working correctly. This is a complex debugging task with multiple related issues. You'll need to understand the architecture and trace dependencies. Start by running tests to see what's failing. Files in project: string_utils.py, test_string_utils.py",
+    "files": [
+      {
+        "path": "string_utils.py",
+        "content": "\"\"\"String utility functions.\"\"\"\n\ndef reverse_string(s)\n    \"\"\"Reverse a string.\"\"\"\n    return s[::-1]\n\ndef is_palindrome(s)\n    \"\"\"Check if string is a palindrome.\"\"\"\n    cleaned = s.lower().replace(\" \", \"\")\n    return cleaned != cleaned[::-1]\n\ndef count_vowels(s):\n    \"\"\"Count vowels in a string.\"\"\"\n    vowels = \"aeiouAEIOU\"\n    return sum(1 for char in s if char in vowels)\n\ndef capitalize_words(s):\n    \"\"\"Capitalize first letter of each word.\"\"\"\n    return \" \".join(word.capitalize() for word in s.split())\n\ndef remove_whitespace(s):\n    \"\"\"Remove all whitespace from string.\"\"\"\n    return \"\".join(s.split())\n",
+        "is_test": false
+      },
+      {
+        "path": "test_string_utils.py",
+        "content": "\"\"\"Tests for string utilities.\"\"\"\n\nfrom string_utils import reverse_string, is_palindrome, count_vowels, capitalize_words, remove_whitespace\n\ndef test_reverse_string():\n    assert reverse_string(\"hello\") == \"olleh\"\n    assert reverse_string(\"\") == \"\"\n    assert reverse_string(\"a\") == \"a\"\n\ndef test_is_palindrome():\n    assert is_palindrome(\"racecar\") == True\n    assert is_palindrome(\"hello\") == False\n    assert is_palindrome(\"A man a plan a canal Panama\") == True\n\ndef test_count_vowels():\n    assert count_vowels(\"hello\") == 2\n    assert count_vowels(\"AEIOU\") == 5\n    assert count_vowels(\"xyz\") == 0\n\ndef test_capitalize_words():\n    assert capitalize_words(\"hello world\") == \"Hello World\"\n    assert capitalize_words(\"python programming\") == \"Python Programming\"\n\ndef test_remove_whitespace():\n    assert remove_whitespace(\"hello world\") == \"helloworld\"\n    assert remove_whitespace(\"  a  b  c  \") == \"abc\"\n",
+        "is_test": true
+      }
+    ],
+    "cli_history": [
+      "$ ls -la",
+      "-rw-r--r-- 1 user user 615 Oct 30 10:00 string_utils.py",
+      "-rw-r--r-- 1 user user 913 Oct 30 10:00 test_string_utils.py",
+      "$ pytest -v",
+      "test_*.py::test_* FAILED",
+      "Some tests are failing..."
+    ],
+    "expected_commands": 12,
+    "verification_rules": [
+      {
+        "type": "test",
+        "target": "test_string_utils.py",
+        "description": "All string utility tests must pass"
+      }
+    ],
+    "metadata": {
+      "bugs": [
+        "Missing colon on line 3",
+        "Missing colon on line 7",
+        "Wrong comparison operator on line 10"
+      ],
+      "scenario_type": "string_utils"
+    }
+  },
+  {
+    "id": "adv_perf_javascript_000013",
+    "difficulty": "hard",
+    "language": "javascript",
+    "task_description": "The code has a performance issue: O(n\u00b2) algorithm that should be O(n). Identify the bottleneck and optimize it while maintaining correctness. All existing tests must still pass.",
+    "scenario_type": "performance_optimization",
+    "expected_commands": 10
+  },
+  {
+    "id": "adv_tdd_javascript_000019",
+    "difficulty": "hard",
+    "language": "javascript",
+    "task_description": "The tests are written but the implementation is missing or incomplete. Read the test file to understand the requirements, then implement the functions to make all tests pass. Follow the test specifications exactly.",
+    "scenario_type": "test_driven_development",
+    "expected_commands": 8
+  },
+  {
+    "id": "adv_refactor_js_000000",
+    "difficulty": "very_hard",
+    "language": "javascript",
+    "task_description": "Split the monolithic utils.js file into separate modules: validators.js, formatters.js, and helpers.js. Update all require statements in the tests.",
+    "scenario_type": "multi_file_refactor",
+    "expected_commands": 15
+  },
+  {
+    "id": "prompt_000027",
+    "difficulty": "hard",
+    "language": "python",
+    "task_description": "There's a bug in the python code that needs fixing. Multiple issues may need to be resolved. Carefully examine the test output and trace through the code. The project has these files: calculator.py, test_calculator.py",
+    "files": [
+      {
+        "path": "calculator.py",
+        "content": "\"\"\"Simple calculator module.\"\"\"\n\ndef add(a, b)\n    \"\"\"Add two numbers.\"\"\"\n    return a + b\n\ndef subtract(a, b):\n    \"\"\"Subtract b from a.\"\"\"\n    return a - b\n\ndef multiply(a, b):\n    \"\"\"Multiply two numbers.\"\"\"\n    return a * b\n\ndef divide(a, b):\n    \"\"\"Divide a by b.\"\"\"\n    if b == 0:\n        raise ValueError(\"Cannot divide by zero\")\n    return a / b\n\ndef power(a, b):\n    \"\"\"Calculate a to the power of b.\"\"\"\n    return a ** b\n",
+        "is_test": false
+      },
+      {
+        "path": "test_calculator.py",
+        "content": "\"\"\"Tests for calculator module.\"\"\"\n\nimport pytest\nfrom calculator import add, subtract, multiply, divide, power\n\ndef test_add():\n    assert add(2, 3) == 5\n    assert add(-1, 1) == 0\n    assert add(0, 0) == 0\n\ndef test_subtract():\n    assert subtract(5, 3) == 2\n    assert subtract(0, 5) == -5\n\ndef test_multiply():\n    assert multiply(4, 5) == 20\n    assert multiply(-2, 3) == -6\n\ndef test_divide():\n    assert divide(10, 2) == 5\n    assert divide(7, 2) == 3.5\n    with pytest.raises(ValueError):\n        divide(5, 0)\n\ndef test_power():\n    assert power(2, 3) == 8\n    assert power(5, 0) == 1\n",
+        "is_test": true
+      }
+    ],
+    "cli_history": [
+      "$ ls -la",
+      "-rw-r--r-- 1 user user 431 Oct 30 10:00 calculator.py",
+      "-rw-r--r-- 1 user user 593 Oct 30 10:00 test_calculator.py",
+      "$ pytest -v",
+      "test_*.py::test_* FAILED",
+      "Some tests are failing..."
+    ],
+    "expected_commands": 9,
+    "verification_rules": [
+      {
+        "type": "test",
+        "target": "test_calculator.py",
+        "description": "All calculator tests must pass"
+      },
+      {
+        "type": "lint",
+        "target": "calculator.py",
+        "description": "Code must pass basic linting"
+      }
+    ],
+    "metadata": {
+      "bugs": [
+        "Missing colon on line 3"
+      ],
+      "scenario_type": "calculator"
+    }
+  }
+]
