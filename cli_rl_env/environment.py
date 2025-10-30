@@ -96,7 +96,7 @@ class CodeEditingEnv(gym.Env):
         
         Args:
             seed: Random seed
-            options: Additional options
+            options: Additional options (can include 'scenario' key for pre-existing scenario)
             
         Returns:
             Tuple of (observation, info)
@@ -105,15 +105,19 @@ class CodeEditingEnv(gym.Env):
             random.seed(seed)
             np.random.seed(seed)
         
-        # Generate new scenario
-        language = self.language
-        if language is None:
-            language = random.choice(['python', 'javascript'])
-        
-        if language == 'python':
-            self.current_scenario = self.python_generator.generate(self.difficulty)
+        # Check if a pre-existing scenario is provided in options
+        if options and 'scenario' in options:
+            self.current_scenario = options['scenario']
         else:
-            self.current_scenario = self.js_generator.generate(self.difficulty)
+            # Generate new scenario
+            language = self.language
+            if language is None:
+                language = random.choice(['python', 'javascript'])
+            
+            if language == 'python':
+                self.current_scenario = self.python_generator.generate(self.difficulty)
+            else:
+                self.current_scenario = self.js_generator.generate(self.difficulty)
         
         # Reset episode log
         self.episode_log = []
@@ -238,10 +242,14 @@ class CodeEditingEnv(gym.Env):
         # Format CLI history
         cli_history = "\n".join(self.current_scenario.cli_history)
         
+        # Prepare files list for external use (e.g., evaluation)
+        files_list = [{'path': f.path, 'content': f.content} for f in self.current_scenario.files]
+        
         return {
             'task_description': self.current_scenario.task_description,
             'file_tree': file_tree,
-            'cli_history': cli_history
+            'cli_history': cli_history,
+            'files': files_list  # Include for evaluation module
         }
     
     def _run_verification(self, sandbox: Sandbox) -> Dict[str, Any]:

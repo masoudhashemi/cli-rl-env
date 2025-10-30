@@ -1,0 +1,86 @@
+{
+  "model_config": {
+    "model_name": "openai/gpt-oss-20b",
+    "api_base": "http://localhost:1234/v1",
+    "api_key": "lm-studio",
+    "temperature": 0.3,
+    "max_tokens": 2048,
+    "timeout": 120
+  },
+  "summary": {
+    "total": 3,
+    "passed": 0,
+    "failed": 3,
+    "pass_rate": 0.0,
+    "avg_commands": 1.0,
+    "avg_time": 1.713936408360799,
+    "by_difficulty": {
+      "hard": {
+        "total": 2,
+        "passed": 0,
+        "pass_rate": 0.0
+      },
+      "very_hard": {
+        "total": 1,
+        "passed": 0,
+        "pass_rate": 0.0
+      }
+    },
+    "by_type": {
+      "permissions": {
+        "total": 1,
+        "passed": 0,
+        "pass_rate": 0.0
+      },
+      "config_editing": {
+        "total": 1,
+        "passed": 0,
+        "pass_rate": 0.0
+      },
+      "data_processor": {
+        "total": 1,
+        "passed": 0,
+        "pass_rate": 0.0
+      }
+    }
+  },
+  "results": [
+    {
+      "scenario_id": "prompt_000608",
+      "success": false,
+      "num_commands": 1,
+      "commands": [
+        "<|channel|>commentary to=assistantchmod +x deploy.sh deploy.py"
+      ],
+      "verification": {},
+      "time_seconds": 3.547096014022827,
+      "difficulty": "hard",
+      "scenario_type": "permissions"
+    },
+    {
+      "scenario_id": "prompt_000868",
+      "success": false,
+      "num_commands": 1,
+      "commands": [
+        "<|channel|>commentary to=container.exec code<|message|>{\"cmd\":[\"bash\",\"-lc\",\"cat config.env\"]}"
+      ],
+      "verification": {},
+      "time_seconds": 0.8014111518859863,
+      "difficulty": "hard",
+      "scenario_type": "config_editing"
+    },
+    {
+      "scenario_id": "prompt_000703",
+      "success": false,
+      "num_commands": 1,
+      "commands": [
+        "<|channel|>commentary to=container.exec code<|message|>{\"cmd\":[\"bash\",\"-lc\",\"python -m unittest discover\"],\"timeout\": 100000}"
+      ],
+      "verification": {},
+      "time_seconds": 0.793302059173584,
+      "difficulty": "very_hard",
+      "scenario_type": "data_processor"
+    }
+  ],
+  "timestamp": "2025-10-30 10:21:14"
+}
