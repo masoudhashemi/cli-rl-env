@@ -1,0 +1,16 @@
+{
+  "total": 1000,
+  "train": 800,
+  "val": 100,
+  "test": 100,
+  "difficulty_distribution": {
+    "very_hard": 296,
+    "medium": 192,
+    "hard": 405,
+    "easy": 107
+  },
+  "language_distribution": {
+    "python": 724,
+    "javascript": 276
+  }
+}
