@@ -4,7 +4,7 @@
 # Configuration
 MODEL=${1:-"openai/gpt-oss-20b"}
 API_BASE=${2:-"http://localhost:1234/v1"}
-NUM_EXAMPLES=${3:-10}
+NUM_EXAMPLES=${3:-100}
 
 echo "========================================"
 echo "LM Studio Model Evaluation"
@@ -30,10 +30,8 @@ else
     exit 1
 fi
 
-echo ""
-
 # Run evaluation
-python examples/evaluate_model.py \
+uv run python examples/evaluate_model.py \
     --model "$MODEL" \
     --api-base "$API_BASE" \
     --api-key "lm-studio" \

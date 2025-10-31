@@ -69,7 +69,7 @@ def main():
     parser.add_argument(
         "--max-tokens",
         type=int,
-        default=2048,
+        default=16000,
         help="Maximum tokens per response"
     )
     

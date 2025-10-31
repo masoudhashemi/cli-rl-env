@@ -35,6 +35,13 @@ class TextMatcher:
                 'error': f'File not found: {filepath}'
             }
         
+        # Check if target is a directory (common dataset bug)
+        if full_path.is_dir():
+            return {
+                'success': False,
+                'error': f'Target is a directory, not a file: {filepath}'
+            }
+        
         try:
             content = full_path.read_text()
             

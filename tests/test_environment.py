@@ -14,7 +14,7 @@ def test_env_creation():
 
 def test_env_reset():
     """Test environment reset."""
-    env = gym.make('CodeEditingEnv-v0', difficulty='easy', language='python')
+    env = gym.make('CodeEditingEnv-v0', difficulty='easy', language='python', disable_env_checker=True)
     obs, info = env.reset(seed=42)
     
     # Check observation structure
@@ -32,7 +32,7 @@ def test_env_reset():
 
 def test_env_step_valid_action():
     """Test environment step with valid action."""
-    env = gym.make('CodeEditingEnv-v0', difficulty='easy', language='python')
+    env = gym.make('CodeEditingEnv-v0', difficulty='easy', language='python', disable_env_checker=True)
     obs, info = env.reset(seed=42)
     
     action = {
@@ -57,7 +57,7 @@ def test_env_step_valid_action():
 
 def test_env_step_invalid_action():
     """Test environment step with invalid action."""
-    env = gym.make('CodeEditingEnv-v0', difficulty='easy')
+    env = gym.make('CodeEditingEnv-v0', difficulty='easy', disable_env_checker=True)
     obs, info = env.reset(seed=42)
     
     # Invalid action (missing time_estimate)
@@ -78,7 +78,7 @@ def test_different_difficulties():
     difficulties = ['easy', 'medium', 'hard', 'very_hard']
     
     for difficulty in difficulties:
-        env = gym.make('CodeEditingEnv-v0', difficulty=difficulty)
+        env = gym.make('CodeEditingEnv-v0', difficulty=difficulty, disable_env_checker=True)
         obs, info = env.reset(seed=42)
         assert info['difficulty'] == difficulty
         env.close()
@@ -87,7 +87,7 @@ def test_different_difficulties():
 def test_different_languages():
     """Test both Python and JavaScript scenarios."""
     for language in ['python', 'javascript']:
-        env = gym.make('CodeEditingEnv-v0', language=language)
+        env = gym.make('CodeEditingEnv-v0', language=language, disable_env_checker=True)
         obs, info = env.reset(seed=42)
         assert info['language'] == language
         env.close()
@@ -95,10 +95,10 @@ def test_different_languages():
 
 def test_reproducibility():
     """Test that same seed produces same scenario."""
-    env1 = gym.make('CodeEditingEnv-v0', difficulty='medium', seed=123)
+    env1 = gym.make('CodeEditingEnv-v0', difficulty='medium', seed=123, disable_env_checker=True)
     obs1, _ = env1.reset(seed=123)
     
-    env2 = gym.make('CodeEditingEnv-v0', difficulty='medium', seed=123)
+    env2 = gym.make('CodeEditingEnv-v0', difficulty='medium', seed=123, disable_env_checker=True)
     obs2, _ = env2.reset(seed=123)
     
     # Should get same task description

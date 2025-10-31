@@ -146,7 +146,8 @@ class ModelEvaluator:
         """
         start_time = time.time()
         
-        # Create environment
+        # Create environment directly (without gym.make() wrappers)
+        # This bypasses Gymnasium's passive env checker
         env = CodeEditingEnv()
         
         # Convert scenario_data to scenario object (simplified)
@@ -190,7 +191,6 @@ class ModelEvaluator:
         
         # Initialize conversation history
         messages = []
-        commands_executed = []
         
         # Add system prompt
         system_prompt = self._create_system_prompt()
@@ -200,46 +200,67 @@ class ModelEvaluator:
         task_prompt = self._create_task_prompt(obs)
         messages.append({"role": "user", "content": task_prompt})
         
-        # Interaction loop
-        done = False
-        success = False
-        num_commands = 0
-        verification_results = {}
-        
-        while not done and num_commands < self.max_commands:
-            try:
-                # Get model response
-                response = self._call_model(messages)
-                
-                # Extract command from response
-                command = self._extract_command(response)
-                
-                if not command:
-                    # Model didn't provide a valid command
-                    break
-                
-                commands_executed.append(command)
-                num_commands += 1
-                
-                # Execute command in environment
-                obs, reward, terminated, truncated, info = env.step(command)
-                done = terminated or truncated
-                
-                # Add model response and environment feedback to conversation
-                messages.append({"role": "assistant", "content": response})
-                
-                feedback = self._create_feedback_prompt(obs, reward, info)
-                messages.append({"role": "user", "content": feedback})
-                
-                # Check if task is complete
-                if done:
-                    success = info.get('success', False)
-                    verification_results = info.get('verification', {})
-                
-            except Exception as e:
-                if self.verbose:
-                    print(f"  Error during evaluation: {e}")
-                break
+        # Get model response with all commands and time estimate
+        try:
+            response = self._call_model(messages)
+            
+            # Parse JSON response
+            action = self._parse_action_response(response)
+            
+            if self.verbose and action:
+                print(f"[PARSED ACTION]")
+                print(f"  Commands: {len(action['commands'])}")
+                print(f"  Time estimate: {action['time_estimate']}s")
+                for i, cmd in enumerate(action['commands'], 1):
+                    print(f"    {i}. {cmd}")
+            
+            if not action:
+                # Failed to parse valid action – return a consistent verification stub
+                end_time = time.time()
+                return {
+                    'scenario_id': scenario_data['id'],
+                    'success': False,
+                    'num_commands': 0,
+                    'commands': [],
+                    'verification': {
+                        'parse_error_verification': {
+                            'success': False,
+                            'error': 'Failed to parse model response'
+                        }
+                    },
+                    'time_seconds': end_time - start_time,
+                    'difficulty': scenario_data['difficulty'],
+                    'scenario_type': scenario_data.get('metadata', {}).get('scenario_type', 'unknown'),
+                    'error': 'Failed to parse model response'
+                }
+            
+            # Execute all commands in single step
+            obs, reward, terminated, truncated, info = env.step(action)
+            
+            success = info.get('success', False)
+            verification_results = info.get('verification_results', {})
+            commands_executed = action['commands']
+            num_commands = len(commands_executed)
+            
+            # Print detailed verification results if verbose
+            if self.verbose:
+                self._print_verification_details(verification_results, success)
+            
+        except Exception as e:
+            if self.verbose:
+                print(f"  Error during evaluation: {e}")
+            end_time = time.time()
+            return {
+                'scenario_id': scenario_data['id'],
+                'success': False,
+                'num_commands': 0,
+                'commands': [],
+                'verification': {},
+                'time_seconds': end_time - start_time,
+                'difficulty': scenario_data['difficulty'],
+                'scenario_type': scenario_data.get('metadata', {}).get('scenario_type', 'unknown'),
+                'error': str(e)
+            }
         
         end_time = time.time()
         
@@ -249,6 +270,8 @@ class ModelEvaluator:
             'num_commands': num_commands,
             'commands': commands_executed,
             'verification': verification_results,
+            'reward_breakdown': info.get('reward_breakdown'),
+            'execution_results': info.get('execution_results'),
             'time_seconds': end_time - start_time,
             'difficulty': scenario_data['difficulty'],
             'scenario_type': scenario_data.get('metadata', {}).get('scenario_type', 'unknown')
@@ -273,6 +296,24 @@ class ModelEvaluator:
                 max_tokens=self.model_config.max_tokens,
                 timeout=self.model_config.timeout
             )
+            
+            if self.verbose:
+                # Extract task description from messages for context
+                task_desc = None
+                for msg in messages:
+                    if msg['role'] == 'user' and 'TASK:' in msg['content']:
+                        # Extract just the task line
+                        lines = msg['content'].split('\n')
+                        for line in lines:
+                            if line.startswith('TASK:'):
+                                task_desc = line.replace('TASK:', '').strip()
+                                break
+                        break
+                
+                if task_desc:
+                    print(f"\n[TASK] {task_desc}")
+                print(f"[LLM RESPONSE] {response.choices[0].message.content}\n")
+            
             return response.choices[0].message.content
         except Exception as e:
             if self.verbose:
@@ -280,24 +321,91 @@ class ModelEvaluator:
             return ""
     
     def _create_system_prompt(self) -> str:
-        """Create system prompt for model."""
-        return """You are a CLI expert tasked with solving programming and system administration tasks using command-line tools.
+        """Create system prompt for model (OS-aware guidance) without f-string braces issues."""
+        import platform
+        os_name = platform.system().lower()
+        if 'darwin' in os_name or 'mac' in os_name:
+            sed_note = (
+                "macOS sed note: Use BSD sed. For in-place edits, prefer `sed -i '' -e 's/old/new/' file`.\n"
+                "Do NOT use sed insert/append/change forms (`i`, `a`, `c`) on macOS in a single line — they require complex escaping and usually fail under our constraints.\n"
+                "Instead, for line insertions use printf and a temp file, then mv. Examples:\n"
+                "- Prepend a line: `printf '# Updated for development\\n' > tmp && cat config.env >> tmp && mv tmp config.env`\n"
+                "- Append a line: `printf '# Updated for development\\n' >> config.env`\n"
+                "- Multiple replacements: `sed -i '' -e 's/DEBUG=false/DEBUG=true/' -e 's/LOG_LEVEL=info/LOG_LEVEL=debug/' config.env`\n"
+            )
+        else:
+            sed_note = (
+                "Linux sed note: GNU sed is available. Use `sed -i 's/old/new/' file` for in-place edits.\n"
+                "For multi-line content, prefer multiple single-line replacements or write a temp file with `printf` then `mv`.\n"
+            )
 
-You will be given a task description and access to a sandboxed CLI environment. Your goal is to complete the task by executing appropriate commands.
+        header = (
+            "You are a CLI expert tasked with solving programming and system administration tasks using command-line tools.\n\n"
+            "You will be given a task description, file contents, and access to a sandboxed CLI environment. Your goal is to complete the task by planning and executing ALL necessary commands IN A SINGLE TURN.\n\n"
+            "IMPORTANT: This is SINGLE-TURN execution:\n"
+            "- You will see all file contents upfront\n"
+            "- You must plan ALL commands at once\n"
+            "- Commands execute sequentially, but you won't see intermediate output\n"
+            "- Think carefully and include verification steps\n\n"
+            "OS-specific guidance:\n"
+        )
 
-IMPORTANT RULES:
-1. Output ONLY the command to execute, nothing else
-2. No explanations, no markdown, no code blocks
-3. One command per response
-4. Use standard CLI tools: ls, cat, grep, sed, awk, git, etc.
-5. When you believe the task is complete, output: DONE
+        git_note = (
+            "Git guidance: Set your identity before committing to avoid errors.\n"
+            "Run: `git config user.name \"CI Runner\" && git config user.email \"runner@example.com\"`\n"
+            "When tasks mention two commits or a 'second commit', make at least two separate commits.\n"
+        )
 
-Example responses:
-- ls -la
-- cat main.py
-- sed -i 's/old/new/g' file.txt
-- DONE
-"""
+        middle = "\n" + sed_note + git_note + "\n"
+
+        tail = (
+            "You must output a JSON object with:\n"
+            "1. \"commands\": A list of ALL commands needed to complete the task (in order)\n"
+            "2. \"time_estimate\": Your estimate of total execution time in seconds\n\n"
+            "AVAILABLE COMMANDS (whitelist - ONLY these commands are allowed):\n"
+            "- File viewing: cat, head, tail, less, more, tac\n"
+            "- File system: ls, find, tree, file, stat, du, df, realpath\n"
+            "- Text processing: grep, sed, awk, cut, tr, sort, uniq, wc, nl, paste, column\n"
+            "- File operations: cp, mv, rm, mkdir, touch, chmod, chown, ln, readlink\n"
+            "- Text editing: echo, printf, tee\n"
+            "- Comparison: diff, cmp, comm\n"
+            "- Patching: patch (use with input redirection: patch file.py < changes.patch)\n"
+            "- Navigation: cd, pwd\n"
+            "- Git: git (all subcommands)\n"
+            "- Testing: python, python3, node, pytest, npm, jest, mocha, pip, pip3\n"
+            "- Compression: tar, gzip, gunzip, zip, unzip, bzip2, bunzip2\n"
+            "- Checksums: md5sum, sha1sum, sha256sum, cksum\n"
+            "- Shell: bash, sh\n"
+            "- Utilities: seq, date, env, xargs, basename, dirname, which, type, test, expr, bc, jq, shuf\n\n"
+            "FORBIDDEN - DO NOT USE THESE:\n"
+            "❌ apply_patch (not a real Unix command - use 'patch' instead)\n"
+            "❌ heredocs: command <<EOF or command <<'DELIMITER'\n"
+            "❌ multi-line strings or commands spanning multiple lines\n"
+            "❌ comments as commands: \"# this is a comment\"\n"
+            "❌ backticks: `command`\n"
+            "❌ command substitution: $(command)\n"
+            "❌ semicolons to chain commands: cmd1; cmd2\n"
+            "❌ background processes: command &\n"
+            "❌ any command not in the whitelist above\n\n"
+            "CRITICAL CONSTRAINTS:\n"
+            "- Each command must be a SINGLE LINE\n"
+            "- For file editing, use sed, awk, or echo with redirection\n"
+            "- Use && or || to chain commands, NOT semicolons\n"
+            "- Pipes (|), redirections (>, >>), and logical operators (&&, ||) are allowed\n"
+            "- For complex edits, use multiple sed commands or create temp files\n\n"
+            "STRICTLY FORBIDDEN (enforced):\n"
+            "- Do NOT use heredocs (e.g., `<<EOF`) or embed multi-line scripts.\n- Do NOT use backticks or command substitution.\n- Do NOT output comments as commands.\n- Only use whitelisted commands.\n\n"
+            "RULES:\n"
+            "- Plan the complete solution before outputting\n"
+            "- Include investigation, action, and verification commands\n"
+            "- Estimate realistic execution time (consider file I/O, test runs, etc.)\n"
+            "- Output ONLY valid JSON, no markdown, no explanations\n"
+            "- Every command in your list must be executable as-is on a single line\n\n"
+            "CORRECT EXAMPLES:\n\n"
+            "Example 1 - Basic permissions (file contents provided, no need to cat first):\n"
+        )
+
+        return header + middle + tail
     
     def _create_task_prompt(self, obs: Dict[str, Any]) -> str:
         """Create initial task prompt.
@@ -310,61 +418,40 @@ Example responses:
         """
         prompt = f"""TASK: {obs['task_description']}
 
-AVAILABLE FILES:
+ENVIRONMENT:
+  Python: 3.11.3
+  Node: 18.x  
+  Shell: bash
+  Working Directory: /sandbox (all files are in this directory)
+
+AVAILABLE FILES AND CONTENTS:
 """
+        # Include file contents so model can see what needs to be fixed
         for f in obs['files']:
-            prompt += f"  - {f['path']}\n"
+            prompt += f"\n--- {f['path']} ---\n"
+            content = f['content']
+            # Truncate very long files (>2000 chars) to avoid token limits
+            if len(content) > 2000:
+                prompt += content[:2000] + f"\n... (truncated, {len(content)} total bytes)\n"
+            else:
+                prompt += content + "\n"
         
         if obs.get('cli_history'):
             prompt += f"\nCLI HISTORY:\n"
             for entry in obs['cli_history'][:5]:  # Show first 5
                 prompt += f"  {entry}\n"
         
-        prompt += "\nWhat is your first command?"
+        prompt += "\n\nProvide your complete solution as a JSON object with all commands and time estimate."
         return prompt
     
-    def _create_feedback_prompt(
-        self,
-        obs: Dict[str, Any],
-        reward: float,
-        info: Dict[str, Any]
-    ) -> str:
-        """Create feedback prompt after command execution.
-        
-        Args:
-            obs: Environment observation
-            reward: Reward received
-            info: Additional info
-            
-        Returns:
-            Feedback prompt
-        """
-        prompt = ""
-        
-        # Add command output
-        if obs.get('last_output'):
-            output = obs['last_output'][:500]  # Truncate long output
-            prompt += f"OUTPUT:\n{output}\n\n"
-        
-        # Add any errors
-        if obs.get('error'):
-            prompt += f"ERROR: {obs['error']}\n\n"
-        
-        # Check if complete
-        if info.get('success'):
-            prompt += "Task appears complete! If you're done, output: DONE\n"
-        
-        prompt += "What is your next command? (or DONE if complete)"
-        return prompt
-    
-    def _extract_command(self, response: str) -> Optional[str]:
-        """Extract command from model response.
+    def _parse_action_response(self, response: str) -> Optional[Dict[str, Any]]:
+        """Parse model response into action format.
         
         Args:
             response: Model response text
             
         Returns:
-            Extracted command or None
+            Action dict with 'commands' and 'time_estimate', or None if invalid
         """
         if not response:
             return None
@@ -372,21 +459,151 @@ AVAILABLE FILES:
         # Clean up response
         response = response.strip()
         
-        # Check for DONE
-        if response.upper() == "DONE":
-            return "DONE"
-        
         # Remove markdown code blocks if present
         if response.startswith("```"):
             lines = response.split('\n')
-            # Find first line that's not ``` or language identifier
-            for line in lines[1:]:
-                if line and not line.startswith("```"):
-                    return line.strip()
+            # Find JSON content between ``` markers
+            json_lines = []
+            in_code_block = False
+            for line in lines:
+                if line.startswith("```"):
+                    in_code_block = not in_code_block
+                    continue
+                if in_code_block or (not line.startswith("```") and json_lines):
+                    json_lines.append(line)
+            response = '\n'.join(json_lines).strip()
         
-        # Take first line (should be the command)
-        first_line = response.split('\n')[0].strip()
-        return first_line if first_line else None
+        # Try to parse JSON
+        try:
+            action = json.loads(response)
+            
+            # Validate structure
+            if not isinstance(action, dict):
+                if self.verbose:
+                    print(f"  Error: Response is not a JSON object")
+                return None
+            
+            if 'commands' not in action:
+                if self.verbose:
+                    print(f"  Error: Missing 'commands' field in response")
+                return None
+            
+            if 'time_estimate' not in action:
+                if self.verbose:
+                    print(f"  Error: Missing 'time_estimate' field in response")
+                return None
+            
+            if not isinstance(action['commands'], list):
+                if self.verbose:
+                    print(f"  Error: 'commands' must be a list")
+                return None
+            
+            if not isinstance(action['time_estimate'], (int, float)):
+                if self.verbose:
+                    print(f"  Error: 'time_estimate' must be a number")
+                return None
+            
+            return action
+            
+        except json.JSONDecodeError as e:
+            if self.verbose:
+                print(f"  Error: Invalid JSON in response: {e}")
+                print(f"  Response was: {response[:200]}")
+            return None
+    
+    def _print_verification_details(
+        self,
+        verification_results: Dict[str, Any],
+        success: bool
+    ):
+        """Print detailed verification results for debugging.
+        
+        Args:
+            verification_results: Verification results dict
+            success: Overall success flag
+        """
+        print(f"  [VERIFICATION] Overall Success: {'✓' if success else '✗'}")
+        
+        # Test results
+        if 'test_results' in verification_results:
+            test_res = verification_results['test_results']
+            print(f"  [TESTS] ", end="")
+            if test_res.get('success'):
+                passed = test_res.get('passed', 0)
+                total = test_res.get('total', 0)
+                print(f"✓ Passed {passed}/{total}")
+            else:
+                passed = test_res.get('passed', 0)
+                failed = test_res.get('failed', 0)
+                total = test_res.get('total', 0)
+                print(f"✗ Failed {failed}/{total} (passed: {passed})")
+                if test_res.get('output'):
+                    # Show last few lines of test output
+                    lines = test_res['output'].split('\n')
+                    error_lines = [l for l in lines if 'FAILED' in l or 'ERROR' in l or 'Error' in l]
+                    if error_lines:
+                        print(f"    Error: {error_lines[0][:100]}")
+        
+        # Lint results
+        if 'lint_results' in verification_results:
+            lint_res = verification_results['lint_results']
+            if lint_res.get('skipped'):
+                print(f"  [LINT] ⊘ Skipped")
+            else:
+                error_count = lint_res.get('error_count', 0)
+                if error_count == 0:
+                    print(f"  [LINT] ✓ No errors")
+                else:
+                    print(f"  [LINT] ⚠ {error_count} errors")
+                    if lint_res.get('output'):
+                        # Show first error
+                        lines = lint_res['output'].split('\n')
+                        if lines:
+                            print(f"    First: {lines[0][:100]}")
+        
+        # Text match results
+        if 'text_match_results' in verification_results:
+            text_matches = verification_results['text_match_results']
+            if isinstance(text_matches, list):
+                passed = sum(1 for m in text_matches if m.get('success', False))
+                total = len(text_matches)
+                print(f"  [TEXT_MATCH] {passed}/{total} patterns matched")
+                # Show failures
+                for i, match in enumerate(text_matches):
+                    if not match.get('success', False):
+                        error = match.get('error', 'Unknown error')
+                        pattern = match.get('pattern', 'N/A')
+                        print(f"    ✗ Pattern {i+1}: {error[:80]}")
+                        if pattern and pattern != 'N/A':
+                            print(f"      Looking for: {pattern[:60]}")
+            elif isinstance(text_matches, dict):
+                if text_matches.get('success'):
+                    print(f"  [TEXT_MATCH] ✓ Pattern matched")
+                else:
+                    error = text_matches.get('error', 'Unknown error')
+                    print(f"  [TEXT_MATCH] ✗ {error[:80]}")
+
+        # Permissions verification
+        if 'permissions_verification' in verification_results:
+            perm = verification_results['permissions_verification']
+            if perm.get('has_expectations', False):
+                ok_exec = len(perm.get('exec_ok', []))
+                fail_exec = len(perm.get('exec_fail', []))
+                ok_ro = len(perm.get('readonly_ok', []))
+                fail_ro = len(perm.get('readonly_fail', []))
+                status = '✓' if perm.get('success', False) else '✗'
+                print(f"  [PERMISSIONS] {status} exec ok/fail: {ok_exec}/{fail_exec}, readonly ok/fail: {ok_ro}/{fail_ro}")
+        
+        # Execution verification (baseline)
+        if 'execution_verification' in verification_results:
+            exec_verify = verification_results['execution_verification']
+            if exec_verify.get('success'):
+                modified = len(exec_verify.get('files_modified', []))
+                created = len(exec_verify.get('files_created', []))
+                deleted = len(exec_verify.get('files_deleted', []))
+                print(f"  [EXECUTION] ✓ Files changed: {modified} modified, {created} created, {deleted} deleted")
+            else:
+                print(f"  [EXECUTION] ✗ No files were modified or created")
     
     def _save_results(
         self,

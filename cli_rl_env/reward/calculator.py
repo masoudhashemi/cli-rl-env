@@ -101,6 +101,10 @@ class RewardCalculator:
             elif test_res.get('success', False):
                 scores.append(1.0)
                 weights.append(0.7)
+            else:
+                # Tests were present but failed or could not collect
+                scores.append(0.0)
+                weights.append(0.7)
         
         # Linting results (weight: 0.2)
         if 'lint_results' in verification_results:
@@ -125,6 +129,30 @@ class RewardCalculator:
             elif isinstance(text_matches, dict) and text_matches.get('success', False):
                 scores.append(1.0)
                 weights.append(0.1)
+
+        # Permissions verification (weight: 0.1 when expectations exist)
+        if 'permissions_verification' in verification_results:
+            perm = verification_results['permissions_verification']
+            if perm.get('has_expectations', False):
+                perm_score = 1.0 if perm.get('success', False) else 0.0
+                scores.append(perm_score)
+                weights.append(0.1)
+        
+        # Execution verification (weight: 0.05 - baseline, lowest priority)
+        # Only used if no other verification exists
+        if 'execution_verification' in verification_results:
+            exec_verify = verification_results['execution_verification']
+            # If we have no other verification, execution verification is important
+            if not scores:
+                # No other verification - execution verification is critical
+                exec_score = 1.0 if exec_verify.get('success', False) else 0.0
+                scores.append(exec_score)
+                weights.append(1.0)  # Full weight since it's the only verification
+            else:
+                # We have other verification - execution is just a bonus
+                exec_score = 1.0 if exec_verify.get('success', False) else 0.5
+                scores.append(exec_score)
+                weights.append(0.05)  # Small weight as supplementary verification
         
         # Calculate weighted average
         if scores:
@@ -135,7 +163,7 @@ class RewardCalculator:
             weighted_score = sum(s * w for s, w in zip(scores, normalized_weights))
             return np.clip(weighted_score, 0.0, 1.0)
         else:
-            # No verification ran - return 0
+            # No verification ran at all - return 0
             return 0.0
     
     def _calculate_time_score(self, actual_time: float, estimated_time: float) -> float:

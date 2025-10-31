@@ -1,0 +1,245 @@
+{
+  "model_config": {
+    "model_name": "NUM_EXAMPLES=100",
+    "api_base": "http://localhost:1234/v1",
+    "api_key": "lm-studio",
+    "temperature": 0.3,
+    "max_tokens": 16000,
+    "timeout": 120
+  },
+  "summary": {
+    "total": 10,
+    "passed": 0,
+    "failed": 10,
+    "pass_rate": 0.0,
+    "avg_commands": 0.0,
+    "avg_time": 0.0027073144912719725,
+    "by_difficulty": {
+      "hard": {
+        "total": 6,
+        "passed": 0,
+        "pass_rate": 0.0
+      },
+      "very_hard": {
+        "total": 2,
+        "passed": 0,
+        "pass_rate": 0.0
+      },
+      "easy": {
+        "total": 2,
+        "passed": 0,
+        "pass_rate": 0.0
+      }
+    },
+    "by_type": {
+      "permissions": {
+        "total": 1,
+        "passed": 0,
+        "pass_rate": 0.0
+      },
+      "config_editing": {
+        "total": 1,
+        "passed": 0,
+        "pass_rate": 0.0
+      },
+      "data_processor": {
+        "total": 1,
+        "passed": 0,
+        "pass_rate": 0.0
+      },
+      "array_ops": {
+        "total": 1,
+        "passed": 0,
+        "pass_rate": 0.0
+      },
+      "string_utils": {
+        "total": 1,
+        "passed": 0,
+        "pass_rate": 0.0
+      },
+      "symlinks": {
+        "total": 1,
+        "passed": 0,
+        "pass_rate": 0.0
+      },
+      "data_pipeline": {
+        "total": 1,
+        "passed": 0,
+        "pass_rate": 0.0
+      },
+      "git": {
+        "total": 1,
+        "passed": 0,
+        "pass_rate": 0.0
+      },
+      "awk_cut": {
+        "total": 2,
+        "passed": 0,
+        "pass_rate": 0.0
+      }
+    }
+  },
+  "results": [
+    {
+      "scenario_id": "prompt_000608",
+      "success": false,
+      "num_commands": 0,
+      "commands": [],
+      "verification": {
+        "parse_error_verification": {
+          "success": false,
+          "error": "Failed to parse model response"
+        }
+      },
+      "time_seconds": 0.0052242279052734375,
+      "difficulty": "hard",
+      "scenario_type": "permissions",
+      "error": "Failed to parse model response"
+    },
+    {
+      "scenario_id": "prompt_000868",
+      "success": false,
+      "num_commands": 0,
+      "commands": [],
+      "verification": {
+        "parse_error_verification": {
+          "success": false,
+          "error": "Failed to parse model response"
+        }
+      },
+      "time_seconds": 0.002669095993041992,
+      "difficulty": "hard",
+      "scenario_type": "config_editing",
+      "error": "Failed to parse model response"
+    },
+    {
+      "scenario_id": "prompt_000703",
+      "success": false,
+      "num_commands": 0,
+      "commands": [],
+      "verification": {
+        "parse_error_verification": {
+          "success": false,
+          "error": "Failed to parse model response"
+        }
+      },
+      "time_seconds": 0.002398967742919922,
+      "difficulty": "very_hard",
+      "scenario_type": "data_processor",
+      "error": "Failed to parse model response"
+    },
+    {
+      "scenario_id": "prompt_000045",
+      "success": false,
+      "num_commands": 0,
+      "commands": [],
+      "verification": {
+        "parse_error_verification": {
+          "success": false,
+          "error": "Failed to parse model response"
+        }
+      },
+      "time_seconds": 0.002402782440185547,
+      "difficulty": "very_hard",
+      "scenario_type": "array_ops",
+      "error": "Failed to parse model response"
+    },
+    {
+      "scenario_id": "prompt_000318",
+      "success": false,
+      "num_commands": 0,
+      "commands": [],
+      "verification": {
+        "parse_error_verification": {
+          "success": false,
+          "error": "Failed to parse model response"
+        }
+      },
+      "time_seconds": 0.002295970916748047,
+      "difficulty": "hard",
+      "scenario_type": "string_utils",
+      "error": "Failed to parse model response"
+    },
+    {
+      "scenario_id": "prompt_000004",
+      "success": false,
+      "num_commands": 0,
+      "commands": [],
+      "verification": {
+        "parse_error_verification": {
+          "success": false,
+          "error": "Failed to parse model response"
+        }
+      },
+      "time_seconds": 0.002351999282836914,
+      "difficulty": "hard",
+      "scenario_type": "symlinks",
+      "error": "Failed to parse model response"
+    },
+    {
+      "scenario_id": "prompt_000118",
+      "success": false,
+      "num_commands": 0,
+      "commands": [],
+      "verification": {
+        "parse_error_verification": {
+          "success": false,
+          "error": "Failed to parse model response"
+        }
+      },
+      "time_seconds": 0.0025391578674316406,
+      "difficulty": "easy",
+      "scenario_type": "data_pipeline",
+      "error": "Failed to parse model response"
+    },
+    {
+      "scenario_id": "prompt_000534",
+      "success": false,
+      "num_commands": 0,
+      "commands": [],
+      "verification": {
+        "parse_error_verification": {
+          "success": false,
+          "error": "Failed to parse model response"
+        }
+      },
+      "time_seconds": 0.0024628639221191406,
+      "difficulty": "easy",
+      "scenario_type": "git",
+      "error": "Failed to parse model response"
+    },
+    {
+      "scenario_id": "prompt_000970",
+      "success": false,
+      "num_commands": 0,
+      "commands": [],
+      "verification": {
+        "parse_error_verification": {
+          "success": false,
+          "error": "Failed to parse model response"
+        }
+      },
+      "time_seconds": 0.002435922622680664,
+      "difficulty": "hard",
+      "scenario_type": "awk_cut",
+      "error": "Failed to parse model response"
+    },
+    {
+      "scenario_id": "prompt_000730",
+      "success": false,
+      "num_commands": 0,
+      "commands": [],
+      "verification": {
+        "parse_error_verification": {
+          "success": false,
+          "error": "Failed to parse model response"
+        }
+      },
+      "time_seconds": 0.002292156219482422,
+      "difficulty": "hard",
+      "scenario_type": "awk_cut",
+      "error": "Failed to parse model response"
+    }
+  ],
+  "timestamp": "2025-10-31 18:10:01"
+}

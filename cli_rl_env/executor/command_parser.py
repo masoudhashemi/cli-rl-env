@@ -1,6 +1,7 @@
 """Parse and validate LLM command outputs."""
 
 import json
+import platform
 from typing import Dict, List, Any
 
 
@@ -10,13 +11,13 @@ class CommandParser:
     # Whitelist of safe commands (standard CLI/bash tools only)
     SAFE_COMMANDS = {
         # File viewing
-        'cat', 'head', 'tail', 'less', 'more',
+        'cat', 'head', 'tail', 'less', 'more', 'tac',
         # File system
-        'ls', 'find', 'tree', 'file', 'stat',
+        'ls', 'find', 'tree', 'file', 'stat', 'du', 'df',
         # Text search/processing
-        'grep', 'sed', 'awk', 'cut', 'tr', 'sort', 'uniq', 'wc',
+        'grep', 'sed', 'awk', 'cut', 'tr', 'sort', 'uniq', 'wc', 'nl', 'paste', 'column', 'expand', 'unexpand',
         # File operations
-        'cp', 'mv', 'rm', 'mkdir', 'touch', 'chmod',
+        'cp', 'mv', 'rm', 'mkdir', 'touch', 'chmod', 'chown', 'ln', 'readlink', 'realpath',
         # Text editing
         'echo', 'printf', 'tee',
         # Comparison
@@ -28,11 +29,19 @@ class CommandParser:
         # Git
         'git',
         # Testing/execution
-        'python', 'python3', 'node', 'pytest', 'npm',
+        'python', 'python3', 'node', 'pytest', 'npm', 'jest', 'mocha', 'pip', 'pip3',
         # Shell
         'bash', 'sh',
+        # Data generation/manipulation
+        'seq', 'yes', 'true', 'false', 'shuf',
+        # System info (read-only)
+        'date', 'env', 'printenv', 'whoami', 'hostname', 'uname', 'uptime',
+        # Compression (read-only operations are safe)
+        'tar', 'gzip', 'gunzip', 'zip', 'unzip', 'bzip2', 'bunzip2',
+        # Checksums (safe, read-only)
+        'md5sum', 'sha1sum', 'sha256sum', 'cksum',
         # Other utilities
-        'xargs', 'basename', 'dirname', 'which', 'type'
+        'xargs', 'basename', 'dirname', 'which', 'type', 'test', '[', 'expr', 'bc', 'jq'
     }
     
     @staticmethod
@@ -111,15 +120,42 @@ class CommandParser:
             raise ValueError(f"Unsafe command: {base_cmd}. Allowed: {sorted(CommandParser.SAFE_COMMANDS)}")
         
         # Allow standard shell operators: >, >>, |, &&, ||
-        # Disallow dangerous operators: ;, &(background), backticks, $()
-        dangerous_patterns = [';', '`', '$(', '\n']
+        # Disallow dangerous operators: ;, &(background), backticks, $(), heredocs, multi-line embeddings
+        # Note: Semicolons are allowed in sed/awk patterns (they appear in text being edited)
+        dangerous_patterns = ['`', '$(', '\n', '<<', '<<-']
         for pattern in dangerous_patterns:
             if pattern in cmd:
                 raise ValueError(f"Command contains unsafe operator: {pattern}")
         
+        # Check for semicolon command chaining (but allow in sed/awk expressions)
+        # Dangerous: cmd1 ; cmd2 or cmd1; cmd2
+        # Safe: sed 's/old;/new;/' or awk pattern with semicolons
+        if ';' in cmd:
+            # Allow semicolons in sed and awk commands (common in patterns)
+            if base_cmd not in ['sed', 'awk']:
+                raise ValueError(f"Command contains unsafe operator: ; (semicolon command chaining not allowed)")
+        
         # Check for single & (background) but allow && (logical AND)
         if ' & ' in cmd or cmd.endswith('&'):
             raise ValueError("Background execution (&) not allowed")
+
+        # Block common multi-line embedding patterns (e.g., python - <<'PY')
+        if ' - <<' in cmd or '<<EOF' in cmd or '<<' in cmd:
+            raise ValueError("Heredocs or multi-line embeddings are not allowed")
+        
+        # macOS-specific sed restrictions: disallow i/a/c forms which are fragile in single-line context
+        if base_cmd == 'sed':
+            try:
+                os_name = platform.system().lower()
+            except Exception:
+                os_name = ''
+            if 'darwin' in os_name or 'mac' in os_name:
+                prohibited_markers = ["'i\\", '"i\\', "'a\\", '"a\\', "'c\\", '"c\\']
+                if any(m in cmd for m in prohibited_markers):
+                    raise ValueError("sed insert/append/change (i/a/c) not allowed on macOS; use printf+mv")
+                more_markers = [" 1i", " 1a", " 1c", ";i\\", ";a\\", ";c\\"]
+                if any(m in cmd for m in more_markers):
+                    raise ValueError("sed insert/append/change (i/a/c) not allowed on macOS; use printf+mv")
         
         # Path traversal check
         if '..' in cmd:

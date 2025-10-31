@@ -1,0 +1,1047 @@
+{
+  "model_config": {
+    "model_name": "openai/gpt-oss-20b",
+    "api_base": "http://localhost:1234/v1",
+    "api_key": "lm-studio",
+    "temperature": 0.3,
+    "max_tokens": 16000,
+    "timeout": 120
+  },
+  "summary": {
+    "total": 15,
+    "passed": 8,
+    "failed": 7,
+    "pass_rate": 53.333333333333336,
+    "avg_commands": 3.3333333333333335,
+    "avg_time": 9.639041376113891,
+    "by_difficulty": {
+      "hard": {
+        "total": 8,
+        "passed": 4,
+        "pass_rate": 50.0
+      },
+      "very_hard": {
+        "total": 4,
+        "passed": 2,
+        "pass_rate": 50.0
+      },
+      "easy": {
+        "total": 2,
+        "passed": 2,
+        "pass_rate": 100.0
+      },
+      "medium": {
+        "total": 1,
+        "passed": 0,
+        "pass_rate": 0.0
+      }
+    },
+    "by_type": {
+      "permissions": {
+        "total": 1,
+        "passed": 0,
+        "pass_rate": 0.0
+      },
+      "config_editing": {
+        "total": 1,
+        "passed": 1,
+        "pass_rate": 100.0
+      },
+      "data_processor": {
+        "total": 2,
+        "passed": 2,
+        "pass_rate": 100.0
+      },
+      "array_ops": {
+        "total": 1,
+        "passed": 0,
+        "pass_rate": 0.0
+      },
+      "string_utils": {
+        "total": 1,
+        "passed": 0,
+        "pass_rate": 0.0
+      },
+      "symlinks": {
+        "total": 2,
+        "passed": 2,
+        "pass_rate": 100.0
+      },
+      "data_pipeline": {
+        "total": 1,
+        "passed": 1,
+        "pass_rate": 100.0
+      },
+      "git": {
+        "total": 1,
+        "passed": 1,
+        "pass_rate": 100.0
+      },
+      "awk_cut": {
+        "total": 2,
+        "passed": 1,
+        "pass_rate": 50.0
+      },
+      "validators": {
+        "total": 1,
+        "passed": 0,
+        "pass_rate": 0.0
+      },
+      "utils": {
+        "total": 1,
+        "passed": 0,
+        "pass_rate": 0.0
+      },
+      "algorithms": {
+        "total": 1,
+        "passed": 0,
+        "pass_rate": 0.0
+      }
+    }
+  },
+  "results": [
+    {
+      "scenario_id": "prompt_000608",
+      "success": false,
+      "num_commands": 4,
+      "commands": [
+        "chmod +x deploy.sh",
+        "chmod +x deploy.py",
+        "ls -l deploy.sh deploy.py README.md",
+        "test ! -w README.md && echo 'README is read-only' || echo 'README is writable'"
+      ],
+      "verification": {
+        "lint_results": {
+          "success": true,
+          "error_count": 0,
+          "output": "",
+          "exit_code": 0
+        },
+        "permissions_verification": {
+          "expected_exec": [
+            "deploy.sh",
+            "deploy.py"
+          ],
+          "expected_readonly": [
+            "README.md"
+          ],
+          "exec_ok": [
+            "deploy.sh",
+            "deploy.py"
+          ],
+          "exec_fail": [],
+          "readonly_ok": [],
+          "readonly_fail": [
+            "README.md"
+          ],
+          "has_expectations": true,
+          "success": false
+        },
+        "execution_verification": {
+          "files_modified": [],
+          "files_created": [],
+          "files_deleted": [],
+          "dirs_created": [],
+          "dirs_deleted": [],
+          "success": false
+        }
+      },
+      "reward_breakdown": {
+        "total_reward": 0.6428571428571428,
+        "base_reward": 0.6428571428571428,
+        "time_score": 1.0,
+        "regression_score": 1.0,
+        "actual_time": 0.02711009979248047,
+        "estimated_time": 2.0,
+        "breakdown": {
+          "verification_score": 0.6428571428571428,
+          "time_penalty": 0.0,
+          "regression_penalty": 0.0
+        }
+      },
+      "execution_results": {
+        "results": [
+          {
+            "command": "chmod +x deploy.sh",
+            "success": true,
+            "output": "",
+            "time": 0.007992982864379883
+          },
+          {
+            "command": "chmod +x deploy.py",
+            "success": true,
+            "output": "",
+            "time": 0.006346940994262695
+          },
+          {
+            "command": "ls -l deploy.sh deploy.py README.md",
+            "success": true,
+            "output": "-rw-------@ 1 masoud  staff  57 Oct 31 13:46 README.md\n-rwx--x--x@ 1 masoud  staff  57 Oct 31 13:46 deploy.py\n-rwx--x--x@ 1 masoud  staff  48 Oct 31 13:46 deploy.sh\n",
+            "time": 0.007727146148681641
+          },
+          {
+            "command": "test ! -w README.md && echo 'README is read-only' || echo 'README is writable'",
+            "success": true,
+            "output": "README is writable\n",
+            "time": 0.005023002624511719
+          }
+        ],
+        "total_time": 0.02711009979248047,
+        "all_successful": true
+      },
+      "time_seconds": 6.445607900619507,
+      "difficulty": "hard",
+      "scenario_type": "permissions"
+    },
+    {
+      "scenario_id": "prompt_000868",
+      "success": true,
+      "num_commands": 3,
+      "commands": [
+        "printf '# Updated for development\\n' | cat - config.env > tmp && mv tmp config.env",
+        "sed -i '' -e 's/^DEBUG=false/DEBUG=true/' -e 's/^LOG_LEVEL=info/LOG_LEVEL=debug/' -e 's/^CACHE_ENABLED=false/CACHE_ENABLED=true/' -e 's/^API_KEY=.*$/API_KEY=new_key_67890/' config.env",
+        "cat config.env"
+      ],
+      "verification": {
+        "execution_verification": {
+          "files_modified": [
+            "config.env"
+          ],
+          "files_created": [],
+          "files_deleted": [],
+          "dirs_created": [],
+          "dirs_deleted": [],
+          "success": true
+        }
+      },
+      "reward_breakdown": {
+        "total_reward": 1.0,
+        "base_reward": 1.0,
+        "time_score": 1.0,
+        "regression_score": 1.0,
+        "actual_time": 0.03284502029418945,
+        "estimated_time": 5.0,
+        "breakdown": {
+          "verification_score": 1.0,
+          "time_penalty": 0.0,
+          "regression_penalty": 0.0
+        }
+      },
+      "execution_results": {
+        "results": [
+          {
+            "command": "printf '# Updated for development\\n' | cat - config.env > tmp && mv tmp config.env",
+            "success": true,
+            "output": "",
+            "time": 0.016314268112182617
+          },
+          {
+            "command": "sed -i '' -e 's/^DEBUG=false/DEBUG=true/' -e 's/^LOG_LEVEL=info/LOG_LEVEL=debug/' -e 's/^CACHE_ENABLED=false/CACHE_ENABLED=true/' -e 's/^API_KEY=.*$/API_KEY=new_key_67890/' config.env",
+            "success": true,
+            "output": "",
+            "time": 0.009412050247192383
+          },
+          {
+            "command": "cat config.env",
+            "success": true,
+            "output": "# Updated for development\n# Application Configuration\nDEBUG=true\nLOG_LEVEL=debug\nDATABASE_HOST=localhost\nDATABASE_PORT=5432\n# API Configuration\nAPI_KEY=new_key_67890\nAPI_TIMEOUT=30\n# Cache Settings\nCACHE_ENABLED=true\nCACHE_TTL=3600\n",
+            "time": 0.0071048736572265625
+          }
+        ],
+        "total_time": 0.03284502029418945,
+        "all_successful": true
+      },
+      "time_seconds": 9.888359785079956,
+      "difficulty": "hard",
+      "scenario_type": "config_editing"
+    },
+    {
+      "scenario_id": "prompt_000703",
+      "success": true,
+      "num_commands": 2,
+      "commands": [
+        "sed -i '' -e 's/^def filter_positive(numbers)/def filter_positive(numbers):/' data_processor.py",
+        "python3 -m pytest test_data_processor.py"
+      ],
+      "verification": {
+        "test_results": {
+          "success": true,
+          "passed": 5,
+          "failed": 0,
+          "total": 5,
+          "output": "============================= test session starts ==============================\nplatform darwin -- Python 3.12.11, pytest-8.4.2, pluggy-1.6.0 -- /Users/masoud/Documents/Repos/cli-rl-env/.venv/bin/python\ncachedir: .pytest_cache\nrootdir: /private/var/folders/zp/bbktq6x94hz_t85nvqs8b4w00000gn/T/cli_rl_env_c2y536yq\nplugins: anyio-4.11.0, timeout-2.4.0\ntimeout: 10.0s\ntimeout method: signal\ntimeout func_only: False\ncollecting ... collected 5 items\n\ntest_data_processor.py::test_filter_positive PASSED                      [ 20%]\ntest_data_processor.py::test_sum_even PASSED                             [ 40%]\ntest_data_processor.py::test_find_max PASSED                             [ 60%]\ntest_data_processor.py::test_average PASSED                              [ 80%]\ntest_data_processor.py::test_remove_duplicates PASSED                    [100%]\n\n============================== 5 passed in 0.00s ===============================\n",
+          "exit_code": 0
+        },
+        "lint_results": {
+          "success": false,
+          "error_count": 5,
+          "output": "data_processor.py:3:1: E302 expected 2 blank lines, found 1\ndata_processor.py:7:1: E302 expected 2 blank lines, found 1\ndata_processor.py:11:1: E302 expected 2 blank lines, found 1\ndata_processor.py:17:1: E302 expected 2 blank lines, found 1\ndata_processor.py:23:1: E302 expected 2 blank lines, found 1\n",
+          "exit_code": 1
+        },
+        "execution_verification": {
+          "files_modified": [
+            "data_processor.py"
+          ],
+          "files_created": [
+            ".pytest_cache/CACHEDIR.TAG",
+            ".pytest_cache/README.md",
+            ".pytest_cache/.gitignore",
+            "__pycache__/test_data_processor.cpython-312-pytest-8.4.2.pyc",
+            "__pycache__/data_processor.cpython-312.pyc",
+            ".pytest_cache/v/cache/nodeids"
+          ],
+          "files_deleted": [],
+          "dirs_created": [
+            ".pytest_cache",
+            "__pycache__",
+            ".pytest_cache/v",
+            ".pytest_cache/v/cache"
+          ],
+          "dirs_deleted": [],
+          "success": true
+        }
+      },
+      "reward_breakdown": {
+        "total_reward": 0.9473684210526315,
+        "base_reward": 0.9473684210526315,
+        "time_score": 1.0,
+        "regression_score": 1.0,
+        "actual_time": 0.14691424369812012,
+        "estimated_time": 5.0,
+        "breakdown": {
+          "verification_score": 0.9473684210526315,
+          "time_penalty": 0.0,
+          "regression_penalty": 0.0
+        }
+      },
+      "execution_results": {
+        "results": [
+          {
+            "command": "sed -i '' -e 's/^def filter_positive(numbers)/def filter_positive(numbers):/' data_processor.py",
+            "success": true,
+            "output": "",
+            "time": 0.011780977249145508
+          },
+          {
+            "command": "python3 -m pytest test_data_processor.py",
+            "success": true,
+            "output": "============================= test session starts ==============================\nplatform darwin -- Python 3.12.11, pytest-8.4.2, pluggy-1.6.0\nrootdir: /private/var/folders/zp/bbktq6x94hz_t85nvqs8b4w00000gn/T/cli_rl_env_c2y536yq\nplugins: anyio-4.11.0, timeout-2.4.0\ncollected 5 items\n\ntest_data_processor.py .....                                             [100%]\n\n============================== 5 passed in 0.01s ===============================\n",
+            "time": 0.13512396812438965
+          }
+        ],
+        "total_time": 0.14691424369812012,
+        "all_successful": true
+      },
+      "time_seconds": 11.686214923858643,
+      "difficulty": "very_hard",
+      "scenario_type": "data_processor"
+    },
+    {
+      "scenario_id": "prompt_000045",
+      "success": false,
+      "num_commands": 6,
+      "commands": [
+        "node test_array_ops.js > test_output.txt 2>&1",
+        "cat test_output.txt",
+        "sed -i '' -e 's/return arr.reduce((a, b) => a - b, 0);/return arr.reduce((a, b) => a + b, 0);/' array_ops.js",
+        "sed -i '' -e 's/if (arr.length !== 0) return null;/if (arr.length === 0) return null;/' array_ops.js",
+        "node test_array_ops.js > test_output2.txt 2>&1",
+        "cat test_output2.txt"
+      ],
+      "verification": {},
+      "reward_breakdown": null,
+      "execution_results": null,
+      "time_seconds": 8.125902891159058,
+      "difficulty": "very_hard",
+      "scenario_type": "array_ops"
+    },
+    {
+      "scenario_id": "prompt_000318",
+      "success": false,
+      "num_commands": 3,
+      "commands": [
+        "pytest test_string_utils.py",
+        "sed -i '' -e 's/return cleaned != cleaned[::-1]/return cleaned == cleaned[::-1]/' string_utils.py",
+        "pytest test_string_utils.py"
+      ],
+      "verification": {
+        "test_results": {
+          "success": false,
+          "passed": 4,
+          "failed": 1,
+          "total": 5,
+          "output": "============================= test session starts ==============================\nplatform darwin -- Python 3.12.11, pytest-8.4.2, pluggy-1.6.0 -- /Users/masoud/Documents/Repos/cli-rl-env/.venv/bin/python\ncachedir: .pytest_cache\nrootdir: /private/var/folders/zp/bbktq6x94hz_t85nvqs8b4w00000gn/T/cli_rl_env_yihxd7cg\nplugins: anyio-4.11.0, timeout-2.4.0\ntimeout: 10.0s\ntimeout method: signal\ntimeout func_only: False\ncollecting ... collected 5 items\n\ntest_string_utils.py::test_reverse_string PASSED                         [ 20%]\ntest_string_utils.py::test_is_palindrome FAILED                          [ 40%]\ntest_string_utils.py::test_count_vowels PASSED                           [ 60%]\ntest_string_utils.py::test_capitalize_words PASSED                       [ 80%]\ntest_string_utils.py::test_remove_whitespace PASSED                      [100%]\n\n=================================== FAILURES ===================================\n______________________________ test_is_palindrome ______________________________\ntest_string_utils.py:11: in test_is_palindrome\n    assert is_palindrome(\"racecar\") == True\nE   AssertionError: assert False == True\nE    +  where False = is_palindrome('racecar')\n=========================== short test summary info ============================\nFAILED test_string_utils.py::test_is_palindrome - AssertionError: assert Fals...\n========================= 1 failed, 4 passed in 0.01s ==========================\n",
+          "exit_code": 1
+        },
+        "lint_results": {
+          "success": false,
+          "error_count": 5,
+          "output": "string_utils.py:3:1: E302 expected 2 blank lines, found 1\nstring_utils.py:7:1: E302 expected 2 blank lines, found 1\nstring_utils.py:12:1: E302 expected 2 blank lines, found 1\nstring_utils.py:17:1: E302 expected 2 blank lines, found 1\nstring_utils.py:21:1: E302 expected 2 blank lines, found 1\n",
+          "exit_code": 1
+        },
+        "execution_verification": {
+          "files_modified": [],
+          "files_created": [
+            ".pytest_cache/CACHEDIR.TAG",
+            ".pytest_cache/README.md",
+            ".pytest_cache/.gitignore",
+            "__pycache__/string_utils.cpython-312.pyc",
+            "__pycache__/test_string_utils.cpython-312-pytest-8.4.2.pyc",
+            ".pytest_cache/v/cache/nodeids",
+            ".pytest_cache/v/cache/lastfailed"
+          ],
+          "files_deleted": [],
+          "dirs_created": [
+            ".pytest_cache",
+            "__pycache__",
+            ".pytest_cache/v",
+            ".pytest_cache/v/cache"
+          ],
+          "dirs_deleted": [],
+          "success": true
+        }
+      },
+      "reward_breakdown": {
+        "total_reward": 0.7999999999999999,
+        "base_reward": 0.7999999999999999,
+        "time_score": 1.0,
+        "regression_score": 1.0,
+        "actual_time": 0.29172778129577637,
+        "estimated_time": 5.0,
+        "breakdown": {
+          "verification_score": 0.7999999999999999,
+          "time_penalty": 0.0,
+          "regression_penalty": 0.0
+        }
+      },
+      "execution_results": {
+        "results": [
+          {
+            "command": "pytest test_string_utils.py",
+            "success": false,
+            "error": "Command execution failed: Command failed with code 1: ============================= test session starts ==============================\nplatform darwin -- Python 3.12.11, pytest-8.4.2, pluggy-1.6.0\nrootdir: /private/var/folders/zp/bbktq6x94hz_t85nvqs8b4w00000gn/T/cli_rl_env_yihxd7cg\nplugins: anyio-4.11.0, timeout-2.4.0\ncollected 5 items\n\ntest_string_utils.py .F...                                               [100%]\n\n=================================== FAILURES ===================================\n______________________________ test_is_palindrome ___",
+            "time": 0.15483403205871582
+          },
+          {
+            "command": "sed -i '' -e 's/return cleaned != cleaned[::-1]/return cleaned == cleaned[::-1]/' string_utils.py",
+            "success": false,
+            "error": "Command execution failed: Command failed with code 1: \nSTDERR: sed: 1: \"s/return cleaned != cle ...\": RE error: invalid character range\n",
+            "time": 0.0065958499908447266
+          },
+          {
+            "command": "pytest test_string_utils.py",
+            "success": false,
+            "error": "Command execution failed: Command failed with code 1: ============================= test session starts ==============================\nplatform darwin -- Python 3.12.11, pytest-8.4.2, pluggy-1.6.0\nrootdir: /private/var/folders/zp/bbktq6x94hz_t85nvqs8b4w00000gn/T/cli_rl_env_yihxd7cg\nplugins: anyio-4.11.0, timeout-2.4.0\ncollected 5 items\n\ntest_string_utils.py .F...                                               [100%]\n\n=================================== FAILURES ===================================\n______________________________ test_is_palindrome ___",
+            "time": 0.13022899627685547
+          }
+        ],
+        "total_time": 0.29172778129577637,
+        "all_successful": false
+      },
+      "time_seconds": 6.448227167129517,
+      "difficulty": "hard",
+      "scenario_type": "string_utils"
+    },
+    {
+      "scenario_id": "prompt_000004",
+      "success": true,
+      "num_commands": 3,
+      "commands": [
+        "ln -s config.dev.ini config.ini",
+        "ls -l config.ini",
+        "python3 app.py | grep 'dev_db'"
+      ],
+      "verification": {
+        "lint_results": {
+          "success": true,
+          "error_count": 0,
+          "output": "",
+          "exit_code": 0
+        },
+        "execution_verification": {
+          "files_modified": [],
+          "files_created": [
+            "config.ini"
+          ],
+          "files_deleted": [],
+          "dirs_created": [],
+          "dirs_deleted": [],
+          "success": true
+        }
+      },
+      "reward_breakdown": {
+        "total_reward": 1.0,
+        "base_reward": 1.0,
+        "time_score": 1.0,
+        "regression_score": 1.0,
+        "actual_time": 0.05199289321899414,
+        "estimated_time": 5.0,
+        "breakdown": {
+          "verification_score": 1.0,
+          "time_penalty": 0.0,
+          "regression_penalty": 0.0
+        }
+      },
+      "execution_results": {
+        "results": [
+          {
+            "command": "ln -s config.dev.ini config.ini",
+            "success": true,
+            "output": "",
+            "time": 0.012058734893798828
+          },
+          {
+            "command": "ls -l config.ini",
+            "success": true,
+            "output": "lrwxr-xr-x@ 1 masoud  staff  14 Oct 31 13:47 config.ini -> config.dev.ini\n",
+            "time": 0.010573863983154297
+          },
+          {
+            "command": "python3 app.py | grep 'dev_db'",
+            "success": true,
+            "output": "Database: dev_db\n",
+            "time": 0.02934408187866211
+          }
+        ],
+        "total_time": 0.05199289321899414,
+        "all_successful": true
+      },
+      "time_seconds": 4.815071105957031,
+      "difficulty": "hard",
+      "scenario_type": "symlinks"
+    },
+    {
+      "scenario_id": "prompt_000118",
+      "success": true,
+      "num_commands": 2,
+      "commands": [
+        "cat access.log | awk '{print $1}' | sort | uniq -c | sort -nr | head -n 3 > top_ips.txt",
+        "cat top_ips.txt"
+      ],
+      "verification": {
+        "execution_verification": {
+          "files_modified": [],
+          "files_created": [
+            "top_ips.txt"
+          ],
+          "files_deleted": [],
+          "dirs_created": [],
+          "dirs_deleted": [],
+          "success": true
+        }
+      },
+      "reward_breakdown": {
+        "total_reward": 1.0,
+        "base_reward": 1.0,
+        "time_score": 1.0,
+        "regression_score": 1.0,
+        "actual_time": 0.02517390251159668,
+        "estimated_time": 5.0,
+        "breakdown": {
+          "verification_score": 1.0,
+          "time_penalty": 0.0,
+          "regression_penalty": 0.0
+        }
+      },
+      "execution_results": {
+        "results": [
+          {
+            "command": "cat access.log | awk '{print $1}' | sort | uniq -c | sort -nr | head -n 3 > top_ips.txt",
+            "success": true,
+            "output": "",
+            "time": 0.01631903648376465
+          },
+          {
+            "command": "cat top_ips.txt",
+            "success": true,
+            "output": "   3 192.168.1.10\n   2 192.168.1.11\n   1 192.168.1.12\n",
+            "time": 0.008842945098876953
+          }
+        ],
+        "total_time": 0.02517390251159668,
+        "all_successful": true
+      },
+      "time_seconds": 5.510063171386719,
+      "difficulty": "easy",
+      "scenario_type": "data_pipeline"
+    },
+    {
+      "scenario_id": "prompt_000534",
+      "success": true,
+      "num_commands": 10,
+      "commands": [
+        "git init",
+        "git config user.name \"CI Runner\"",
+        "git config user.email \"runner@example.com\"",
+        "git add feature.py",
+        "git commit -m \"Initial commit of feature.py\"",
+        "sed -i.bak 's/v1/v2/' feature.py && rm feature.py.bak",
+        "git add feature.py",
+        "git commit -m \"Update version to v2\"",
+        "cat feature.py",
+        "git log --oneline"
+      ],
+      "verification": {
+        "lint_results": {
+          "success": true,
+          "error_count": 0,
+          "output": "",
+          "exit_code": 0
+        },
+        "git_verification": {
+          "has_expectations": true,
+          "inside_work_tree": true,
+          "commit_count": 2,
+          "log_excerpt": "7a0600a Update version to v2\nf56bcb6 Initial commit of feature.py",
+          "success": true,
+          "required_commits": 1
+        },
+        "execution_verification": {
+          "files_modified": [
+            "feature.py"
+          ],
+          "files_created": [
+            ".git/config",
+            ".git/HEAD",
+            ".git/description",
+            ".git/index",
+            ".git/COMMIT_EDITMSG",
+            ".git/info/exclude",
+            ".git/logs/HEAD",
+            ".git/hooks/commit-msg.sample",
+            ".git/hooks/pre-rebase.sample",
+            ".git/hooks/sendemail-validate.sample",
+            ".git/hooks/pre-commit.sample",
+            ".git/hooks/applypatch-msg.sample",
+            ".git/hooks/fsmonitor-watchman.sample",
+            ".git/hooks/pre-receive.sample",
+            ".git/hooks/prepare-commit-msg.sample",
+            ".git/hooks/post-update.sample",
+            ".git/hooks/pre-merge-commit.sample",
+            ".git/hooks/pre-applypatch.sample",
+            ".git/hooks/pre-push.sample",
+            ".git/hooks/update.sample",
+            ".git/hooks/push-to-checkout.sample",
+            ".git/objects/67/ee470b83cd490594849621d47226e7b8ba2922",
+            ".git/objects/e2/eb221a6ae6679a6e66d94fd380e9b8291fe414",
+            ".git/objects/f5/6bcb605e51bd9430c38a5805655833bad3b48b",
+            ".git/objects/07/60f2e4cf0b9107d61bafaac48c7b4cfdef10a7",
+            ".git/objects/76/316f4862b14220b78c0b01daf2372a34a53ac5",
+            ".git/objects/7a/0600a749b6a35bb90189a86b5bc5afc3bbac5b",
+            ".git/logs/refs/heads/main",
+            ".git/refs/heads/main"
+          ],
+          "files_deleted": [],
+          "dirs_created": [
+            ".git",
+            ".git/objects",
+            ".git/info",
+            ".git/logs",
+            ".git/hooks",
+            ".git/refs",
+            ".git/objects/67",
+            ".git/objects/e2",
+            ".git/objects/f5",
+            ".git/objects/pack",
+            ".git/objects/07",
+            ".git/objects/info",
+            ".git/objects/76",
+            ".git/objects/7a",
+            ".git/logs/refs",
+            ".git/refs/heads",
+            ".git/refs/tags",
+            ".git/logs/refs/heads"
+          ],
+          "dirs_deleted": [],
+          "success": true
+        }
+      },
+      "reward_breakdown": {
+        "total_reward": 1.0,
+        "base_reward": 1.0,
+        "time_score": 1.0,
+        "regression_score": 1.0,
+        "actual_time": 0.1477489471435547,
+        "estimated_time": 12.0,
+        "breakdown": {
+          "verification_score": 1.0,
+          "time_penalty": 0.0,
+          "regression_penalty": 0.0
+        }
+      },
+      "execution_results": {
+        "results": [
+          {
+            "command": "git init",
+            "success": true,
+            "output": "Initialized empty Git repository in /private/var/folders/zp/bbktq6x94hz_t85nvqs8b4w00000gn/T/cli_rl_env_gazmct2f/.git/\n",
+            "time": 0.027745962142944336
+          },
+          {
+            "command": "git config user.name \"CI Runner\"",
+            "success": true,
+            "output": "",
+            "time": 0.016360044479370117
+          },
+          {
+            "command": "git config user.email \"runner@example.com\"",
+            "success": true,
+            "output": "",
+            "time": 0.014335870742797852
+          },
+          {
+            "command": "git add feature.py",
+            "success": true,
+            "output": "",
+            "time": 0.013628959655761719
+          },
+          {
+            "command": "git commit -m \"Initial commit of feature.py\"",
+            "success": true,
+            "output": "[main (root-commit) f56bcb6] Initial commit of feature.py\n 1 file changed, 2 insertions(+)\n create mode 100644 feature.py\n",
+            "time": 0.018548965454101562
+          },
+          {
+            "command": "sed -i.bak 's/v1/v2/' feature.py && rm feature.py.bak",
+            "success": true,
+            "output": "",
+            "time": 0.008671998977661133
+          },
+          {
+            "command": "git add feature.py",
+            "success": true,
+            "output": "",
+            "time": 0.012712955474853516
+          },
+          {
+            "command": "git commit -m \"Update version to v2\"",
+            "success": true,
+            "output": "[main 7a0600a] Update version to v2\n 1 file changed, 1 insertion(+), 1 deletion(-)\n",
+            "time": 0.018096208572387695
+          },
+          {
+            "command": "cat feature.py",
+            "success": true,
+            "output": "def feature():\n    return \"v2\"  # Update to v2\n",
+            "time": 0.00581812858581543
+          },
+          {
+            "command": "git log --oneline",
+            "success": true,
+            "output": "7a0600a Update version to v2\nf56bcb6 Initial commit of feature.py\n",
+            "time": 0.011777877807617188
+          }
+        ],
+        "total_time": 0.1477489471435547,
+        "all_successful": true
+      },
+      "time_seconds": 10.849308967590332,
+      "difficulty": "easy",
+      "scenario_type": "git"
+    },
+    {
+      "scenario_id": "prompt_000970",
+      "success": true,
+      "num_commands": 3,
+      "commands": [
+        "printf '\"\"\"Process CSV data.\"\"\"\\n\\n\\ndef process_data(filename):\\n    total = 0\\n    with open(filename) as f:\\n        next(f)\\n        for line in f:\\n            parts = line.strip().split(\",\")\\n            total += int(parts[2])\\n    return total\\n' > processor.py",
+        "cat processor.py",
+        "python test_processor.py"
+      ],
+      "verification": {
+        "test_results": {
+          "success": true,
+          "passed": 1,
+          "failed": 0,
+          "total": 1,
+          "output": "============================= test session starts ==============================\nplatform darwin -- Python 3.12.11, pytest-8.4.2, pluggy-1.6.0 -- /Users/masoud/Documents/Repos/cli-rl-env/.venv/bin/python\ncachedir: .pytest_cache\nrootdir: /private/var/folders/zp/bbktq6x94hz_t85nvqs8b4w00000gn/T/cli_rl_env_w2w_2c34\nplugins: anyio-4.11.0, timeout-2.4.0\ntimeout: 10.0s\ntimeout method: signal\ntimeout func_only: False\ncollecting ... collected 1 item\n\ntest_processor.py::test_process PASSED                                   [100%]\n\n============================== 1 passed in 0.00s ===============================\n",
+          "exit_code": 0
+        },
+        "lint_results": {
+          "success": true,
+          "error_count": 0,
+          "output": "",
+          "exit_code": 0
+        },
+        "execution_verification": {
+          "files_modified": [
+            "processor.py"
+          ],
+          "files_created": [
+            ".pytest_cache/CACHEDIR.TAG",
+            ".pytest_cache/README.md",
+            ".pytest_cache/.gitignore",
+            "__pycache__/processor.cpython-312.pyc",
+            ".pytest_cache/v/cache/nodeids"
+          ],
+          "files_deleted": [],
+          "dirs_created": [
+            ".pytest_cache",
+            "__pycache__",
+            ".pytest_cache/v",
+            ".pytest_cache/v/cache"
+          ],
+          "dirs_deleted": [],
+          "success": true
+        }
+      },
+      "reward_breakdown": {
+        "total_reward": 1.0,
+        "base_reward": 1.0,
+        "time_score": 1.0,
+        "regression_score": 1.0,
+        "actual_time": 0.04808807373046875,
+        "estimated_time": 10.0,
+        "breakdown": {
+          "verification_score": 1.0,
+          "time_penalty": 0.0,
+          "regression_penalty": 0.0
+        }
+      },
+      "execution_results": {
+        "results": [
+          {
+            "command": "printf '\"\"\"Process CSV data.\"\"\"\\n\\n\\ndef process_data(filename):\\n    total = 0\\n    with open(filename) as f:\\n        next(f)\\n        for line in f:\\n            parts = line.strip().split(\",\")\\n            total += int(parts[2])\\n    return total\\n' > processor.py",
+            "success": true,
+            "output": "",
+            "time": 0.009438276290893555
+          },
+          {
+            "command": "cat processor.py",
+            "success": true,
+            "output": "\"\"\"Process CSV data.\"\"\"\n\n\ndef process_data(filename):\n    total = 0\n    with open(filename) as f:\n        next(f)\n        for line in f:\n            parts = line.strip().split(\",\")\n            total += int(parts[2])\n    return total\n",
+            "time": 0.009185075759887695
+          },
+          {
+            "command": "python test_processor.py",
+            "success": true,
+            "output": "",
+            "time": 0.029447078704833984
+          }
+        ],
+        "total_time": 0.04808807373046875,
+        "all_successful": true
+      },
+      "time_seconds": 9.129358053207397,
+      "difficulty": "hard",
+      "scenario_type": "awk_cut"
+    },
+    {
+      "scenario_id": "prompt_000730",
+      "success": false,
+      "num_commands": 2,
+      "commands": [
+        "printf '%s\n' '\"\"\"Process CSV data.\"\"\"' '' 'def process_data(filename):' '    total = 0' '    with open(filename) as f:' '        next(f)' '        for line in f:' '            parts = line.strip().split(\",\")' '            total += int(parts[2])' '    return total' > processor.py",
+        "python -m pytest test_processor.py"
+      ],
+      "verification": {},
+      "reward_breakdown": null,
+      "execution_results": null,
+      "time_seconds": 10.489296197891235,
+      "difficulty": "hard",
+      "scenario_type": "awk_cut"
+    },
+    {
+      "scenario_id": "prompt_000396",
+      "success": true,
+      "num_commands": 2,
+      "commands": [
+        "ln -s config.dev.ini config.ini",
+        "python3 app.py | grep dev_db"
+      ],
+      "verification": {
+        "lint_results": {
+          "success": true,
+          "error_count": 0,
+          "output": "",
+          "exit_code": 0
+        },
+        "execution_verification": {
+          "files_modified": [],
+          "files_created": [
+            "config.ini"
+          ],
+          "files_deleted": [],
+          "dirs_created": [],
+          "dirs_deleted": [],
+          "success": true
+        }
+      },
+      "reward_breakdown": {
+        "total_reward": 1.0,
+        "base_reward": 1.0,
+        "time_score": 1.0,
+        "regression_score": 1.0,
+        "actual_time": 0.04582405090332031,
+        "estimated_time": 5.0,
+        "breakdown": {
+          "verification_score": 1.0,
+          "time_penalty": 0.0,
+          "regression_penalty": 0.0
+        }
+      },
+      "execution_results": {
+        "results": [
+          {
+            "command": "ln -s config.dev.ini config.ini",
+            "success": true,
+            "output": "",
+            "time": 0.014394283294677734
+          },
+          {
+            "command": "python3 app.py | grep dev_db",
+            "success": true,
+            "output": "Database: dev_db\n",
+            "time": 0.0314180850982666
+          }
+        ],
+        "total_time": 0.04582405090332031,
+        "all_successful": true
+      },
+      "time_seconds": 4.930959224700928,
+      "difficulty": "very_hard",
+      "scenario_type": "symlinks"
+    },
+    {
+      "scenario_id": "prompt_000470",
+      "success": false,
+      "num_commands": 0,
+      "commands": [],
+      "verification": {
+        "parse_error_verification": {
+          "success": false,
+          "error": "Failed to parse model response"
+        }
+      },
+      "time_seconds": 1.6264822483062744,
+      "difficulty": "medium",
+      "scenario_type": "validators",
+      "error": "Failed to parse model response"
+    },
+    {
+      "scenario_id": "prompt_000037",
+      "success": false,
+      "num_commands": 7,
+      "commands": [
+        "node test_utils.js > test_output.txt 2>&1",
+        "cat test_output.txt",
+        "sed -i '' -e 's/return a - b;/return a + b;/' utils.js",
+        "sed -i '' -e 's/return a \\/b;/return a * b;/' utils.js",
+        "sed -i '' -e 's/return n % 2 !== 0;/return n % 2 === 0;/' utils.js",
+        "node test_utils.js > test_output_fixed.txt 2>&1",
+        "cat test_output_fixed.txt"
+      ],
+      "verification": {},
+      "reward_breakdown": null,
+      "execution_results": null,
+      "time_seconds": 10.353839874267578,
+      "difficulty": "very_hard",
+      "scenario_type": "utils"
+    },
+    {
+      "scenario_id": "prompt_000741",
+      "success": true,
+      "num_commands": 3,
+      "commands": [
+        "sed -i '' -e 's/return \\[n for n in numbers if n < 0\\]/return [n for n in numbers if n > 0]/' data_processor.py",
+        "python -m pytest test_data_processor.py",
+        "cat data_processor.py | grep filter_positive"
+      ],
+      "verification": {
+        "test_results": {
+          "success": true,
+          "passed": 5,
+          "failed": 0,
+          "total": 5,
+          "output": "============================= test session starts ==============================\nplatform darwin -- Python 3.12.11, pytest-8.4.2, pluggy-1.6.0 -- /Users/masoud/Documents/Repos/cli-rl-env/.venv/bin/python\ncachedir: .pytest_cache\nrootdir: /private/var/folders/zp/bbktq6x94hz_t85nvqs8b4w00000gn/T/cli_rl_env_vh1a_fum\nplugins: anyio-4.11.0, timeout-2.4.0\ntimeout: 10.0s\ntimeout method: signal\ntimeout func_only: False\ncollecting ... collected 5 items\n\ntest_data_processor.py::test_filter_positive PASSED                      [ 20%]\ntest_data_processor.py::test_sum_even PASSED                             [ 40%]\ntest_data_processor.py::test_find_max PASSED                             [ 60%]\ntest_data_processor.py::test_average PASSED                              [ 80%]\ntest_data_processor.py::test_remove_duplicates PASSED                    [100%]\n\n============================== 5 passed in 0.00s ===============================\n",
+          "exit_code": 0
+        },
+        "lint_results": {
+          "success": false,
+          "error_count": 5,
+          "output": "data_processor.py:3:1: E302 expected 2 blank lines, found 1\ndata_processor.py:7:1: E302 expected 2 blank lines, found 1\ndata_processor.py:11:1: E302 expected 2 blank lines, found 1\ndata_processor.py:17:1: E302 expected 2 blank lines, found 1\ndata_processor.py:23:1: E302 expected 2 blank lines, found 1\n",
+          "exit_code": 1
+        },
+        "execution_verification": {
+          "files_modified": [
+            "data_processor.py"
+          ],
+          "files_created": [
+            ".pytest_cache/CACHEDIR.TAG",
+            ".pytest_cache/README.md",
+            ".pytest_cache/.gitignore",
+            "__pycache__/test_data_processor.cpython-312-pytest-8.4.2.pyc",
+            "__pycache__/data_processor.cpython-312.pyc",
+            ".pytest_cache/v/cache/nodeids"
+          ],
+          "files_deleted": [],
+          "dirs_created": [
+            ".pytest_cache",
+            "__pycache__",
+            ".pytest_cache/v",
+            ".pytest_cache/v/cache"
+          ],
+          "dirs_deleted": [],
+          "success": true
+        }
+      },
+      "reward_breakdown": {
+        "total_reward": 0.9473684210526315,
+        "base_reward": 0.9473684210526315,
+        "time_score": 1.0,
+        "regression_score": 1.0,
+        "actual_time": 0.1543138027191162,
+        "estimated_time": 15.0,
+        "breakdown": {
+          "verification_score": 0.9473684210526315,
+          "time_penalty": 0.0,
+          "regression_penalty": 0.0
+        }
+      },
+      "execution_results": {
+        "results": [
+          {
+            "command": "sed -i '' -e 's/return \\[n for n in numbers if n < 0\\]/return [n for n in numbers if n > 0]/' data_processor.py",
+            "success": true,
+            "output": "",
+            "time": 0.013393878936767578
+          },
+          {
+            "command": "python -m pytest test_data_processor.py",
+            "success": true,
+            "output": "============================= test session starts ==============================\nplatform darwin -- Python 3.12.11, pytest-8.4.2, pluggy-1.6.0\nrootdir: /private/var/folders/zp/bbktq6x94hz_t85nvqs8b4w00000gn/T/cli_rl_env_vh1a_fum\nplugins: anyio-4.11.0, timeout-2.4.0\ncollected 5 items\n\ntest_data_processor.py .....                                             [100%]\n\n============================== 5 passed in 0.01s ===============================\n",
+            "time": 0.13361907005310059
+          },
+          {
+            "command": "cat data_processor.py | grep filter_positive",
+            "success": true,
+            "output": "def filter_positive(numbers):\n",
+            "time": 0.0072858333587646484
+          }
+        ],
+        "total_time": 0.1543138027191162,
+        "all_successful": true
+      },
+      "time_seconds": 9.634615182876587,
+      "difficulty": "hard",
+      "scenario_type": "data_processor"
+    },
+    {
+      "scenario_id": "prompt_000210",
+      "success": false,
+      "num_commands": 0,
+      "commands": [],
+      "verification": {
+        "parse_error_verification": {
+          "success": false,
+          "error": "Failed to parse model response"
+        }
+      },
+      "time_seconds": 34.65231394767761,
+      "difficulty": "hard",
+      "scenario_type": "algorithms",
+      "error": "Failed to parse model response"
+    }
+  ],
+  "timestamp": "2025-10-31 13:49:07"
+}
