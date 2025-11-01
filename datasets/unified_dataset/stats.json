@@ -1,0 +1,42 @@
+{
+  "total": 150,
+  "train": 90,
+  "val": 30,
+  "test": 30,
+  "difficulty_distribution": {
+    "medium": 30,
+    "hard": 37,
+    "very_hard": 39,
+    "easy": 44
+  },
+  "language_distribution": {
+    "python": 115,
+    "javascript": 35
+  },
+  "scenario_type_distribution": {
+    "batch_processing": 4,
+    "comparison": 9,
+    "algorithms": 14,
+    "config_editing": 3,
+    "text_transform": 6,
+    "utils": 16,
+    "calculator": 9,
+    "symlinks": 5,
+    "awk_cut": 5,
+    "string_utils": 8,
+    "log_analysis": 8,
+    "directory_tree": 5,
+    "data_processor": 10,
+    "file_ops": 4,
+    "git": 3,
+    "array_ops": 9,
+    "refactoring": 4,
+    "redirection": 3,
+    "validators": 8,
+    "sed_intensive": 5,
+    "archive": 5,
+    "data_pipeline": 3,
+    "permissions": 3,
+    "piping": 1
+  }
+}

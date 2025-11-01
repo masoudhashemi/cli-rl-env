@@ -1,0 +1,1040 @@
+{
+  "model_config": {
+    "model_name": "openai/gpt-oss-20b",
+    "api_base": "http://localhost:1234/v1",
+    "api_key": "lm-studio",
+    "temperature": 0.3,
+    "max_tokens": 16000,
+    "timeout": 120
+  },
+  "summary": {
+    "total": 15,
+    "passed": 9,
+    "failed": 6,
+    "pass_rate": 60.0,
+    "avg_commands": 4.0,
+    "avg_time": 22.46087106068929,
+    "by_difficulty": {
+      "very_hard": {
+        "total": 2,
+        "passed": 1,
+        "pass_rate": 50.0
+      },
+      "medium": {
+        "total": 3,
+        "passed": 0,
+        "pass_rate": 0.0
+      },
+      "easy": {
+        "total": 7,
+        "passed": 5,
+        "pass_rate": 71.42857142857143
+      },
+      "hard": {
+        "total": 3,
+        "passed": 3,
+        "pass_rate": 100.0
+      }
+    },
+    "by_type": {
+      "array_ops": {
+        "total": 2,
+        "passed": 1,
+        "pass_rate": 50.0
+      },
+      "sed_intensive": {
+        "total": 1,
+        "passed": 0,
+        "pass_rate": 0.0
+      },
+      "file_ops": {
+        "total": 2,
+        "passed": 0,
+        "pass_rate": 0.0
+      },
+      "validators": {
+        "total": 1,
+        "passed": 1,
+        "pass_rate": 100.0
+      },
+      "archive": {
+        "total": 2,
+        "passed": 2,
+        "pass_rate": 100.0
+      },
+      "data_pipeline": {
+        "total": 1,
+        "passed": 1,
+        "pass_rate": 100.0
+      },
+      "symlinks": {
+        "total": 1,
+        "passed": 1,
+        "pass_rate": 100.0
+      },
+      "utils": {
+        "total": 1,
+        "passed": 0,
+        "pass_rate": 0.0
+      },
+      "calculator": {
+        "total": 3,
+        "passed": 2,
+        "pass_rate": 66.66666666666666
+      },
+      "directory_tree": {
+        "total": 1,
+        "passed": 1,
+        "pass_rate": 100.0
+      }
+    }
+  },
+  "results": [
+    {
+      "scenario_id": "gen_20251031_215148_0145",
+      "success": false,
+      "num_commands": 4,
+      "commands": [
+        "node test_array_ops.js",
+        "printf '%s\n' \"// Array operation functions\" \"\" \"function sum(arr) {\" \"    return arr.reduce((a, b) => a + b, 0);\" \"}\" \"\" \"function findMax(arr) {\" \"    if (arr.length === 0) return null;\" \"    return Math.max(...arr);\" \"}\" \"\" \"function removeDuplicates(arr) {\" \"    return [...new Set(arr)];\" \"}\" \"\" \"function flatten(arr) {\" \"    return arr.flat();\" \"}\" \"\" \"function chunk(arr, size) {\" \"    const result = [];\" \"    for (let i = 0; i < arr.length; i += size) {\" \"        result.push(arr.slice(i, i + size));\" \"    }\" \"    return result;\" \"}\" \"\" \"module.exports = { sum, findMax, removeDuplicates, flatten, chunk };\" > array_ops.js",
+        "cat array_ops.js",
+        "node test_array_ops.js"
+      ],
+      "verification": {},
+      "reward_breakdown": null,
+      "execution_results": null,
+      "time_seconds": 43.76506805419922,
+      "difficulty": "very_hard",
+      "scenario_type": "array_ops"
+    },
+    {
+      "scenario_id": "gen_20251031_215148_0044",
+      "success": false,
+      "num_commands": 7,
+      "commands": [
+        "sed -i '' -e 's/return a - b;/return a + b;/' calculator.js",
+        "sed -i '' -e 's/return x + y;/return x * y;/' calculator.js",
+        "sed -i '' '/console\\.log/d' calculator.js",
+        "cat calculator.js | grep 'return a + b;' && echo \"calculate fixed\"",
+        "cat calculator.js | grep 'return x * y;' && echo \"multiply fixed\"",
+        "cat calculator.js | grep -v 'console.log' || echo \"debug line removed\"",
+        "node test_calculator.js"
+      ],
+      "verification": {},
+      "reward_breakdown": null,
+      "execution_results": null,
+      "time_seconds": 15.136676788330078,
+      "difficulty": "medium",
+      "scenario_type": "sed_intensive"
+    },
+    {
+      "scenario_id": "gen_20251031_215148_0055",
+      "success": false,
+      "num_commands": 9,
+      "commands": [
+        "mkdir lib",
+        "mv utils.py lib/",
+        "sed -i 's/from utils/from lib.utils/' main.py",
+        "python3 main.py > /tmp/out.txt",
+        "cat /tmp/out.txt",
+        "ls lib",
+        "cat lib/utils.py",
+        "python3 -c \"import lib.utils; print(lib.utils.utility_function())\" > /tmp/out2.txt && cat /tmp/out2.txt",
+        "python3 -m py_compile main.py"
+      ],
+      "verification": {},
+      "reward_breakdown": null,
+      "execution_results": null,
+      "time_seconds": 27.181502103805542,
+      "difficulty": "medium",
+      "scenario_type": "file_ops"
+    },
+    {
+      "scenario_id": "gen_20251031_215148_0090",
+      "success": true,
+      "num_commands": 3,
+      "commands": [
+        "cat array_ops.js",
+        "sed -i '' -e 's/if (arr.length !== 0) return null;/if (arr.length === 0) return null;/' array_ops.js",
+        "node test_array_ops.js"
+      ],
+      "verification": {
+        "test_results": {
+          "success": true,
+          "passed": 5,
+          "failed": 0,
+          "total": 5,
+          "output": "\u2713 test_sum passed\n\u2713 test_findMax passed\n\u2713 test_removeDuplicates passed\n\u2713 test_flatten passed\n\u2713 test_chunk passed\nAll tests passed!\n",
+          "exit_code": 0
+        },
+        "lint_results": {
+          "success": true,
+          "output": "",
+          "exit_code": 0,
+          "error_count": 0
+        },
+        "execution_verification": {
+          "files_modified": [
+            "array_ops.js"
+          ],
+          "files_created": [],
+          "files_deleted": [],
+          "dirs_created": [],
+          "dirs_deleted": [],
+          "success": true
+        }
+      },
+      "reward_breakdown": {
+        "total_reward": 1.0,
+        "base_reward": 1.0,
+        "time_score": 1.0,
+        "regression_score": 1.0,
+        "actual_time": 0.051863670349121094,
+        "estimated_time": 5.0,
+        "breakdown": {
+          "verification_score": 1.0,
+          "time_penalty": 0.0,
+          "regression_penalty": 0.0
+        }
+      },
+      "execution_results": {
+        "results": [
+          {
+            "command": "cat array_ops.js",
+            "success": true,
+            "output": "// Array operation functions\n\nfunction sum(arr) {\n    return arr.reduce((a, b) => a + b, 0);\n}\n\nfunction findMax(arr) {\n    if (arr.length !== 0) return null;\n    return Math.max(...arr);\n}\n\nfunction removeDuplicates(arr) {\n    return [...new Set(arr)];\n}\n\nfunction flatten(arr) {\n    return arr.flat();\n}\n\nfunction chunk(arr, size) {\n    const result = [];\n    for (let i = 0; i < arr.length; i += size) {\n        result.push(arr.slice(i, i + size));\n    }\n    return result;\n}\n\nmodule.exports = { sum, findMax, removeDuplicates, flatten, chunk };\n",
+            "time": 0.007962942123413086
+          },
+          {
+            "command": "sed -i '' -e 's/if (arr.length !== 0) return null;/if (arr.length === 0) return null;/' array_ops.js",
+            "success": true,
+            "output": "",
+            "time": 0.008726119995117188
+          },
+          {
+            "command": "node test_array_ops.js",
+            "success": true,
+            "output": "\u2713 test_sum passed\n\u2713 test_findMax passed\n\u2713 test_removeDuplicates passed\n\u2713 test_flatten passed\n\u2713 test_chunk passed\nAll tests passed!\n",
+            "time": 0.035153865814208984
+          }
+        ],
+        "total_time": 0.051863670349121094,
+        "all_successful": true
+      },
+      "time_seconds": 20.451453924179077,
+      "difficulty": "easy",
+      "scenario_type": "array_ops"
+    },
+    {
+      "scenario_id": "gen_20251031_215148_0021",
+      "success": true,
+      "num_commands": 2,
+      "commands": [
+        "sed -i '' -e 's/function isValidEmail(email)/function isValidEmail(email) {/' validators.js",
+        "node test_validators.js"
+      ],
+      "verification": {
+        "test_results": {
+          "success": true,
+          "passed": 4,
+          "failed": 0,
+          "total": 4,
+          "output": "\u2713 test_isValidEmail passed\n\u2713 test_isValidPhone passed\n\u2713 test_isValidPassword passed\n\u2713 test_isValidUsername passed\nAll tests passed!\n",
+          "exit_code": 0
+        },
+        "lint_results": {
+          "success": true,
+          "output": "",
+          "exit_code": 0,
+          "error_count": 0
+        },
+        "execution_verification": {
+          "files_modified": [
+            "validators.js"
+          ],
+          "files_created": [],
+          "files_deleted": [],
+          "dirs_created": [],
+          "dirs_deleted": [],
+          "success": true
+        }
+      },
+      "reward_breakdown": {
+        "total_reward": 1.0,
+        "base_reward": 1.0,
+        "time_score": 1.0,
+        "regression_score": 1.0,
+        "actual_time": 0.04216599464416504,
+        "estimated_time": 5.0,
+        "breakdown": {
+          "verification_score": 1.0,
+          "time_penalty": 0.0,
+          "regression_penalty": 0.0
+        }
+      },
+      "execution_results": {
+        "results": [
+          {
+            "command": "sed -i '' -e 's/function isValidEmail(email)/function isValidEmail(email) {/' validators.js",
+            "success": true,
+            "output": "",
+            "time": 0.00865793228149414
+          },
+          {
+            "command": "node test_validators.js",
+            "success": true,
+            "output": "\u2713 test_isValidEmail passed\n\u2713 test_isValidPhone passed\n\u2713 test_isValidPassword passed\n\u2713 test_isValidUsername passed\nAll tests passed!\n",
+            "time": 0.03349494934082031
+          }
+        ],
+        "total_time": 0.04216599464416504,
+        "all_successful": true
+      },
+      "time_seconds": 19.142646074295044,
+      "difficulty": "easy",
+      "scenario_type": "validators"
+    },
+    {
+      "scenario_id": "gen_20251031_215148_0104",
+      "success": true,
+      "num_commands": 5,
+      "commands": [
+        "find src -type f -name '*.py' > pyfiles.txt",
+        "tar -czf backup.tar.gz -T pyfiles.txt config.ini",
+        "rm pyfiles.txt",
+        "ls -l backup.tar.gz",
+        "tar -tzf backup.tar.gz"
+      ],
+      "verification": {
+        "lint_results": {
+          "success": true,
+          "error_count": 0,
+          "output": "",
+          "exit_code": 0
+        },
+        "text_match_results": [
+          {
+            "success": false,
+            "error": "Target is a directory, not a file: ."
+          }
+        ],
+        "execution_verification": {
+          "files_modified": [],
+          "files_created": [
+            "backup.tar.gz"
+          ],
+          "files_deleted": [],
+          "dirs_created": [],
+          "dirs_deleted": [],
+          "success": true
+        }
+      },
+      "reward_breakdown": {
+        "total_reward": 0.7142857142857142,
+        "base_reward": 0.7142857142857142,
+        "time_score": 1.0,
+        "regression_score": 1.0,
+        "actual_time": 0.04314613342285156,
+        "estimated_time": 5.0,
+        "breakdown": {
+          "verification_score": 0.7142857142857142,
+          "time_penalty": 0.0,
+          "regression_penalty": 0.0
+        }
+      },
+      "execution_results": {
+        "results": [
+          {
+            "command": "find src -type f -name '*.py' > pyfiles.txt",
+            "success": true,
+            "output": "",
+            "time": 0.007770061492919922
+          },
+          {
+            "command": "tar -czf backup.tar.gz -T pyfiles.txt config.ini",
+            "success": true,
+            "output": "",
+            "time": 0.010704994201660156
+          },
+          {
+            "command": "rm pyfiles.txt",
+            "success": true,
+            "output": "",
+            "time": 0.007815837860107422
+          },
+          {
+            "command": "ls -l backup.tar.gz",
+            "success": true,
+            "output": "-rw-r--r--@ 1 masoud  staff  575 Oct 31 21:54 backup.tar.gz\n",
+            "time": 0.008583784103393555
+          },
+          {
+            "command": "tar -tzf backup.tar.gz",
+            "success": true,
+            "output": "src/helper.py\nsrc/main.py\nconfig.ini\n",
+            "time": 0.008240938186645508
+          }
+        ],
+        "total_time": 0.04314613342285156,
+        "all_successful": true
+      },
+      "time_seconds": 12.126622915267944,
+      "difficulty": "hard",
+      "scenario_type": "archive"
+    },
+    {
+      "scenario_id": "gen_20251031_215148_0098",
+      "success": true,
+      "num_commands": 2,
+      "commands": [
+        "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -n 3 | awk '{$1=$1; print $0}' > top_ips.txt",
+        "cat top_ips.txt"
+      ],
+      "verification": {
+        "text_match_results": [
+          {
+            "success": true,
+            "found": true,
+            "should_exist": true,
+            "pattern": "192.168",
+            "filepath": "top_ips.txt"
+          }
+        ],
+        "execution_verification": {
+          "files_modified": [],
+          "files_created": [
+            "top_ips.txt"
+          ],
+          "files_deleted": [],
+          "dirs_created": [],
+          "dirs_deleted": [],
+          "success": true
+        }
+      },
+      "reward_breakdown": {
+        "total_reward": 1.0,
+        "base_reward": 1.0,
+        "time_score": 1.0,
+        "regression_score": 1.0,
+        "actual_time": 0.01584792137145996,
+        "estimated_time": 5.0,
+        "breakdown": {
+          "verification_score": 1.0,
+          "time_penalty": 0.0,
+          "regression_penalty": 0.0
+        }
+      },
+      "execution_results": {
+        "results": [
+          {
+            "command": "awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -n 3 | awk '{$1=$1; print $0}' > top_ips.txt",
+            "success": true,
+            "output": "",
+            "time": 0.009820938110351562
+          },
+          {
+            "command": "cat top_ips.txt",
+            "success": true,
+            "output": "3 192.168.1.10\n2 192.168.1.11\n1 192.168.1.12\n",
+            "time": 0.006018161773681641
+          }
+        ],
+        "total_time": 0.01584792137145996,
+        "all_successful": true
+      },
+      "time_seconds": 17.582864999771118,
+      "difficulty": "easy",
+      "scenario_type": "data_pipeline"
+    },
+    {
+      "scenario_id": "gen_20251031_215148_0002",
+      "success": true,
+      "num_commands": 3,
+      "commands": [
+        "ln -s config.dev.ini config.ini",
+        "ls -l config.ini",
+        "python3 app.py | grep dev_db"
+      ],
+      "verification": {
+        "lint_results": {
+          "success": true,
+          "error_count": 0,
+          "output": "",
+          "exit_code": 0
+        },
+        "execution_verification": {
+          "files_modified": [],
+          "files_created": [
+            "config.ini"
+          ],
+          "files_deleted": [],
+          "dirs_created": [],
+          "dirs_deleted": [],
+          "success": true
+        }
+      },
+      "reward_breakdown": {
+        "total_reward": 1.0,
+        "base_reward": 1.0,
+        "time_score": 1.0,
+        "regression_score": 1.0,
+        "actual_time": 0.04780006408691406,
+        "estimated_time": 5.0,
+        "breakdown": {
+          "verification_score": 1.0,
+          "time_penalty": 0.0,
+          "regression_penalty": 0.0
+        }
+      },
+      "execution_results": {
+        "results": [
+          {
+            "command": "ln -s config.dev.ini config.ini",
+            "success": true,
+            "output": "",
+            "time": 0.007642269134521484
+          },
+          {
+            "command": "ls -l config.ini",
+            "success": true,
+            "output": "lrwxr-xr-x@ 1 masoud  staff  14 Oct 31 21:55 config.ini -> config.dev.ini\n",
+            "time": 0.009701251983642578
+          },
+          {
+            "command": "python3 app.py | grep dev_db",
+            "success": true,
+            "output": "Database: dev_db\n",
+            "time": 0.030435800552368164
+          }
+        ],
+        "total_time": 0.04780006408691406,
+        "all_successful": true
+      },
+      "time_seconds": 10.823112964630127,
+      "difficulty": "easy",
+      "scenario_type": "symlinks"
+    },
+    {
+      "scenario_id": "gen_20251031_215148_0072",
+      "success": false,
+      "num_commands": 5,
+      "commands": [
+        "cat utils.js",
+        "sed -i '' -e 's/function add(a, b) /function add(a, b) {/' utils.js",
+        "sed -i '' -e '/return a + b;/{n;/^}\\s*$/d}' utils.js",
+        "sed -i '' -e 's/!== 0/=== 0/' utils.js",
+        "node test_utils.js"
+      ],
+      "verification": {},
+      "reward_breakdown": null,
+      "execution_results": null,
+      "time_seconds": 23.99841594696045,
+      "difficulty": "medium",
+      "scenario_type": "utils"
+    },
+    {
+      "scenario_id": "gen_20251031_215148_0115",
+      "success": true,
+      "num_commands": 3,
+      "commands": [
+        "sed -i '' -e 's/^def add(a, b)$/def add(a, b):/' calculator.py",
+        "python -m py_compile calculator.py",
+        "python -m pytest test_calculator.py"
+      ],
+      "verification": {
+        "test_results": {
+          "success": true,
+          "passed": 5,
+          "failed": 0,
+          "total": 5,
+          "output": "============================= test session starts ==============================\nplatform darwin -- Python 3.12.11, pytest-8.4.2, pluggy-1.6.0 -- /Users/masoud/Documents/Repos/cli-rl-env/.venv/bin/python\ncachedir: .pytest_cache\nrootdir: /private/var/folders/zp/bbktq6x94hz_t85nvqs8b4w00000gn/T/cli_rl_env_ff04es_9\nplugins: anyio-4.11.0, timeout-2.4.0\ntimeout: 10.0s\ntimeout method: signal\ntimeout func_only: False\ncollecting ... collected 5 items\n\ntest_calculator.py::test_add PASSED                                      [ 20%]\ntest_calculator.py::test_subtract PASSED                                 [ 40%]\ntest_calculator.py::test_multiply PASSED                                 [ 60%]\ntest_calculator.py::test_divide PASSED                                   [ 80%]\ntest_calculator.py::test_power PASSED                                    [100%]\n\n============================== 5 passed in 0.00s ===============================\n",
+          "exit_code": 0
+        },
+        "lint_results": {
+          "success": false,
+          "error_count": 5,
+          "output": "calculator.py:3:1: E302 expected 2 blank lines, found 1\ncalculator.py:7:1: E302 expected 2 blank lines, found 1\ncalculator.py:11:1: E302 expected 2 blank lines, found 1\ncalculator.py:15:1: E302 expected 2 blank lines, found 1\ncalculator.py:21:1: E302 expected 2 blank lines, found 1\n",
+          "exit_code": 1
+        },
+        "execution_verification": {
+          "files_modified": [
+            "calculator.py"
+          ],
+          "files_created": [
+            ".pytest_cache/CACHEDIR.TAG",
+            ".pytest_cache/README.md",
+            ".pytest_cache/.gitignore",
+            "__pycache__/calculator.cpython-312.pyc",
+            "__pycache__/test_calculator.cpython-312-pytest-8.4.2.pyc",
+            ".pytest_cache/v/cache/nodeids"
+          ],
+          "files_deleted": [],
+          "dirs_created": [
+            ".pytest_cache",
+            "__pycache__",
+            ".pytest_cache/v",
+            ".pytest_cache/v/cache"
+          ],
+          "dirs_deleted": [],
+          "success": true
+        }
+      },
+      "reward_breakdown": {
+        "total_reward": 0.9473684210526315,
+        "base_reward": 0.9473684210526315,
+        "time_score": 1.0,
+        "regression_score": 1.0,
+        "actual_time": 0.18256616592407227,
+        "estimated_time": 5.0,
+        "breakdown": {
+          "verification_score": 0.9473684210526315,
+          "time_penalty": 0.0,
+          "regression_penalty": 0.0
+        }
+      },
+      "execution_results": {
+        "results": [
+          {
+            "command": "sed -i '' -e 's/^def add(a, b)$/def add(a, b):/' calculator.py",
+            "success": true,
+            "output": "",
+            "time": 0.00863504409790039
+          },
+          {
+            "command": "python -m py_compile calculator.py",
+            "success": true,
+            "output": "",
+            "time": 0.03745412826538086
+          },
+          {
+            "command": "python -m pytest test_calculator.py",
+            "success": true,
+            "output": "============================= test session starts ==============================\nplatform darwin -- Python 3.12.11, pytest-8.4.2, pluggy-1.6.0\nrootdir: /private/var/folders/zp/bbktq6x94hz_t85nvqs8b4w00000gn/T/cli_rl_env_ff04es_9\nplugins: anyio-4.11.0, timeout-2.4.0\ncollected 5 items\n\ntest_calculator.py .....                                                 [100%]\n\n============================== 5 passed in 0.01s ===============================\n",
+            "time": 0.1364588737487793
+          }
+        ],
+        "total_time": 0.18256616592407227,
+        "all_successful": true
+      },
+      "time_seconds": 18.837601900100708,
+      "difficulty": "hard",
+      "scenario_type": "calculator"
+    },
+    {
+      "scenario_id": "gen_20251031_215148_0057",
+      "success": true,
+      "num_commands": 2,
+      "commands": [
+        "find . -type f -name \"*.py\" ! -path \"./tests/*\" -print0 | xargs -0 realpath > python_files.txt",
+        "wc -l < python_files.txt > file_count.txt"
+      ],
+      "verification": {
+        "lint_results": {
+          "success": false,
+          "error_count": 1,
+          "output": "src/main.py:2:14: W292 no newline at end of file\n",
+          "exit_code": 1
+        },
+        "text_match_results": [
+          {
+            "success": true,
+            "found": true,
+            "should_exist": true,
+            "pattern": "src/",
+            "filepath": "python_files.txt"
+          }
+        ],
+        "execution_verification": {
+          "files_modified": [],
+          "files_created": [
+            "python_files.txt",
+            "file_count.txt"
+          ],
+          "files_deleted": [],
+          "dirs_created": [],
+          "dirs_deleted": [],
+          "success": true
+        }
+      },
+      "reward_breakdown": {
+        "total_reward": 0.9714285714285713,
+        "base_reward": 0.9714285714285713,
+        "time_score": 1.0,
+        "regression_score": 1.0,
+        "actual_time": 0.017583131790161133,
+        "estimated_time": 5.0,
+        "breakdown": {
+          "verification_score": 0.9714285714285713,
+          "time_penalty": 0.0,
+          "regression_penalty": 0.0
+        }
+      },
+      "execution_results": {
+        "results": [
+          {
+            "command": "find . -type f -name \"*.py\" ! -path \"./tests/*\" -print0 | xargs -0 realpath > python_files.txt",
+            "success": true,
+            "output": "",
+            "time": 0.00972604751586914
+          },
+          {
+            "command": "wc -l < python_files.txt > file_count.txt",
+            "success": true,
+            "output": "",
+            "time": 0.007848978042602539
+          }
+        ],
+        "total_time": 0.017583131790161133,
+        "all_successful": true
+      },
+      "time_seconds": 16.29255986213684,
+      "difficulty": "hard",
+      "scenario_type": "directory_tree"
+    },
+    {
+      "scenario_id": "gen_20251031_215148_0108",
+      "success": true,
+      "num_commands": 2,
+      "commands": [
+        "sed -i 's/if b != 0:/if b == 0:/' calculator.py",
+        "python -m pytest test_calculator.py"
+      ],
+      "verification": {
+        "test_results": {
+          "success": true,
+          "passed": 5,
+          "failed": 0,
+          "total": 5,
+          "output": "============================= test session starts ==============================\nplatform darwin -- Python 3.12.11, pytest-8.4.2, pluggy-1.6.0 -- /Users/masoud/Documents/Repos/cli-rl-env/.venv/bin/python\ncachedir: .pytest_cache\nrootdir: /private/var/folders/zp/bbktq6x94hz_t85nvqs8b4w00000gn/T/cli_rl_env_yihb1s4i\nplugins: anyio-4.11.0, timeout-2.4.0\ntimeout: 10.0s\ntimeout method: signal\ntimeout func_only: False\ncollecting ... collected 5 items\n\ntest_calculator.py::test_add PASSED                                      [ 20%]\ntest_calculator.py::test_subtract PASSED                                 [ 40%]\ntest_calculator.py::test_multiply PASSED                                 [ 60%]\ntest_calculator.py::test_divide PASSED                                   [ 80%]\ntest_calculator.py::test_power PASSED                                    [100%]\n\n============================== 5 passed in 0.00s ===============================\n",
+          "exit_code": 0
+        },
+        "lint_results": {
+          "success": false,
+          "error_count": 5,
+          "output": "calculator.py:3:1: E302 expected 2 blank lines, found 1\ncalculator.py:7:1: E302 expected 2 blank lines, found 1\ncalculator.py:11:1: E302 expected 2 blank lines, found 1\ncalculator.py:15:1: E302 expected 2 blank lines, found 1\ncalculator.py:21:1: E302 expected 2 blank lines, found 1\n",
+          "exit_code": 1
+        },
+        "execution_verification": {
+          "files_modified": [
+            "calculator.py"
+          ],
+          "files_created": [
+            ".pytest_cache/CACHEDIR.TAG",
+            ".pytest_cache/README.md",
+            ".pytest_cache/.gitignore",
+            "__pycache__/calculator.cpython-312.pyc",
+            "__pycache__/test_calculator.cpython-312-pytest-8.4.2.pyc",
+            ".pytest_cache/v/cache/nodeids"
+          ],
+          "files_deleted": [],
+          "dirs_created": [
+            ".pytest_cache",
+            "__pycache__",
+            ".pytest_cache/v",
+            ".pytest_cache/v/cache"
+          ],
+          "dirs_deleted": [],
+          "success": true
+        }
+      },
+      "reward_breakdown": {
+        "total_reward": 0.9473684210526315,
+        "base_reward": 0.9473684210526315,
+        "time_score": 1.0,
+        "regression_score": 1.0,
+        "actual_time": 0.14730000495910645,
+        "estimated_time": 5.0,
+        "breakdown": {
+          "verification_score": 0.9473684210526315,
+          "time_penalty": 0.0,
+          "regression_penalty": 0.0
+        }
+      },
+      "execution_results": {
+        "results": [
+          {
+            "command": "sed -i '' 's/if b != 0:/if b == 0:/' calculator.py",
+            "success": true,
+            "output": "",
+            "time": 0.007330894470214844
+          },
+          {
+            "command": "python -m pytest test_calculator.py",
+            "success": true,
+            "output": "============================= test session starts ==============================\nplatform darwin -- Python 3.12.11, pytest-8.4.2, pluggy-1.6.0\nrootdir: /private/var/folders/zp/bbktq6x94hz_t85nvqs8b4w00000gn/T/cli_rl_env_yihb1s4i\nplugins: anyio-4.11.0, timeout-2.4.0\ncollected 5 items\n\ntest_calculator.py .....                                                 [100%]\n\n============================== 5 passed in 0.01s ===============================\n",
+            "time": 0.1399528980255127
+          }
+        ],
+        "total_time": 0.14730000495910645,
+        "all_successful": true
+      },
+      "time_seconds": 17.735896110534668,
+      "difficulty": "easy",
+      "scenario_type": "calculator"
+    },
+    {
+      "scenario_id": "gen_20251031_215148_0051",
+      "success": false,
+      "num_commands": 3,
+      "commands": [
+        "pip install pytest",
+        "pytest -q > test_output.txt",
+        "grep -i failed test_output.txt || echo \"All tests passed\""
+      ],
+      "verification": {
+        "test_results": {
+          "success": true,
+          "passed": 5,
+          "failed": 0,
+          "total": 5,
+          "output": "============================= test session starts ==============================\nplatform darwin -- Python 3.12.11, pytest-8.4.2, pluggy-1.6.0 -- /Users/masoud/Documents/Repos/cli-rl-env/.venv/bin/python\ncachedir: .pytest_cache\nrootdir: /private/var/folders/zp/bbktq6x94hz_t85nvqs8b4w00000gn/T/cli_rl_env_u4didbmi\nplugins: anyio-4.11.0, timeout-2.4.0\ntimeout: 10.0s\ntimeout method: signal\ntimeout func_only: False\ncollecting ... collected 5 items\n\ntest_calculator.py::test_add PASSED                                      [ 20%]\ntest_calculator.py::test_subtract PASSED                                 [ 40%]\ntest_calculator.py::test_multiply PASSED                                 [ 60%]\ntest_calculator.py::test_divide PASSED                                   [ 80%]\ntest_calculator.py::test_power PASSED                                    [100%]\n\n============================== 5 passed in 0.00s ===============================\n",
+          "exit_code": 0
+        },
+        "lint_results": {
+          "success": false,
+          "error_count": 5,
+          "output": "calculator.py:3:1: E302 expected 2 blank lines, found 1\ncalculator.py:7:1: E302 expected 2 blank lines, found 1\ncalculator.py:11:1: E302 expected 2 blank lines, found 1\ncalculator.py:15:1: E302 expected 2 blank lines, found 1\ncalculator.py:21:1: E302 expected 2 blank lines, found 1\n",
+          "exit_code": 1
+        },
+        "execution_verification": {
+          "files_modified": [],
+          "files_created": [
+            "test_output.txt",
+            ".pytest_cache/CACHEDIR.TAG",
+            ".pytest_cache/README.md",
+            ".pytest_cache/.gitignore",
+            "__pycache__/calculator.cpython-312.pyc",
+            "__pycache__/test_calculator.cpython-312-pytest-8.4.2.pyc",
+            ".pytest_cache/v/cache/nodeids"
+          ],
+          "files_deleted": [],
+          "dirs_created": [
+            ".pytest_cache",
+            "__pycache__",
+            ".pytest_cache/v",
+            ".pytest_cache/v/cache"
+          ],
+          "dirs_deleted": [],
+          "success": true
+        }
+      },
+      "reward_breakdown": {
+        "total_reward": 0.9473684210526315,
+        "base_reward": 0.9473684210526315,
+        "time_score": 1.0,
+        "regression_score": 1.0,
+        "actual_time": 0.1545102596282959,
+        "estimated_time": 15.0,
+        "breakdown": {
+          "verification_score": 0.9473684210526315,
+          "time_penalty": 0.0,
+          "regression_penalty": 0.0
+        }
+      },
+      "execution_results": {
+        "results": [
+          {
+            "command": "pip install pytest",
+            "success": false,
+            "error": "Command execution failed: Command failed with code 127: \nSTDERR: /bin/sh: pip: command not found\n",
+            "time": 0.0060710906982421875
+          },
+          {
+            "command": "pytest -q > test_output.txt",
+            "success": true,
+            "output": "",
+            "time": 0.14090323448181152
+          },
+          {
+            "command": "grep -i failed test_output.txt || echo \"All tests passed\"",
+            "success": true,
+            "output": "All tests passed\n",
+            "time": 0.007519960403442383
+          }
+        ],
+        "total_time": 0.1545102596282959,
+        "all_successful": false
+      },
+      "time_seconds": 37.07754421234131,
+      "difficulty": "easy",
+      "scenario_type": "calculator"
+    },
+    {
+      "scenario_id": "gen_20251031_215148_0149",
+      "success": true,
+      "num_commands": 4,
+      "commands": [
+        "find src -name '*.py' > pyfiles.txt",
+        "tar -czf backup.tar.gz -T pyfiles.txt config.ini",
+        "tar -tzf backup.tar.gz",
+        "rm pyfiles.txt"
+      ],
+      "verification": {
+        "lint_results": {
+          "success": true,
+          "error_count": 0,
+          "output": "",
+          "exit_code": 0
+        },
+        "text_match_results": [
+          {
+            "success": false,
+            "error": "Target is a directory, not a file: ."
+          }
+        ],
+        "execution_verification": {
+          "files_modified": [],
+          "files_created": [
+            "backup.tar.gz"
+          ],
+          "files_deleted": [],
+          "dirs_created": [],
+          "dirs_deleted": [],
+          "success": true
+        }
+      },
+      "reward_breakdown": {
+        "total_reward": 0.7142857142857142,
+        "base_reward": 0.7142857142857142,
+        "time_score": 1.0,
+        "regression_score": 1.0,
+        "actual_time": 0.03727388381958008,
+        "estimated_time": 5.0,
+        "breakdown": {
+          "verification_score": 0.7142857142857142,
+          "time_penalty": 0.0,
+          "regression_penalty": 0.0
+        }
+      },
+      "execution_results": {
+        "results": [
+          {
+            "command": "find src -name '*.py' > pyfiles.txt",
+            "success": true,
+            "output": "",
+            "time": 0.008213043212890625
+          },
+          {
+            "command": "tar -czf backup.tar.gz -T pyfiles.txt config.ini",
+            "success": true,
+            "output": "",
+            "time": 0.011111021041870117
+          },
+          {
+            "command": "tar -tzf backup.tar.gz",
+            "success": true,
+            "output": "src/helper.py\nsrc/main.py\nconfig.ini\n",
+            "time": 0.010123968124389648
+          },
+          {
+            "command": "rm pyfiles.txt",
+            "success": true,
+            "output": "",
+            "time": 0.007793903350830078
+          }
+        ],
+        "total_time": 0.03727388381958008,
+        "all_successful": true
+      },
+      "time_seconds": 14.530924081802368,
+      "difficulty": "very_hard",
+      "scenario_type": "archive"
+    },
+    {
+      "scenario_id": "gen_20251031_215148_0130",
+      "success": false,
+      "num_commands": 6,
+      "commands": [
+        "mkdir lib",
+        "mv utils.py lib/utils.py",
+        "sed -i '' -e 's/from utils/from lib.utils/' main.py",
+        "ls lib",
+        "cat lib/utils.py",
+        "python main.py | grep util"
+      ],
+      "verification": {
+        "lint_results": {
+          "success": false,
+          "error": "File not found: utils.py"
+        },
+        "execution_verification": {
+          "files_modified": [
+            "main.py"
+          ],
+          "files_created": [
+            "lib/utils.py",
+            "lib/__pycache__/utils.cpython-312.pyc"
+          ],
+          "files_deleted": [
+            "utils.py"
+          ],
+          "dirs_created": [
+            "lib",
+            "lib/__pycache__"
+          ],
+          "dirs_deleted": [],
+          "success": true
+        }
+      },
+      "reward_breakdown": {
+        "total_reward": 1.0,
+        "base_reward": 1.0,
+        "time_score": 1.0,
+        "regression_score": 1.0,
+        "actual_time": 0.06476211547851562,
+        "estimated_time": 5.0,
+        "breakdown": {
+          "verification_score": 1.0,
+          "time_penalty": 0.0,
+          "regression_penalty": 0.0
+        }
+      },
+      "execution_results": {
+        "results": [
+          {
+            "command": "mkdir lib",
+            "success": true,
+            "output": "",
+            "time": 0.0074291229248046875
+          },
+          {
+            "command": "mv utils.py lib/utils.py",
+            "success": true,
+            "output": "",
+            "time": 0.007433176040649414
+          },
+          {
+            "command": "sed -i '' -e 's/from utils/from lib.utils/' main.py",
+            "success": true,
+            "output": "",
+            "time": 0.007312297821044922
+          },
+          {
+            "command": "ls lib",
+            "success": true,
+            "output": "utils.py\n",
+            "time": 0.00852203369140625
+          },
+          {
+            "command": "cat lib/utils.py",
+            "success": true,
+            "output": "def utility_function():\n    return \"util\"\n",
+            "time": 0.007576704025268555
+          },
+          {
+            "command": "python main.py | grep util",
+            "success": false,
+            "error": "Command execution failed: Command failed with code 1: ",
+            "time": 0.026449918746948242
+          }
+        ],
+        "total_time": 0.06476211547851562,
+        "all_successful": false
+      },
+      "time_seconds": 42.23017597198486,
+      "difficulty": "easy",
+      "scenario_type": "file_ops"
+    }
+  ],
+  "timestamp": "2025-10-31 21:58:02"
+}

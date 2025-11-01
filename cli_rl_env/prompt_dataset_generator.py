@@ -30,18 +30,65 @@ class PromptDatasetGenerator:
         self.diverse_gen = DiverseScenarioGenerator(seed=seed)
         self.command_coverage = Counter()
     
+    def get_all_scenario_types(self) -> Dict[str, List[str]]:
+        """Get all available scenario types from all generators.
+        
+        Returns:
+            Dictionary mapping generator name to list of scenario types
+        """
+        return {
+            'python_generator': [
+                'calculator',
+                'data_processor', 
+                'string_utils',
+                'algorithms'
+            ],
+            'javascript_generator': [
+                'utils',
+                'array_ops',
+                'validators'
+            ],
+            'diverse_scenarios': [
+                'grep_intensive',
+                'sed_intensive',
+                'awk_cut',
+                'piping',
+                'multi_file_operations',
+                'git_workflow',
+                'text_transformation',
+                'file_comparison',
+                'log_analysis',
+                'refactoring',
+                'archive_compression',
+                'batch_processing',
+                'complex_redirection',
+                'symbolic_links',
+                'permissions',
+                'data_pipeline',
+                'config_editing',
+                'directory_tree'
+            ]
+        }
+    
     def generate_dataset(
         self,
         num_prompts: int = 1000,
         difficulty_distribution: Dict[str, float] = None,
+        generator_mix: Dict[str, float] = None,
         output_file: str = None
     ) -> List[Dict[str, Any]]:
-        """Generate a large dataset of training prompts.
+        """Generate a large dataset of training prompts using ALL scenario generators.
+        
+        This method now uses all three generators (python, javascript, and diverse)
+        to ensure maximum scenario variety and CLI command coverage.
         
         Args:
             num_prompts: Number of prompts to generate
             difficulty_distribution: Distribution of difficulties
                 Default: {'easy': 0.1, 'medium': 0.2, 'hard': 0.4, 'very_hard': 0.3}
+            generator_mix: Distribution of generator types
+                Default: {'python': 0.25, 'javascript': 0.25, 'diverse': 0.5}
+                'diverse' scenarios focus on CLI command diversity
             output_file: Optional file to save dataset to
             
         Returns:
@@ -56,54 +103,58 @@ class PromptDatasetGenerator:
                 'very_hard': 0.3
             }
         
+        if generator_mix is None:
+            # Default: 50% diverse scenarios for command coverage
+            generator_mix = {
+                'python': 0.25,
+                'javascript': 0.25,
+                'diverse': 0.5
+            }
+        
+        # Validate generator_mix
+        total = sum(generator_mix.values())
+        if abs(total - 1.0) > 0.01:
+            raise ValueError(f"generator_mix must sum to 1.0, got {total}")
+        
         dataset = []
         difficulties = list(difficulty_distribution.keys())
-        weights = list(difficulty_distribution.values())
+        diff_weights = list(difficulty_distribution.values())
+        
+        generators = list(generator_mix.keys())
+        gen_weights = list(generator_mix.values())
         
         for i in range(num_prompts):
             # Sample difficulty based on distribution
-            difficulty = random.choices(difficulties, weights=weights)[0]
+            difficulty = random.choices(difficulties, weights=diff_weights)[0]
             
-            # Sample language (50/50 Python vs JavaScript)
-            language = random.choice(['python', 'javascript'])
+            # Sample generator type
+            gen_type = random.choices(generators, weights=gen_weights)[0]
             
-            # Generate scenario
-            if language == 'python':
+            # Generate scenario based on type
+            if gen_type == 'python':
                 scenario = self.python_gen.generate(DifficultyLevel(difficulty))
-            else:
+            elif gen_type == 'javascript':
                 scenario = self.js_gen.generate(DifficultyLevel(difficulty))
+            else:  # diverse
+                language = random.choice(['python', 'javascript'])
+                scenario = self.diverse_gen.generate_diverse_scenario(
+                    DifficultyLevel(difficulty), language
+                )
+                # Track command usage
+                if 'command_focus' in scenario.metadata:
+                    for cmd in scenario.metadata['command_focus'].split(','):
+                        self.command_coverage[cmd.strip()] += 1
             
             # Create training example
-            prompt_data = {
-                'id': f'prompt_{i:06d}',
-                'difficulty': difficulty,
-                'language': language,
-                'task_description': scenario.task_description,
-                'files': [
-                    {
-                        'path': f.path,
-                        'content': f.content,
-                        'is_test': f.is_test
-                    }
-                    for f in scenario.files
-                ],
-                'cli_history': scenario.cli_history,
-                'expected_commands': scenario.expected_commands,
-                'verification_rules': [
-                    {
-                        'type': v.type,
-                        'target': v.target,
-                        'description': v.description
-                    }
-                    for v in scenario.verification_rules
-                ],
-                'metadata': scenario.metadata
-            }
-            
+            prompt_data = self._scenario_to_prompt_data(scenario, f'prompt_{i:06d}')
             dataset.append(prompt_data)
             
             if (i + 1) % 100 == 0:
                 print(f"Generated {i + 1}/{num_prompts} prompts...")
+        
+        print(f"\nTotal: {len(dataset)} prompts generated")
+        if self.command_coverage:
+            print(f"Command coverage: {len(self.command_coverage)} unique commands tracked")
         
         if output_file:
             output_path = Path(output_file)

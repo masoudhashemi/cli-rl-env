@@ -1,9 +1,8 @@
 """Example script for evaluating models on CLI tasks using vLLM."""
 
 import argparse
-from pathlib import Path
 
-from cli_rl_env.evaluation import ModelEvaluator, EvaluationMetrics
+from cli_rl_env.evaluation import ModelEvaluator
 from cli_rl_env.evaluation.evaluator import ModelConfig
 
 

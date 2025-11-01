@@ -43,7 +43,7 @@ def scenario_to_dict(s: Scenario, id_str: str) -> Dict[str, Any]:
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Generate fresh CLI RL dataset")
+    parser = argparse.ArgumentParser(description="Generate fresh CLI RL dataset using ALL scenario generators")
     parser.add_argument("--count", type=int, default=200, help="Number of scenarios to generate")
     parser.add_argument(
         "--output", type=str,
@@ -55,8 +55,36 @@ def main():
         "--mix", type=str, default="diverse:0.5,python:0.25,javascript:0.25",
         help="Mix of generators with weights, e.g., 'diverse:0.5,python:0.25,javascript:0.25'"
     )
+    parser.add_argument(
+        "--list-scenarios", action="store_true",
+        help="List all available scenario types and exit"
+    )
 
     args = parser.parse_args()
+    
+    # List scenarios if requested
+    if args.list_scenarios:
+        from cli_rl_env.prompt_dataset_generator import PromptDatasetGenerator
+        gen = PromptDatasetGenerator()
+        scenarios = gen.get_all_scenario_types()
+        
+        print("=" * 80)
+        print("ALL AVAILABLE SCENARIO TYPES")
+        print("=" * 80)
+        
+        total = 0
+        for gen_name, types in scenarios.items():
+            print(f"\n{gen_name.upper().replace('_', ' ')} ({len(types)} types):")
+            print("-" * 80)
+            for t in types:
+                print(f"  • {t}")
+            total += len(types)
+        
+        print("\n" + "=" * 80)
+        print(f"TOTAL: {total} unique scenario types across all generators")
+        print("=" * 80)
+        return
+    
     if args.seed is not None:
         random.seed(args.seed)
 
@@ -69,6 +97,16 @@ def main():
     total_w = sum(weights.values())
     if total_w <= 0:
         raise ValueError("Invalid --mix weights")
+
+    print("=" * 80)
+    print("GENERATING UNIFIED DATASET FROM ALL SCENARIO GENERATORS")
+    print("=" * 80)
+    print(f"\nGenerator Mix:")
+    for name, w in weights.items():
+        percentage = (w / total_w) * 100
+        print(f"  • {name}: {percentage:.1f}%")
+    print(f"\nTotal scenarios to generate: {args.count}")
+    print()
 
     # Generators
     py_gen = PythonScenarioGenerator(seed=args.seed)
@@ -97,6 +135,9 @@ def main():
 
     scenarios: List[Dict[str, Any]] = []
     ts = time.strftime('%Y%m%d_%H%M%S')
+    
+    # Track scenario type distribution
+    scenario_type_counts = {}
 
     for i in range(1, args.count + 1):
         gen_name = pick_generator_name()
@@ -110,8 +151,15 @@ def main():
         else:  # diverse
             lang = pick_language()
             s = div_gen.generate_diverse_scenario(difficulty, lang)
+        
+        # Track scenario types
+        scenario_type = s.metadata.get('scenario_type', 'unknown')
+        scenario_type_counts[scenario_type] = scenario_type_counts.get(scenario_type, 0) + 1
 
         scenarios.append(scenario_to_dict(s, sid))
+        
+        if i % 50 == 0:
+            print(f"  Generated {i}/{args.count} scenarios...")
 
     # Ensure output directory exists
     out_path = Path(args.output)
@@ -119,7 +167,11 @@ def main():
     with open(out_path, "w") as f:
         json.dump(scenarios, f, indent=2)
 
-    print(f"Generated {len(scenarios)} scenarios -> {out_path}")
+    print(f"\n✅ Generated {len(scenarios)} scenarios -> {out_path}")
+    print(f"\nScenario Type Distribution:")
+    for stype, count in sorted(scenario_type_counts.items(), key=lambda x: -x[1]):
+        print(f"  • {stype}: {count}")
+    print("\n" + "=" * 80)
 
 
 if __name__ == "__main__":

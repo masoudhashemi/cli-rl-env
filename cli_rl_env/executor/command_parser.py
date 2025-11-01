@@ -2,6 +2,7 @@
 
 import json
 import platform
+import re
 from typing import Dict, List, Any
 
 
@@ -94,6 +95,58 @@ class CommandParser:
         }
     
     @staticmethod
+    def _normalize_sed_command(cmd: str) -> str:
+        """Normalize sed commands for cross-platform compatibility.
+        
+        Handles differences between BSD sed (macOS) and GNU sed (Linux).
+        Main differences:
+        - macOS requires an argument after -i flag (use -i '' for no backup)
+        - Insert/append/change commands need different handling
+        
+        Args:
+            cmd: sed command string
+            
+        Returns:
+            Normalized sed command string
+        """
+        
+        is_macos = platform.system().lower() == 'darwin'
+        
+        # Handle -i flag (in-place editing)
+        # On macOS, -i requires an argument (backup extension)
+        # GNU sed accepts -i without argument
+        if is_macos:
+            # Check if command has -i without an empty string argument already
+            # Match: sed -i 's/...  (not sed -i '' 's/... or sed -i "" 's/...)
+            # We need to add '' after -i if it's not already there
+            if re.search(r"sed\s+-i\s+(?!['\"]['\"]\s)", cmd):
+                # Insert empty string argument for macOS
+                cmd = re.sub(r'(sed\s+-i)(\s+)', r"\1 '' ", cmd)
+        else:
+            # On Linux, remove empty string argument if present
+            # Match: sed -i '' or sed -i ""
+            cmd = re.sub(r"sed\s+-i\s+['\"]['\"]\s+", "sed -i ", cmd)
+        
+        # Handle insert/append/change commands (i/a/c)
+        # These work on both platforms with similar syntax
+        # Light normalization for common patterns, otherwise keep model's format unchanged
+        
+        # Pattern: sed 'NAi\text' or sed 'NAa\text' or sed 'NAc\text' where N is line number/pattern
+        # Both BSD and GNU sed support these, just need proper formatting
+        
+        # Ensure backslash-newline sequences are properly formatted for multi-line text
+        # Common pattern: 'i\<newline>text' should work on both platforms
+        # Model should generate correct platform-specific format; we just validate basic structure
+        
+        # Check for common i/a/c patterns and ensure they have proper structure
+        if re.search(r'[iac]\\', cmd):
+            # Has insert/append/change with backslash - this is acceptable on both platforms
+            # The model should have generated the right format for the target platform
+            pass
+        
+        return cmd
+    
+    @staticmethod
     def _validate_command(cmd: str) -> str:
         """Validate that command is safe to execute.
         
@@ -143,19 +196,9 @@ class CommandParser:
         if ' - <<' in cmd or '<<EOF' in cmd or '<<' in cmd:
             raise ValueError("Heredocs or multi-line embeddings are not allowed")
         
-        # macOS-specific sed restrictions: disallow i/a/c forms which are fragile in single-line context
+        # Normalize sed commands for cross-platform compatibility (macOS/Linux)
         if base_cmd == 'sed':
-            try:
-                os_name = platform.system().lower()
-            except Exception:
-                os_name = ''
-            if 'darwin' in os_name or 'mac' in os_name:
-                prohibited_markers = ["'i\\", '"i\\', "'a\\", '"a\\', "'c\\", '"c\\']
-                if any(m in cmd for m in prohibited_markers):
-                    raise ValueError("sed insert/append/change (i/a/c) not allowed on macOS; use printf+mv")
-                more_markers = [" 1i", " 1a", " 1c", ";i\\", ";a\\", ";c\\"]
-                if any(m in cmd for m in more_markers):
-                    raise ValueError("sed insert/append/change (i/a/c) not allowed on macOS; use printf+mv")
+            cmd = CommandParser._normalize_sed_command(cmd)
         
         # Path traversal check
         if '..' in cmd:

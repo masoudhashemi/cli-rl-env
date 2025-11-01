@@ -14,7 +14,8 @@ import cli_rl_env
 def main():
     """Run a simple episode with the environment."""
     # Create environment with medium difficulty
-    env = gym.make('CodeEditingEnv-v0', difficulty='medium', language='python')
+    # Disable env checker since observation includes 'files' field for evaluation compatibility
+    env = gym.make('CodeEditingEnv-v0', difficulty='medium', language='python', disable_env_checker=True)
     
     # Reset environment and get initial observation
     print("=" * 80)
@@ -97,11 +98,15 @@ def main():
     
     if 'reward_breakdown' in info:
         print("\n💰 REWARD BREAKDOWN:")
-        breakdown = info['reward_breakdown']
-        print(f"  Base reward: {breakdown['base_reward']:.2f}")
-        print(f"  Time penalty: {breakdown['time_penalty']:.2f}")
-        print(f"  Regression penalty: {breakdown['regression_penalty']:.2f}")
-        print(f"  Total: {breakdown['total_reward']:.2f}")
+        reward_info = info['reward_breakdown']
+        print(f"  Base reward: {reward_info['base_reward']:.2f}")
+        print(f"  Time score: {reward_info['time_score']:.2f}")
+        print(f"  Regression score: {reward_info['regression_score']:.2f}")
+        if 'breakdown' in reward_info:
+            breakdown = reward_info['breakdown']
+            print(f"  Time penalty: {breakdown['time_penalty']:.2f}")
+            print(f"  Regression penalty: {breakdown['regression_penalty']:.2f}")
+        print(f"  Total reward: {reward_info['total_reward']:.2f}")
     
     env.close()
     print("\n" + "=" * 80)
